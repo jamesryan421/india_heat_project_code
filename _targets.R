@@ -18,7 +18,9 @@ tar_option_set(
     workers = 4,
     seconds_idle = 300),
   garbage_collection = T,
-  memory = "transient"
+  memory = "transient",
+  storage = "worker",
+  retrieval = "worker"
   #
   # Pipelines that take a long time to run may benefit from
   # optional distributed computing. To use this capability
