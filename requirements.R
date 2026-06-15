@@ -23,6 +23,8 @@ required_packages <- c(
 
 # 5. Check what's missing across all accessible libraries
 missing_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
+message("Missing packages: ", toString(missing_packages))
+
 
 # 6. Install missing packages directly into your personal folder
 if(length(missing_packages) > 0) {
