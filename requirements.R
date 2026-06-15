@@ -28,7 +28,7 @@ options(HTTPUserAgent = sprintf(
 base_packages <- c(
   "targets", "tarchetypes", "crew", "summarytools", 
   "broom", "plm", "stargazer", "haven", "here", "ggExtra", 
-  "AER", "survey", "svrep"
+  "AER", "survey", "svrep", "lubridate"
 )
 
 # 4. FIX: Swap full 'tidyverse' for just the core data-wrangling engines

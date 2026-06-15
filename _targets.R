@@ -10,7 +10,7 @@ library(crew)
 
 # Set target options:
 tar_option_set(
-  packages = c("broom","plm","stargazer","haven",
+  packages = c("broom","plm","stargazer","haven","lubridate",
                "here","ggExtra","AER","boot","survey","svrep",
                "dplyr","purrr","readr","tidyr","stringr","tibble"), # Packages that your targets need for their tasks.
   #format = "qs", # Optionally set the default storage format. qs is fast.
