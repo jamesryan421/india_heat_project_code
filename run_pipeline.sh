@@ -6,6 +6,12 @@ export MKL_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
 
 # Install and verify R packages if needed
+echo "----------\n"
+echo "Checking R package dependencies..."
+Rscript requirements.R
+
+echo "Finished checking R package dependencies"
+echo "----------\n"
 
 # NEW: Define where data lives on THIS specific machine
 export PROJECT_DATA_DIR="/rdf/xt9/india_estimation"
