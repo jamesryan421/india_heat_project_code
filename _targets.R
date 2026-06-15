@@ -56,6 +56,11 @@ tar_source("pipeline_config.R")
 tar_source("estimation_pipeline_functions.R")
 # tar_source("other_functions.R") # Source other scripts as needed.
 
+# Establish data root path
+# If none is provided, default to the parent directory
+# (assumes code directory and data directories are in same parent directory)
+main_data_path <- Sys.getenv("PROJECT_DATA_DIR", unset = "..")
+
 # Import sub-pipelines
 source("sub_pipelines/pipeline_01_pre_split.R")
 source("sub_pipelines/pipeline_02_split.R")
