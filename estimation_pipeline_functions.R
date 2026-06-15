@@ -1145,8 +1145,8 @@ get_adjusted_utci=function(utci_daily){
   )
   
   # Write out to disc
-  write_csv(dy_heat_risk_joined,
-            here("../temperature_data/output","district_year_max_utci_risk_cats.csv"))
+  # write_csv(dy_heat_risk_joined,
+  #           here("../temperature_data/output","district_year_max_utci_risk_cats.csv"))
   
   return(dy_heat_risk_joined)
 }
