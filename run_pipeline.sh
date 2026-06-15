@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Load R packages from hone library
+export R_LIBS_USER="$HOME/R/library"
+
 export OMP_NUM_THREADS=1
 export MKL_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1

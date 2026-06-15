@@ -1,8 +1,10 @@
 # requirements.R
 
 # 1. Dynamically build a standard, writable personal library path in your home directory
-r_version <- paste0(R.version$major, ".", substr(R.version$minor, 1, 1)) # Extract version (e.g., "4.3")
-user_lib  <- file.path(Sys.getenv("HOME"), "R", "x86_64-pc-linux-gnu-library", r_version)
+#r_version <- paste0(R.version$major, ".", substr(R.version$minor, 1, 1)) # Extract version (e.g., "4.3")
+#user_lib  <- file.path(Sys.getenv("HOME"), "R", "x86_64-pc-linux-gnu-library", r_version)
+
+user_lib <- Sys.getenv("R_LIBS_USER")
 
 # 2. Create the folder if it doesn't exist yet
 if (!dir.exists(user_lib)) {
