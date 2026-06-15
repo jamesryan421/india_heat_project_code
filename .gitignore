@@ -1,0 +1,19 @@
+# --- Core Targets Exclusions ---
+_targets/
+_targets_DEPRECATED/
+_targets.yaml
+_targets_r/
+
+# --- R Session Garbage ---
+.Rhistory
+.RData
+.RUserData
+.Rproj.user/
+
+# --- Data Server/Local File Exclusions ---
+data/
+debug_dump/
+*.rds
+*.qs
+*.csv
+*.log
