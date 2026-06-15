@@ -10,8 +10,9 @@ library(crew)
 
 # Set target options:
 tar_option_set(
-  packages = c("tidyverse","summarytools","broom","plm","stargazer","haven",
-               "here","ggExtra","AER","boot","survey","svrep"), # Packages that your targets need for their tasks.
+  packages = c("summarytools","broom","plm","stargazer","haven",
+               "here","ggExtra","AER","boot","survey","svrep",
+               "dplyr","purrr","readr","tidyr","stringr","tibble"), # Packages that your targets need for their tasks.
   #format = "qs", # Optionally set the default storage format. qs is fast.
   controller = crew_controller_local(
     workers = 4,

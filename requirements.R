@@ -14,14 +14,28 @@ if (!dir.exists(user_lib)) {
 # 3. Prepend this personal directory to R's active search paths
 .libPaths(c(user_lib, .libPaths()))
 
-# 4. Your complete package manifest
-required_packages <- c(
-  "targets", "tarchetypes", "crew", "tidyverse", "summarytools", 
+# 1. FIX: Point R to Posit's pre-compiled Linux binary repository
+options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/manylinux_2_28/latest"))
+
+# 2. FIX: Configure the User Agent string so the server delivers binaries instead of source code
+options(HTTPUserAgent = sprintf(
+  "R/%s R (%s)", 
+  getRversion(), 
+  paste(getRversion(), R.version["platform"], R.version["arch"], R.version["os"])
+))
+
+# 3. Define core packages
+base_packages <- c(
+  "targets", "tarchetypes", "crew", "summarytools", 
   "broom", "plm", "stargazer", "haven", "here", "ggExtra", 
   "AER", "survey", "svrep"
 )
 
-# 5. Check what's missing across all accessible libraries
+# 4. FIX: Swap full 'tidyverse' for just the core data-wrangling engines
+core_tidyverse <- c("dplyr", "ggplot2", "purrr", "readr", "tidyr", "stringr", "tibble")
+required_packages <- c(base_packages, core_tidyverse)
+
+# 5. Run the installation
 missing_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
 message("Missing packages: ", toString(missing_packages))
 
