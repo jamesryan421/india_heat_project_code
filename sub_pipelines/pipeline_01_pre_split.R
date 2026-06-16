@@ -15,6 +15,7 @@ get_pre_split_pipeline <- function(){
     tar_target(temperature_output_path, file.path(main_data_path,"temperature_data","output")),
     tar_target(geog_path, file.path(main_data_path,"geodata")),
     tar_target(bartik_path, file.path(main_data_path,"data","bartik")),
+    tar_target(vis_output_path, file.path(main_data_path, "vis")),
     ### Early period
     tar_target(nss_ind_file,
                get_filename_str(here(nss_clean_path,"IND_2011_v2.dta")),

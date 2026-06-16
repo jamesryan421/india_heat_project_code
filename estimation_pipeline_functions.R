@@ -479,7 +479,7 @@ merge_pop_plot_data=function(plot_data,df_pop,recent_data=F){
   return(plot_data)
 }
 
-get_wage_rent_diffs_plot=function(plot_data,period="early",highlight_signif=F,add_marginal=F){
+get_wage_rent_diffs_plot=function(plot_data,vis_output_path,period="early",highlight_signif=F,add_marginal=F){
   # Get a scatter plot of wage and rent differentials
   wage_price_diffs=ggplot(plot_data,aes(x=estimate_wage,y=estimate_rent))+
     geom_abline(slope=1,intercept=0,linetype="dashed",color="gray50")+ #45-degree line
@@ -520,7 +520,7 @@ get_wage_rent_diffs_plot=function(plot_data,period="early",highlight_signif=F,ad
   }
   
   # Write out
-  ggsave(here("../vis",paste0(period,"_panel_wage_price_diffs.png")),
+  ggsave(file.path(vis_output_path,paste0(period,"_panel_wage_price_diffs.png")),
          wage_price_diffs_final,width=8,height=6,units="in")
   print(wage_price_diffs_final)
   return(wage_price_diffs_final)
@@ -1953,7 +1953,7 @@ get_combined_plot_data <- function(plot_data_proj,plot_data_obs){
 }
 
 # Define a dodging width so the bars sit side-by-side instead of overlapping
-get_bootstrap_plot=function(plot_data,temp_data="Unadjusted"){
+get_bootstrap_plot=function(plot_data,vis_output_path,temp_data="Unadjusted"){
   dodge_width <- 0.6
   plot_data_filtered <- plot_data %>% filter(Row %in% c("Early MWTP, Unadj.","Late MWTP, Unadj.","Late MWTP w/ Mig. Costs"))
   # Set color palette
@@ -1987,14 +1987,14 @@ get_bootstrap_plot=function(plot_data,temp_data="Unadjusted"){
       panel.grid.major.x = element_blank() # Removes vertical grid lines to separate columns cleanly
     ) +
     scale_color_manual(values = custom_color_palette)
-  ggsave(here("../vis/",paste0("mwtp_bootstrap_estimates_",temp_data,".png")),
+  ggsave(file.path(vis_output_path,paste0("mwtp_bootstrap_estimates_",temp_data,".png")),
          bootstrap_ci_plot,
          width=8,height=6,unit="in")
   return(bootstrap_ci_plot)
 }
 
 # Get plots of the same parameter, looking at observed and corrected side-by-side
-get_obs_corrected_plot=function(plot_data,parameter="Early"){
+get_obs_corrected_plot=function(plot_data,vis_output_pathparameter="Early"){
   dodge_width <- 0.6
   #plot_data_filtered <- plot_data %>% filter(Row %in% c("Early MWTP, Unadj.","Late MWTP, Unadj.","Late MWTP w/ Mig. Costs"))
   custom_color_palette <- c(
@@ -2026,7 +2026,7 @@ get_obs_corrected_plot=function(plot_data,parameter="Early"){
       panel.grid.major.x = element_blank() # Removes vertical grid lines to separate columns cleanly
     )+
     scale_color_manual(values = custom_color_palette)
-  ggsave(here("../vis/",paste0("uncorrected_corrected_estimates_",parameter,".png")),
+  ggsave(file.path(vis_output_path,paste0("uncorrected_corrected_estimates_",parameter,".png")),
          bootstrap_ci_plot,
          width=8,height=6,unit="in")
   return(bootstrap_ci_plot)
