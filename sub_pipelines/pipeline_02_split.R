@@ -278,11 +278,11 @@ get_split_pipeline <- function(){
     tar_target(combined_plot_data_early, combined_plot_data_list[[1]]),
     tar_target(combined_plot_data_late, combined_plot_data_list[[2]]),
     tar_target(combined_plot_data_late_mig, combined_plot_data_list[[3]]),
-    tar_target(boot_plot_obs, get_bootstrap_plot(plot_data_obs, temp_data="Observed")),
-    tar_target(boot_plot_proj, get_bootstrap_plot(plot_data_proj, temp_data="Corrected")),
-    tar_target(obs_corr_plot_early, get_obs_corrected_plot(combined_plot_data_early, parameter="Early")),
-    tar_target(obs_corr_plot_late, get_obs_corrected_plot(combined_plot_data_late, parameter="Late")),
-    tar_target(obs_corr_plot_late_mig, get_obs_corrected_plot(combined_plot_data_late_mig, parameter="Late Mig Costs"))
+    tar_target(boot_plot_obs, get_bootstrap_plot(plot_data_obs, vis_output_path, temp_data="Observed")),
+    tar_target(boot_plot_proj, get_bootstrap_plot(plot_data_proj, vis_output_path, temp_data="Corrected")),
+    tar_target(obs_corr_plot_early, get_obs_corrected_plot(combined_plot_data_early, vis_output_path, parameter="Early")),
+    tar_target(obs_corr_plot_late, get_obs_corrected_plot(combined_plot_data_late, vis_output_path, parameter="Late")),
+    tar_target(obs_corr_plot_late_mig, get_obs_corrected_plot(combined_plot_data_late_mig, vis_output_path, parameter="Late Mig Costs"))
   )
   return(pipeline_estimation)
 }

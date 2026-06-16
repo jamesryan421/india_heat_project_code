@@ -1994,7 +1994,7 @@ get_bootstrap_plot=function(plot_data,vis_output_path,temp_data="Unadjusted"){
 }
 
 # Get plots of the same parameter, looking at observed and corrected side-by-side
-get_obs_corrected_plot=function(plot_data,vis_output_pathparameter="Early"){
+get_obs_corrected_plot=function(plot_data,vis_output_path,parameter="Early"){
   dodge_width <- 0.6
   #plot_data_filtered <- plot_data %>% filter(Row %in% c("Early MWTP, Unadj.","Late MWTP, Unadj.","Late MWTP w/ Mig. Costs"))
   custom_color_palette <- c(
