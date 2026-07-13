@@ -225,49 +225,73 @@ get_split_pipeline <- function(){
                pattern = map(joined_diffs, district_controls),
                iteration = "list"),
     ### Run bootstrap estimation
-    tar_target(boot_results_proj,
-               run_bootstrap_estimation(
-                 bootstrap_data_proj, seed, R_2, max_temp_hr_cols, housing_exp_share
+    #tar_target(boot_results_proj,
+    #           run_bootstrap_estimation(
+    #             bootstrap_data_proj, seed, R_2, max_temp_hr_cols, housing_exp_share
+    #           ),
+    #           pattern = map(bootstrap_data_proj),
+    #           iteration = "list"),
+    #tar_target(boot_results_obs,
+    #           run_bootstrap_estimation(
+    #             bootstrap_data_obs, seed, R_2, max_temp_hr_cols, housing_exp_share
+    #           ),
+    #           pattern = map(bootstrap_data_obs),
+    #           iteration = "list"),
+    tar_target(boot_results_proj_unified,
+               run_bootstrap_estimation_unified(
+                 bootstrap_data_proj, seed, R_2, housing_exp_share
                ),
                pattern = map(bootstrap_data_proj),
                iteration = "list"),
-    tar_target(boot_results_obs,
-               run_bootstrap_estimation(
-                 bootstrap_data_obs, seed, R_2, max_temp_hr_cols, housing_exp_share
+    tar_target(boot_results_obs_unified,
+               run_bootstrap_estimation_unified(
+                 bootstrap_data_obs, seed, R_2, housing_exp_share
                ),
                pattern = map(bootstrap_data_obs),
+               iteration="list"),
+    # ### Extract parameter estimates
+    tar_target(boot_results_proj_t,
+               boot_results_proj_unified$t,
+               pattern = map(boot_results_proj_unified),
                iteration = "list"),
-    ### Extract parameter estimates
-    # tar_target(boot_results_proj_t0,
-    #            boot_results_proj$t0,
+    tar_target(boot_results_obs_t,
+               boot_results_obs_unified$t,
+               pattern = map(boot_results_obs_unified),
+               iteration = "list"),
+    tar_target(master_boot_results_proj,
+               do.call(rbind, boot_results_proj_t)),
+    tar_target(master_boot_results_obs,
+               do.call(rbind, boot_results_obs_t)),
+    # # tar_target(boot_results_proj_t0,
+    # #            boot_results_proj$t0,
+    # #            pattern = map(boot_results_proj),
+    # #            iteration = "list"),
+    # # Dimension on each branch: R_2 * 45
+    # # Fill parameter matrix (mean + CI bounds) with nrow=9, ncol=5
+    # tar_target(boot_results_proj_t,
+    #            boot_results_proj$t,
     #            pattern = map(boot_results_proj),
     #            iteration = "list"),
-    # Dimension on each branch: R_2 * 45
-    # Fill parameter matrix (mean + CI bounds) with nrow=9, ncol=5
-    tar_target(boot_results_proj_t,
-               boot_results_proj$t,
-               pattern = map(boot_results_proj),
-               iteration = "list"),
-    # tar_target(boot_results_obs_t0,
-    #            boot_results_obs$t0,
+    # # tar_target(boot_results_obs_t0,
+    # #            boot_results_obs$t0,
+    # #            pattern = map(boot_results_obs),
+    # #            iteration = "list"),
+    # # Dimension on each branch: R_2 * 45
+    # tar_target(boot_results_obs_t,
+    #            boot_results_obs$t,
     #            pattern = map(boot_results_obs),
     #            iteration = "list"),
-    # Dimension on each branch: R_2 * 45
-    tar_target(boot_results_obs_t,
-               boot_results_obs$t,
-               pattern = map(boot_results_obs),
-               iteration = "list"),
-    ### Combine into one matrix of dimension ((R_1*R_2) * 45)
-    # Use this matrix to get means and CIs
-    tar_target(boot_results_full_proj,
-               do.call(rbind, boot_results_proj_t)),
-    tar_target(boot_results_full_obs,
-               do.call(rbind, boot_results_proj_t)), 
-    # TODO: Split this into a new pipeline and add summary tables
+    # ### Combine into one matrix of dimension ((R_1*R_2) * 45)
+    # # Use this matrix to get means and CIs
+    # tar_target(boot_results_full_proj,
+    #            do.call(rbind, boot_results_proj_t)),
+    # tar_target(boot_results_full_obs,
+    #            do.call(rbind, boot_results_proj_t)), 
+    # # TODO: Split this into a new pipeline and add summary tables
     tar_target(boot_means_ci_bounds_proj, 
-               get_boot_means_ci_bounds(boot_results_full_proj)),
+                get_boot_means_ci_bounds(master_boot_results_proj)),
     tar_target(boot_means_ci_bounds_obs,
-               get_boot_means_ci_bounds(boot_results_full_obs)),
+                get_boot_means_ci_bounds(master_boot_results_obs)),
     tar_target(boot_estimates_proj, boot_means_ci_bounds_proj[["means"]]),
     tar_target(boot_estimates_obs, boot_means_ci_bounds_obs[["means"]]),
     tar_target(ci_list_proj, boot_means_ci_bounds_proj[c("ci_lower","ci_upper")]),

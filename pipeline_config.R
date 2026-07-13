@@ -16,8 +16,16 @@ add_marginal=F
 ## UTCI variable columns
 col_prefixes=c("ex_min","vs_min","s_min","m_min","or_min",
                "ex_max","vs_max","s_max","m_max","or_max")
-col_prefixes_redux = c("ex_max","vs_max","s_max","m_max","or_max")
-max_temp_hr_cols=c("ex_max","vs_max","s_max","m_max","or_max")
+#col_prefixes_redux = c("ex_max","vs_max","s_max","m_max","or_max")
+col_prefixes_redux = c("ex_max", "vsh_max", "vsmh_max", "vsml_max", "vsl_max",
+                       "sh_max", "sm_max", "sl_max",
+                       "mh_max", "mm_max", "ml_max",
+                       "or_max")
+#max_temp_hr_cols=c("ex_max","vs_max","s_max","m_max","or_max")
+max_temp_hr_cols = c("ex_max", "vsh_max", "vsmh_max", "vsml_max", "vsl_max",
+                     "sh_max", "sm_max", "sl_max",
+                     "mh_max", "mm_max", "ml_max",
+                     "or_max")
 
 ## Select years to use for climate variable averaging
 year_suffixes_early = c("07","08","09","10","11")

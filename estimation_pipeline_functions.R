@@ -1091,8 +1091,14 @@ get_adjusted_utci=function(utci_daily){
     mutate(
       heat_risk_cat = cut(
         projected_utci,
-        breaks = c(-Inf,9,26,32,38,46,Inf),
-        labels = c("Cold","Optimal Range","Moderate","Strong","Very Strong","Extreme"),
+        # New: smaller breaks of 2C each
+        #breaks = c(-Inf,9,26,32,38,46,Inf),
+        breaks = c(-Inf, 9, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, Inf),
+        #labels = c("Cold","Optimal Range","Moderate","Strong","Very Strong","Extreme"),
+        labels = c("Cold", "Optimal Range", "Moderate_Low", "Moderate_Mid", "Moderate_High",
+                   "Strong_Low", "Strong_Mid", "Strong_High",
+                   "Very Strong_Low", "Very Strong_Mid Low", "Very Strong_Mid High" ,"Very Strong_High",
+                   "Extreme"),
         right=T
       )
     )
@@ -1118,8 +1124,12 @@ get_adjusted_utci=function(utci_daily){
     mutate(
       heat_risk_cat = cut(
         utci,
-        breaks = c(-Inf,9,26,32,38,46,Inf),
-        labels = c("Cold","Optimal Range","Moderate","Strong","Very Strong","Extreme"),
+        breaks = c(-Inf, 9, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, Inf),
+        #labels = c("Cold","Optimal Range","Moderate","Strong","Very Strong","Extreme"),
+        labels = c("Cold", "Optimal Range", "Moderate_Low", "Moderate_Mid", "Moderate_High",
+                   "Strong_Low", "Strong_Mid", "Strong_High",
+                   "Very Strong_Low", "Very Strong_Mid Low", "Very Strong_Mid High" ,"Very Strong_High",
+                   "Extreme"),
         right=T
       )
     ) %>%
@@ -1186,10 +1196,21 @@ get_utci_proj_obs = function(utci_new){
     mutate(
       heat_risk_cat = case_when(
         heat_risk_cat == "Optimal Range" ~ "or_max",
-        heat_risk_cat == "Moderate" ~ "m_max",
-        heat_risk_cat == "Strong" ~ "s_max",
-        heat_risk_cat == "Very Strong" ~ "vs_max",
+        heat_risk_cat == "Moderate_Low" ~ "ml_max",
+        heat_risk_cat == "Moderate_Mid" ~ "mm_max",
+        heat_risk_cat == "Moderate_High"~ "mh_max",
+        heat_risk_cat == "Strong_Low" ~ "sl_max",
+        heat_risk_cat == "Strong_Mid" ~ "sm_max",
+        heat_risk_cat == "Strong_High" ~ "sh_max",
+        heat_risk_cat == "Very Strong_Low" ~ "vsl_max",
+        heat_risk_cat == "Very Strong_Mid Low" ~ "vsml_max",
+        heat_risk_cat == "Very Strong_Mid High" ~ "vsmh_max",
+        heat_risk_cat == "Very Strong_High" ~ "vsh_max",
         heat_risk_cat == "Extreme" ~ "ex_max",
+        #heat_risk_cat == "Moderate" ~ "m_max",
+        #heat_risk_cat == "Strong" ~ "s_max",
+        #heat_risk_cat == "Very Strong" ~ "vs_max",
+        #heat_risk_cat == "Extreme" ~ "ex_max",
         heat_risk_cat == "Cold" ~ NA
       ),
       year_suffix=sprintf("%02d",year %% 100)
@@ -1283,7 +1304,7 @@ get_bootstrap_data=function(early_window_utci,early_diffs,
 
 # Get bootstrap data
 get_bootstrap_data_redux=function(joined_diffs,utci_early,utci_late, district_controls){
-  col_prefixes_redux = c("ex_max","vs_max","s_max","m_max","or_max")
+  #col_prefixes_redux = c("ex_max","vs_max","s_max","m_max","or_max")
   instr_cols=c("Unsuitable_Slope_Share","Internal_Water_Share","bartik_shock","coast_dist")
   bootstrap_data <- inner_join(joined_diffs,
                                inner_join(
@@ -1771,6 +1792,8 @@ get_combined_iter_coef <- function(wage_coefs, rent_coefs, wage_controls_to_drop
 
 ## Run Second-stage Bootstrap Estimation
 
+# TODO: Update this to regress multiple temperature variables at once, then extract coefficients
+# Everything should be relative to "optimal range" as the baseline category
 get_mwtp_single_temp_var=function(data,indices,temp_var,housing_exp_share){
   d <- data[indices,]
   wage_formula_early=as.formula(paste("estimate_wage_early ~ hindu_early + scst_early + Age_early + educ_hs_early + educ_ps_early + ",paste0(temp_var,"_early")))
@@ -1815,6 +1838,59 @@ get_mwtp_all_temp_vars=function(data,indices,temp_vars,housing_exp_share){
   )
 }
 
+get_mwtp_unified = function(data, indices, housing_exp_share){
+  d <- data[indices,]
+  
+  wage_formula_early=as.formula("estimate_wage_early ~ hindu_early + scst_early + Age_early + educ_hs_early + educ_ps_early + ex_max_early + vsh_max_early + vsmh_max_early + vsml_max_early + vsl_max_early + sh_max_early + sm_max_early + sl_max_early + mh_max_early + mm_max_early + ml_max_early")
+  rent_formula_early=as.formula("estimate_rent_early ~ hindu_early + scst_early + Age_early + educ_hs_early + educ_ps_early + ex_max_early + vsh_max_early + vsmh_max_early + vsml_max_early + vsl_max_early + sh_max_early + sm_max_early + sl_max_early + mh_max_early + mm_max_early + ml_max_early")
+  wage_formula_late=as.formula("estimate_wage_late ~ hindu_late + scst_late + Age_late + educ_hs_late + educ_ps_late + ex_max_late + vsh_max_late + vsmh_max_late + vsml_max_late + vsl_max_late + sh_max_late + sm_max_late + sl_max_late + mh_max_late + mm_max_late + ml_max_late")
+  rent_formula_late=as.formula("estimate_rent_late ~ hindu_late + scst_late + Age_late + educ_hs_late + educ_ps_late + ex_max_late + vsh_max_late + vsmh_max_late + vsml_max_late + vsl_max_late + sh_max_late + sm_max_late + sl_max_late + mh_max_late + mm_max_late + ml_max_late")
+  pop_formula=as.formula("logpop_late ~ ex_max_late + vsh_max_late + vsmh_max_late + vsml_max_late + vsl_max_late + sh_max_late + sm_max_late + sl_max_late + mh_max_late + mm_max_late + ml_max_late")
+  
+  # Models for early period
+  model_wage_early=lm(wage_formula_early,data=d)
+  model_rent_early=lm(rent_formula_early,data=d)
+  
+  # Models for late period
+  model_wage_late=lm(wage_formula_late,data=d)
+  model_rent_late=lm(rent_formula_late,data=d)
+  
+  # Models for late population
+  model_pop_late=lm(pop_formula,data=d)
+  
+  # Model for migration costs
+  migration_costs_models=get_migration_costs(d,suppress_output=F)
+  migration_cost_term=coef(migration_costs_models[[2]])["delta_netwage"]
+  
+  # Calculate MWTP
+  # Vectorized for all temperature variables
+  temp_coef_rent_early = coef(model_rent_early)[7:length(coef(model_rent_early))]
+  temp_coef_wage_early = coef(model_wage_early)[7:length(coef(model_wage_early))]
+  temp_coef_rent_late = coef(model_rent_late)[7:length(coef(model_rent_late))]
+  temp_coef_wage_late = coef(model_wage_late)[7:length(coef(model_wage_late))]
+  temp_coef_pop = coef(model_pop_late)[2:length(coef(model_pop_late))]
+  
+  mwtp_early_unadj = (housing_exp_share * exp(temp_coef_rent_early)) - exp(temp_coef_wage_early)
+  mwtp_late_unadj = (housing_exp_share * exp(temp_coef_rent_late)) - exp(temp_coef_wage_late)
+  correction_terms = (1/migration_cost_term) * temp_coef_pop
+  mwtp_late_adj = mwtp_late_unadj + correction_terms
+  
+  mat_to_return = cbind(mwtp_early_unadj, mwtp_late_unadj, mwtp_late_adj,
+                        temp_coef_wage_early, temp_coef_rent_early,
+                        temp_coef_wage_late, temp_coef_rent_late,
+                        temp_coef_pop, rep(migration_cost_term, length(mwtp_early_unadj)))
+  
+  colnames(mat_to_return)=c("mwtp_early_unadj", "mwtp_late_unadj", "mwtp_late_adj",
+                            "wage_elasticity_early", "wage_elasticity_late",
+                            "rent_elasticity_early", "rent_elasticity_late",
+                            "pop_elasticity_late", "migration_cost_param")
+  
+  # Ensure max_temp_hr_cols exists in your global environment when running this
+  #rownames(mat_to_return) = max_temp_hr_cols 
+  
+  return(mat_to_return)
+}
+
 ## Perform bootstrap estimation
 run_bootstrap_estimation=function(joined_data_full,seed,R,max_temp_hr_cols,housing_exp_share){
   set.seed(seed)
@@ -1828,6 +1904,16 @@ run_bootstrap_estimation=function(joined_data_full,seed,R,max_temp_hr_cols,housi
   return(boot_results)
 }
 
+run_bootstrap_estimation_unified = function(joined_data_full, seed, R, housing_exp_share){
+  set.seed(seed)
+  boot_results <- boot(
+    data = joined_data_full,
+    statistic = get_mwtp_unified,
+    R=R,
+    housing_exp_share = housing_exp_share
+  )
+  return(boot_results)
+}
 
 ## Parse bootstrap outputs
 
@@ -1870,13 +1956,13 @@ get_boot_ci_bounds=function(boot_results){
   colnames(ci_lower)<- c("Extreme","Very Strong","Strong","Moderate","Optimal Range")
   colnames(ci_upper)<- c("Extreme","Very Strong","Strong","Moderate","Optimal Range")
   list_to_return=list(
-    "ci_lower"=ci_lower,
-    "ci_upper"=ci_upper
+    "ci_lower" = ci_lower,
+    "ci_upper" = ci_upper
   )
   return(list_to_return)
 }
 
-get_boot_means_ci_bounds=function(boot_results_full){
+get_boot_means_ci_bounds=function(master_boot_matrix){
   # ci_lower <- matrix(NA,nrow=n_row,ncol=n_col)
   # ci_upper <- matrix(NA,nrow=n_row,ncol=n_col)
   # 
@@ -1890,30 +1976,34 @@ get_boot_means_ci_bounds=function(boot_results_full){
   #     index_counter <- index_counter + 1
   #   }
   # }
-  means <- matrix(apply(boot_results_full, 2, mean, na.rm = T), nrow = 9, ncol = 5)
-  ci_lower <- matrix(apply(boot_results_full, 2, quantile, probs=0.025, na.rm=T), nrow=9, ncol=5)
-  ci_upper <- matrix(apply(boot_results_full, 2, quantile, probs=0.975, na.rm=T), nrow=9, ncol=5)
-  rownames(means) <- c("Early MWTP, Unadj.","Late MWTP, Unadj.","Late MWTP w/ Mig. Costs",
+  #means <- matrix(apply(boot_results_full, 2, mean, na.rm = T), nrow = 9, ncol = 5)
+  #ci_lower <- matrix(apply(boot_results_full, 2, quantile, probs=0.025, na.rm=T), nrow=9, ncol=5)
+  #ci_upper <- matrix(apply(boot_results_full, 2, quantile, probs=0.975, na.rm=T), nrow=9, ncol=5)
+  means_vals <- apply(master_boot_matrix, 2, mean, na.rm=T)
+  ci_lower_vals <- apply(master_boot_matrix, 2, quantile, probs=0.025, na.rm=T)
+  ci_upper_vals <- apply(master_boot_matrix, 2, quantile, probs=0.975, na.rm=T)
+  col_names <- c("Early MWTP, Unadj.","Late MWTP, Unadj.","Late MWTP w/ Mig. Costs",
                        "Early Wage Elasticity", "Late Wage Elasticity",
                        "Early Rent Elasticity", "Late Rent Elasticity",
                        "Late Pop Elasticity", "Migration Cost Parameter")
-  rownames(ci_lower)<- c("Early MWTP, Unadj.","Late MWTP, Unadj.","Late MWTP w/ Mig. Costs",
-                         "Early Wage Elasticity", "Late Wage Elasticity",
-                         "Early Rent Elasticity", "Late Rent Elasticity",
-                         "Late Pop Elasticity", "Migration Cost Parameter")
-  rownames(ci_upper)<- c("Early MWTP, Unadj.","Late MWTP, Unadj.","Late MWTP w/ Mig. Costs",
-                         "Early Wage Elasticity", "Late Wage Elasticity",
-                         "Early Rent Elasticity", "Late Rent Elasticity",
-                         "Late Pop Elasticity", "Migration Cost Parameter")
-  colnames(means) <- c("Extreme","Very Strong","Strong","Moderate","Optimal Range")
-  colnames(ci_lower)<- c("Extreme","Very Strong","Strong","Moderate","Optimal Range")
-  colnames(ci_upper)<- c("Extreme","Very Strong","Strong","Moderate","Optimal Range")
+  row_names <- c("Extreme", "Very Strong - High", "Very Strong - Mid High", "Very Strong - Mid Low", "Very Strong - Low",
+                 "Strong - High", "Strong - Mid", "Strong - Low",
+                 "Moderate - High", "Moderate - Mid", "Moderate - Low")
+  means <- matrix(means_vals, nrow=11, ncol=9, dimnames = list(row_names, col_names))
+  ci_lower <- matrix(ci_lower_vals, nrow=11, ncol=9, dimnames = list(row_names, col_names))
+  ci_upper <- matrix(ci_upper_vals, nrow=11, ncol=9, dimnames = list(row_names, col_names))
   list_to_return=list(
     "means" = means,
     "ci_lower"=ci_lower,
     "ci_upper"=ci_upper
   )
   return(list_to_return)
+}
+
+get_boot_means_ci_bounds_unified <- function(boot_results_array){
+  means <- apply(boot_results_array, 2, mean, na.rm=T) %>% matrix(nrow=9, ncol=11)
+  ci_lower <- apply(boot_results_array, 2, quantile, probs=0.025, na.rm=T) %>% matrix(nrow=9, ncol=11)
+  
 }
 
 ## Plot bootstrapped estimators
@@ -1927,11 +2017,14 @@ prep_matrix <- function(mat, value_name) {
 
 # 2. Merge them all together into one clean plotting dataset
 get_plot_data_boot=function(boot_estimates,ci_list){
-  plot_data <- prep_matrix(boot_estimates, "Estimate") %>%
-    left_join(prep_matrix(ci_list$ci_lower, "Lower"), by = c("Row", "Column")) %>%
-    left_join(prep_matrix(ci_list$ci_upper, "Upper"), by = c("Row", "Column")) %>%
+  plot_data <- prep_matrix(t(boot_estimates), "Estimate") %>%
+    left_join(prep_matrix(t(ci_list$ci_lower), "Lower"), by = c("Row", "Column")) %>%
+    left_join(prep_matrix(t(ci_list$ci_upper), "Upper"), by = c("Row", "Column")) %>%
+    filter(Row %in% c("Early MWTP, Unadj.","Late MWTP, Unadj.","Late MWTP w/ Mig. Costs")) %>%
     mutate(
-      Column=factor(Column,levels=c("Optimal Range","Moderate","Strong","Very Strong","Extreme"),ordered=T),
+      Column=factor(Column,levels=rev(c("Extreme", "Very Strong - High", "Very Strong - Mid High", "Very Strong - Mid Low", "Very Strong - Low",
+                                        "Strong - High", "Strong - Mid", "Strong - Low",
+                                        "Moderate - High", "Moderate - Mid", "Moderate - Low")),ordered=T),
       Row=factor(Row,levels=c("Early MWTP, Unadj.","Late MWTP, Unadj.","Late MWTP w/ Mig. Costs"),ordered=T)
     )
   return(plot_data)
