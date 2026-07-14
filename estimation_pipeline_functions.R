@@ -1580,7 +1580,7 @@ get_boot_wage_model_early <- function(i,nss_ind_reg_boot_weights){
   wage_model_rep_coefs_vec <- wage_model_rep_fes %>% pull(estimate)
   names(wage_model_rep_coefs_vec) <- wage_model_rep_fes %>% pull(district)
   
-  wage_model_rep_pc_fes <- tidy(wage_model_rep) %>%
+  wage_model_rep_pc_fes <- tidy(wage_model_rep_pc) %>%
     #filter(str_detect(term, "district_name")) %>%
     mutate(district = str_to_title(str_remove(term, fixed("factor(district_name)"))))
   wage_model_rep_pc_coefs_vec <- wage_model_rep_pc_fes %>% pull(estimate)
@@ -1619,7 +1619,7 @@ get_boot_rent_model_early <- function(i,hcs_reg_boot_weights){
   rent_model_rep_coefs_vec <- rent_model_rep_fes %>% pull(estimate)
   names(rent_model_rep_coefs_vec) <- rent_model_rep_fes %>% pull(district)
   
-  rent_model_rep_pc_fes <- tidy(rent_model_rep) %>%
+  rent_model_rep_pc_fes <- tidy(rent_model_rep_pc) %>%
     #filter(str_detect(term, "district_name")) %>%
     mutate(district = str_to_title(str_remove(term, fixed("factor(district_name)"))))
   rent_model_rep_pc_coefs_vec <- rent_model_rep_pc_fes %>% pull(estimate)
@@ -1649,7 +1649,7 @@ get_boot_wage_model_late <- function(i,hces_merged_emp_housing_boot_weights){
   wage_model_rep <-svyglm(log(totexp) ~ poly(age,2)+male+edu+hindu+scstbc+factor(district_name),
                           design = test_svydesign)
   
-  wage_model_pc_rep <- svyglm(logepc ~ poly(age,2)+male+edu+hindu+scstbc+factor(district_name),
+  wage_model_rep_pc <- svyglm(logepc ~ poly(age,2)+male+edu+hindu+scstbc+factor(district_name),
                               design = test_svydesign)
   
   # Extract coefficients with district names
@@ -1659,7 +1659,7 @@ get_boot_wage_model_late <- function(i,hces_merged_emp_housing_boot_weights){
   wage_model_rep_coefs_vec <- wage_model_rep_fes %>% pull(estimate)
   names(wage_model_rep_coefs_vec) <- wage_model_rep_fes %>% pull(district)
   
-  wage_model_rep_pc_fes <- tidy(wage_model_rep) %>%
+  wage_model_rep_pc_fes <- tidy(wage_model_rep_pc) %>%
     #filter(str_detect(term, "district_name")) %>%
     mutate(district = str_to_title(str_remove(term, fixed("factor(district_name)"))))
   wage_model_rep_pc_coefs_vec <- wage_model_rep_pc_fes %>% pull(estimate)
@@ -1689,7 +1689,7 @@ get_boot_rent_model_late <- function(i,hces_merged_emp_housing_boot_weights){
   rent_model_rep <-svyglm(loghc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine+factor(district_name),
                           design = test_svydesign)
   
-  rent_model_pc_rep <- svyglm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine+factor(district_name),
+  rent_model_rep_pc <- svyglm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine+factor(district_name),
                               design = test_svydesign)
   
   # Extract coefficients with district names
@@ -1699,7 +1699,7 @@ get_boot_rent_model_late <- function(i,hces_merged_emp_housing_boot_weights){
   rent_model_rep_coefs_vec <- rent_model_rep_fes %>% pull(estimate)
   names(rent_model_rep_coefs_vec) <- rent_model_rep_fes %>% pull(district)
   
-  rent_model_rep_pc_fes <- tidy(rent_model_rep) %>%
+  rent_model_rep_pc_fes <- tidy(rent_model_rep_pc) %>%
     #filter(str_detect(term, "district_name")) %>%
     mutate(district = str_to_title(str_remove(term, fixed("factor(district_name)"))))
   rent_model_rep_pc_coefs_vec <- rent_model_rep_pc_fes %>% pull(estimate)
@@ -2128,6 +2128,101 @@ get_obs_corrected_plot=function(plot_data,vis_output_path,parameter="Early"){
 ## :::::::::::
 ## Writing Log Files
 ## :::::::::::
+
+# Helper function to merge coefficients, accounting for null values
+get_merged_estimates <- function(coef_list){
+  df_list <- lapply(coef_list, function(x){data.frame(est = x) %>% rownames_to_column(var = "param")})
+  mat_to_return <- df_list %>% reduce(full_join, by = "param") %>%
+    column_to_rownames(var = "param") %>%
+    as.matrix()
+  return(mat_to_return)
+}
+
+# Helper function to re-create a Stargazer table using bootstrapped coefficients
+get_formatted_coefs <- function(master_coefs){
+  means <- rowMeans(master_coefs, na.rm=T)
+  ses <- apply(master_coefs, 1, sd, na.rm=T)
+  # Wald test statistics
+  z_stats <- means / ses
+  p_vals <- 2 * (1-pnorm(abs(z_stats)))
+  
+  get_stars <- function(p) {
+    if (is.na(p)) return("")
+    if (p < 0.001) return("***")
+    if (p < 0.01)  return("**")
+    if (p < 0.05)  return("*")
+    return("")
+  }
+  stars <- sapply(p_vals, get_stars)
+  
+  # 3. Format entries: "Estimate*** (SE)"
+  formatted_entries <- paste0(
+    sprintf("%.4f", means), stars, "\n(", sprintf("%.4f", ses), ")"
+  )
+  names(formatted_entries) <- rownames(master_coefs)
+  return(formatted_entries)
+}
+
+get_stargazer_bootstrap <- function(master_coefs_list, lm_list, type = "text", ...){
+  
+  # Calculate bootstrap metrics
+  means <- lapply(master_coefs_list, function(x) { rowMeans(x, na.rm = TRUE) })
+  ses   <- lapply(master_coefs_list, function(x) { apply(x, 1, sd, na.rm = TRUE) })
+  
+  z_stats <- lapply(seq_along(master_coefs_list), function(i) {
+    means[[i]] / ses[[i]]
+  })
+  
+  # Fixed: Standard mathematical order of operations for 2 * (1 - pnorm)
+  p_vals <- lapply(seq_along(master_coefs_list), function(i) {
+    2 * (1 - pnorm(abs(z_stats[[i]])))
+  })
+  
+  # 2. FORCE NAME ALIGNMENT
+  # For each model, grab the exact coefficient names from the OLS skeleton
+  # and assign them to your bootstrap vectors.
+  for (i in seq_along(lm_list)) {
+    ols_names <- names(coef(lm_list[[i]]))
+    
+    # Safety Check: Ensure the bootstrap vector length matches the OLS model length
+    if (length(means[[i]]) != length(ols_names)) {
+      stop(paste0(
+        "Length mismatch in Model ", i, "! ",
+        "The OLS model has ", length(ols_names), " coefficients, ",
+        "but your bootstrap matrix has ", length(means[[i]]), " rows. ",
+        "Make sure they contain the exact same variables (including Intercept/dummies)."
+      ))
+    }
+    
+    # Assign the exact names to prevent stargazer alignment failure
+    names(means[[i]])   <- ols_names
+    names(ses[[i]])     <- ols_names
+    names(z_stats[[i]]) <- ols_names
+    names(p_vals[[i]])   <- ols_names
+  }
+  
+  # 3. Clean up list element names to bypass the stargazer NA bug
+  names(lm_list) <- paste("Model", seq_along(lm_list))
+  
+  # 1. Combine all stargazer arguments into a single list
+  stargazer_args <- list(
+    coef = means, 
+    se   = ses, 
+    t    = z_stats, 
+    p    = p_vals,
+    type = type
+  )
+  
+  # 2. Capture any extra formatting arguments passed via '...' (like title, notes, etc.)
+  extra_args <- list(...)
+  
+  # 3. Merge models, core bootstrap calculations, and extra formatting arguments
+  all_arguments <- c(lm_list, stargazer_args, extra_args)
+  
+  # 4. Safely execute the call with a single combined list
+  table_output <- do.call(stargazer, all_arguments)
+  return(table_output)
+}
 
 get_stargazer_summary_table = function(summary_table,summary_table_options,output_type="text"){
   # Helper function to pre-allocate stargazer output and save it as a distinct target
