@@ -25,6 +25,10 @@ if [ ! -f _targets.yaml ]; then
     Rscript -e "targets::tar_config_set(store = '${PROJECT_DATA_DIR}/_targets')"
 fi
 
+# Try pruning obsolete files
+Rscript -e "targets::tar_prune()"
+
+# Run pipeline
 echo "Launching targets pipeline execution at Timestamp: $(date +'%Y-%m-%d %H:%M:%S')"
 Rscript -e "targets::tar_make()"
 
