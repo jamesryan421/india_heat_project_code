@@ -337,7 +337,8 @@ get_split_pipeline <- function(){
                                     "Hindu", "Scheduled Caste/Tribe"),
                  single.row=T,
                  add.lines=list(c("District FE", "Yes", "Yes")),
-                 dep.var.labels=c("Expenditure", "Expenditure per Capita"))
+                 dep.var.labels=c("Expenditure", "Expenditure per Capita")),
+               error = "null"
                ),
     tar_target(rent_early_coefs_list,
                list(master_rent_early_coefs[1:7,], master_rent_pc_early_coefs[1:7,])),
@@ -355,7 +356,8 @@ get_split_pipeline <- function(){
                                     "Piped Water", "Own Latrine", "Electricity"),
                  single.row=T,
                  add.lines=list(c("District FE", "Yes", "Yes")),
-                 dep.var.labels=c("Rent", "Rent per Capita"))
+                 dep.var.labels=c("Rent", "Rent per Capita")),
+               error = "null"
     ),
     tar_target(wage_late_coefs_list,
                list(master_wage_late_coefs[1:7,], master_wage_pc_late_coefs[1:7,])),
@@ -373,7 +375,8 @@ get_split_pipeline <- function(){
                                     "Education", "Hindu", "Scheduled Caste/Tribe"),
                  single.row=T,
                  add.lines=list(c("District FE", "Yes", "Yes")),
-                 dep.var.labels=c("Expenditure", "Expenditure per Capita"))
+                 dep.var.labels=c("Expenditure", "Expenditure per Capita")),
+               error = "null"
     ),
     tar_target(rent_late_coefs_list,
                list(master_rent_late_coefs[1:8,], master_rent_pc_early_coefs[1:8,])),
@@ -391,7 +394,8 @@ get_split_pipeline <- function(){
                                     "Gas/Electric Cooking Fuel", "Electric Lighting", "Piped Water", "Own Latrine"),
                  single.row=T,
                  add.lines=list(c("District FE", "Yes", "Yes")),
-                 dep.var.labels=c("Rent", "Rent per Capita"))
+                 dep.var.labels=c("Rent", "Rent per Capita")),
+               error = "null"
     ),
     # tar_target(master_wage_early_controls,
     #            do.call(cbind, wage_early_coefs)[1:9,]),
