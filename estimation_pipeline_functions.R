@@ -509,7 +509,8 @@ get_wage_rent_diffs_plot=function(plot_data,vis_output_path,period="early",highl
       x="Log Wage Differential",
       y="Log Rent Differential",
       caption="Source: 2022-23 HCES, 2022 Population (Proj.)"
-    )
+    ) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
   if (add_marginal) {
     # Add marginal densities
     wage_price_diffs_final=ggMarginal(wage_price_diffs,
@@ -2077,7 +2078,8 @@ get_bootstrap_plot=function(plot_data,vis_output_path,temp_data="Unadjusted"){
     ) +
     theme(
       legend.position = "right",
-      panel.grid.major.x = element_blank() # Removes vertical grid lines to separate columns cleanly
+      panel.grid.major.x = element_blank(), # Removes vertical grid lines to separate columns cleanly
+      axis.text.x = element_text(angle=90, vjust=0.5, hjust=1)
     ) +
     scale_color_manual(values = custom_color_palette)
   ggsave(file.path(vis_output_path,paste0("mwtp_bootstrap_estimates_",temp_data,".png")),
@@ -2116,7 +2118,8 @@ get_obs_corrected_plot=function(plot_data,vis_output_path,parameter="Early"){
     ) +
     theme(
       legend.position = "right",
-      panel.grid.major.x = element_blank() # Removes vertical grid lines to separate columns cleanly
+      panel.grid.major.x = element_blank(), # Removes vertical grid lines to separate columns cleanly
+      axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
     )+
     scale_color_manual(values = custom_color_palette)
   ggsave(file.path(vis_output_path,paste0("uncorrected_corrected_estimates_",parameter,".png")),
