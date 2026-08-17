@@ -13,6 +13,9 @@ echo "----------\n"
 echo "Checking R package dependencies..."
 Rscript requirements.R
 
+echo "Fixing Stargazer"
+Rscript stargazer_fix.R
+
 echo "Finished checking R package dependencies"
 echo "----------\n"
 
