@@ -1840,6 +1840,7 @@ get_mwtp_all_temp_vars=function(data,indices,temp_vars,housing_exp_share){
 }
 
 get_mwtp_unified = function(data, indices, housing_exp_share){
+  # WHERE DO THESE INDICES COME FROM?
   d <- data[indices,]
   
   wage_formula_early=as.formula("estimate_wage_early ~ hindu_early + scst_early + Age_early + educ_hs_early + educ_ps_early + ex_max_early + vsh_max_early + vsmh_max_early + vsml_max_early + vsl_max_early + sh_max_early + sm_max_early + sl_max_early + mh_max_early + mm_max_early + ml_max_early")
@@ -1863,33 +1864,59 @@ get_mwtp_unified = function(data, indices, housing_exp_share){
   migration_costs_models=get_migration_costs(d,suppress_output=F)
   migration_cost_term=coef(migration_costs_models[[2]])["delta_netwage"]
   
+  # Extract coefficients for each model
+  controls_coef_wage_early <- coef(model_wage_early)[1:6] #6 coefs
+  controls_coef_rent_early <- coef(model_rent_early)[1:6] #6 coefs
+  controls_coef_wage_late <- coef(model_wage_late)[1:6] #6 coefs
+  controls_coef_rent_late <- coef(model_rent_late)[1:6] #6 coefs
+  
   # Calculate MWTP
   # Vectorized for all temperature variables
-  temp_coef_rent_early = coef(model_rent_early)[7:length(coef(model_rent_early))]
-  temp_coef_wage_early = coef(model_wage_early)[7:length(coef(model_wage_early))]
-  temp_coef_rent_late = coef(model_rent_late)[7:length(coef(model_rent_late))]
-  temp_coef_wage_late = coef(model_wage_late)[7:length(coef(model_wage_late))]
-  temp_coef_pop = coef(model_pop_late)[2:length(coef(model_pop_late))]
+  temp_coef_rent_early = coef(model_rent_early)[7:length(coef(model_rent_early))] #11 coefs
+  temp_coef_wage_early = coef(model_wage_early)[7:length(coef(model_wage_early))] #11 coefs
+  temp_coef_rent_late = coef(model_rent_late)[7:length(coef(model_rent_late))] #11 coefs
+  temp_coef_wage_late = coef(model_wage_late)[7:length(coef(model_wage_late))] #11 coefs
+  temp_coef_pop = coef(model_pop_late)[2:length(coef(model_pop_late))] #11 coefs
   
-  mwtp_early_unadj = (housing_exp_share * exp(temp_coef_rent_early)) - exp(temp_coef_wage_early)
-  mwtp_late_unadj = (housing_exp_share * exp(temp_coef_rent_late)) - exp(temp_coef_wage_late)
-  correction_terms = (1/migration_cost_term) * temp_coef_pop
-  mwtp_late_adj = mwtp_late_unadj + correction_terms
+  mwtp_early_unadj = (housing_exp_share * exp(temp_coef_rent_early)) - exp(temp_coef_wage_early) #11
+  mwtp_late_unadj = (housing_exp_share * exp(temp_coef_rent_late)) - exp(temp_coef_wage_late) #11
+  correction_terms = (1/migration_cost_term) * temp_coef_pop #11
+  mwtp_late_adj = mwtp_late_unadj + correction_terms #11
   
-  mat_to_return = cbind(mwtp_early_unadj, mwtp_late_unadj, mwtp_late_adj,
-                        temp_coef_wage_early, temp_coef_rent_early,
-                        temp_coef_wage_late, temp_coef_rent_late,
-                        temp_coef_pop, rep(migration_cost_term, length(mwtp_early_unadj)))
   
-  colnames(mat_to_return)=c("mwtp_early_unadj", "mwtp_late_unadj", "mwtp_late_adj",
-                            "wage_elasticity_early", "wage_elasticity_late",
-                            "rent_elasticity_early", "rent_elasticity_late",
-                            "pop_elasticity_late", "migration_cost_param")
+  # mat_to_return = cbind(mwtp_early_unadj, mwtp_late_unadj, mwtp_late_adj,
+  #                       temp_coef_wage_early, temp_coef_rent_early,
+  #                       temp_coef_wage_late, temp_coef_rent_late,
+  #                       temp_coef_pop, rep(migration_cost_term, length(mwtp_early_unadj)))
+  # 
+  # colnames(mat_to_return)=c("mwtp_early_unadj", "mwtp_late_unadj", "mwtp_late_adj",
+  #                           "wage_elasticity_early", "wage_elasticity_late",
+  #                           "rent_elasticity_early", "rent_elasticity_late",
+  #                           "pop_elasticity_late", "migration_cost_param")
+  # vec_to_return = c(
+  #   controls_coef_wage_early, temp_coef_wage_early,
+  #   controls_coef_rent_early, temp_coef_rent_early,
+  #   controls_coef_wage_late, temp_coef_wage_late,
+  #   controls_coef_rent_late, temp_coef_rent_late,
+  #   mwtp_early_unadj, mwtp_late_unadj, mwtp_late_adj,
+  #   temp_coef_pop, migration_cost_term
+  # )
+  
+  vec_to_return <- c(
+    controls_coef_wage_early, controls_coef_rent_early,
+    controls_coef_wage_late, controls_coef_rent_late,
+    mwtp_early_unadj, mwtp_late_unadj, mwtp_late_adj,
+    temp_coef_wage_early, temp_coef_rent_early,
+    temp_coef_wage_late, temp_coef_rent_late,
+    temp_coef_pop, rep(migration_cost_term, length(mwtp_early_unadj))
+  )
+  # When returned to boot_results_proj_t, flattens into a row of length 99
+  # "Blocks" of 11 coef each in order of labels above
   
   # Ensure max_temp_hr_cols exists in your global environment when running this
   #rownames(mat_to_return) = max_temp_hr_cols 
   
-  return(mat_to_return)
+  return(vec_to_return)
 }
 
 ## Perform bootstrap estimation
@@ -2082,10 +2109,11 @@ get_bootstrap_plot=function(plot_data,vis_output_path,temp_data="Unadjusted"){
       axis.text.x = element_text(angle=90, vjust=0.5, hjust=1)
     ) +
     scale_color_manual(values = custom_color_palette)
-  ggsave(file.path(vis_output_path,paste0("mwtp_bootstrap_estimates_",temp_data,".png")),
+  outfile <- file.path(vis_output_path,paste0("mwtp_bootstrap_estimates_",temp_data,".png"))
+  ggsave(outfile,
          bootstrap_ci_plot,
          width=8,height=6,unit="in")
-  return(bootstrap_ci_plot)
+  return(outfile)
 }
 
 # Get plots of the same parameter, looking at observed and corrected side-by-side
@@ -2251,6 +2279,21 @@ get_stargazer_other_table = function(other_outputs,other_output_options,output_t
   final_args <- c(base_args, custom_args)
   table_output <- do.call(stargazer, final_args)
   return(table_output)
+}
+
+write_text_stargazer_logs = function(stargazer_tables_list, text_path){
+  text_path <- as.character(text_path)
+  
+  # Text log header
+  write("==================================================\n", file = text_path, append = FALSE)
+  write(paste("PIPELINE LOG GENERATED ON:", Sys.time(), "\n"), file = text_path, append = TRUE)
+  write("==================================================\n\n", file = text_path, append = TRUE)
+  
+  for(stargazer_table_name in names(stargazer_tables_list)){
+    write(paste("\n---", stargazer_table_name, "Regression Outputs", "---\n"), file = text_path, append = TRUE)
+    write(stargazer_tables_list[[stargazer_table_name]], file = text_path, sep = "\n", append = T)
+  }
+  return(text_path)
 }
 
 write_log_files_redux = function(summary_tables_text, summary_tables_latex,

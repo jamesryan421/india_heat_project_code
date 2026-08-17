@@ -67,9 +67,11 @@ main_data_path <- Sys.getenv("PROJECT_DATA_DIR", unset = "..")
 # Import sub-pipelines
 source("sub_pipelines/pipeline_01_pre_split.R")
 source("sub_pipelines/pipeline_02_split.R")
+source("sub_pipelines/pipeline_03_plots_logs.R")
 
 # Replace the target list below with your own:
 list(
   get_pre_split_pipeline(),
-  get_split_pipeline()
+  get_split_pipeline(),
+  get_plot_log_pipeline()
 )
