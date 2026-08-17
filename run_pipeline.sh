@@ -32,4 +32,8 @@ Rscript -e "targets::tar_prune()"
 echo "Launching targets pipeline execution at Timestamp: $(date +'%Y-%m-%d %H:%M:%S')"
 Rscript -e "targets::tar_make()"
 
+echo "Logging errors"
+# In your bash script:
+Rscript -e "targets::tar_make()" 2>&1 | tee -a pipeline.log
+
 echo "Successfully finished pipeline execution at Timestamp: $(date +'%Y-%m-%d %H:%M:%S')"
