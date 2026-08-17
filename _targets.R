@@ -7,6 +7,7 @@
 library(targets)
 library(crew)
 # library(tarchetypes) # Load other packages as needed.
+Sys.setenv("_R_CHECK_LENGTH_1_CONDITION_" = "false")
 
 # Set target options:
 tar_option_set(
