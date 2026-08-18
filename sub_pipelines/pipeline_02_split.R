@@ -25,11 +25,13 @@ get_split_pipeline <- function(){
     tar_target(nss_ind_reg_boot_wts,
                get_first_stage_boot_wts(
                  nss_survey_design, R_1
-               )),
+               ),
+               storage = "none"),
     tar_target(hcs_boot_wts,
                get_first_stage_boot_wts(
                  hcs_survey_design, R_1
-               )),
+               ),
+               storage = "none"),
     ### Late period
     tar_target(hces_survey_design,
                svydesign(
@@ -42,7 +44,8 @@ get_split_pipeline <- function(){
     tar_target(hces_boot_wts,
                get_first_stage_boot_wts(
                  hces_survey_design, R_1
-               )),
+               ),
+               storage = "none",
     ##
     # Run parallelized first-stage estimation
     ##
@@ -55,11 +58,13 @@ get_split_pipeline <- function(){
                  nss_ind_reg_boot_wts
                ),
                pattern = map(rep_ids),
-               iteration = "list"),
+               iteration = "list",
+               storage = "none"),
     tar_target(wage_boot_design_early,
                wage_boot_early_outputs$wage_design_early,
                pattern = map(wage_boot_early_outputs),
-               iteration = "list"),
+               iteration = "list",
+               storage = "none"),
     # tar_target(wage_boot_early_coef,
     #            wage_boot_early_outputs$wage_early,
     #            pattern = map(wage_boot_early_outputs)),
@@ -71,36 +76,42 @@ get_split_pipeline <- function(){
                  wage_boot_early_outputs$wage_early,alpha
                ),
                pattern = map(wage_boot_early_outputs),
-               iteration = "list"),
+               iteration = "list",
+               storage = "none"),
     tar_target(wage_pc_early_boot_coef,
                get_boot_reg_outputs_vec(
                  wage_boot_early_outputs$wage_pc_early,alpha
                ),
                pattern = map(wage_boot_early_outputs),
-               iteration = "list"),
+               iteration = "list",
+               storage = "none"),
     tar_target(rent_boot_early_outputs,
                get_boot_rent_model_early(
                  rep_ids,
                  hcs_boot_wts
                ),
                pattern = map(rep_ids),
-               iteration = "list"),
+               iteration = "list",
+               storage = "none"),
     tar_target(rent_boot_design_early,
                rent_boot_early_outputs$rent_design_early,
                pattern = map(rent_boot_early_outputs),
-               iteration = "list"),
+               iteration = "list",
+               storage = "none"),
     tar_target(rent_early_boot_coef,
                get_boot_reg_outputs_vec(
                  rent_boot_early_outputs$rent_early,alpha
                ),
                pattern = map(rent_boot_early_outputs),
-               iteration = "list"),
+               iteration = "list",
+               storage = "none"),
     tar_target(rent_pc_early_boot_coef,
                get_boot_reg_outputs_vec(
                  rent_boot_early_outputs$rent_pc_early,alpha
                ),
                pattern = map(rent_boot_early_outputs),
-               iteration = "list"),
+               iteration = "list",
+               storage = "none"),
     ### Late period
     tar_target(wage_boot_late_outputs,
                get_boot_wage_model_late(
@@ -108,23 +119,27 @@ get_split_pipeline <- function(){
                  hces_boot_wts
                ),
                pattern = map(rep_ids),
-               iteration = "list"),
+               iteration = "list",
+               storage = "none"),
     tar_target(wage_boot_design_late,
                wage_boot_late_outputs$wage_design_late,
                pattern = map(wage_boot_late_outputs),
-               iteration = "list"),
+               iteration = "list",
+               storage = "none"),
     tar_target(wage_late_boot_coef,
                get_boot_reg_outputs_vec(
                  wage_boot_late_outputs$wage_late,alpha
                ),
                pattern = map(wage_boot_late_outputs),
-               iteration = "list"),
+               iteration = "list",
+               storage = "none"),
     tar_target(wage_pc_late_boot_coef,
                get_boot_reg_outputs_vec(
                  wage_boot_late_outputs$wage_pc_late,alpha
                ),
                pattern = map(wage_boot_late_outputs),
-               iteration = "list"),
+               iteration = "list",
+               storage = "none"),
     # tar_target(wage_boot_late_coef,
     #            wage_boot_late_outputs$wage_late,
     #            pattern = map(wage_boot_late_outputs)),
@@ -137,11 +152,13 @@ get_split_pipeline <- function(){
                  hces_boot_wts
                ),
                pattern = map(rep_ids),
-               iteration = "list"),
+               iteration = "list",
+               storage = "none"),
     tar_target(rent_boot_design_late,
                rent_boot_late_outputs$rent_design_late,
                pattern = map(rent_boot_late_outputs),
-               iteration = "list"),
+               iteration = "list",
+               storage = "none"),
     # tar_target(rent_boot_late_coef,
     #            rent_boot_late_outputs$rent_late,
     #            pattern = map(rent_boot_late_outputs)),
@@ -153,13 +170,15 @@ get_split_pipeline <- function(){
                  rent_boot_late_outputs$rent_late,alpha
                ),
                pattern = map(rent_boot_late_outputs),
-               iteration = "list"),
+               iteration = "list",
+               storage = "none"),
     tar_target(rent_pc_late_boot_coef,
                get_boot_reg_outputs_vec(
                  rent_boot_late_outputs$rent_pc_late,alpha
                ),
                pattern = map(rent_boot_late_outputs),
-               iteration = "list"),
+               iteration = "list",
+               storage = "none"),
     ### Get combined coefficients for one iteration for each period,
     ### then merge on population data
     ### For now, only do this for the per capita models
@@ -242,13 +261,15 @@ get_split_pipeline <- function(){
                  bootstrap_data_proj, seed, R_2, housing_exp_share
                ),
                pattern = map(bootstrap_data_proj),
-               iteration = "list"),
+               iteration = "list",
+               storage = "none"),
     tar_target(boot_results_obs_unified,
                run_bootstrap_estimation_unified(
                  bootstrap_data_obs, seed, R_2, housing_exp_share
                ),
                pattern = map(bootstrap_data_obs),
-               iteration="list"),
+               iteration="list",
+               storage = "none"),
     # ### Extract parameter estimates from second-stage bootstrap
     tar_target(boot_results_proj_t,
                boot_results_proj_unified$t,
