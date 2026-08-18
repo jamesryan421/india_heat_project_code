@@ -45,7 +45,7 @@ get_split_pipeline <- function(){
                get_first_stage_boot_wts(
                  hces_survey_design, R_1
                ),
-               storage = "none",
+               storage = "none"),
     ##
     # Run parallelized first-stage estimation
     ##
@@ -236,13 +236,15 @@ get_split_pipeline <- function(){
                  joined_diffs, utci_ewp, utci_lwp, district_controls
                ),
                pattern = map(joined_diffs, district_controls),
-               iteration = "list"),
+               iteration = "list",
+               storage = "none"),
     tar_target(bootstrap_data_obs,
                get_bootstrap_data_redux(
                  joined_diffs, utci_ewp, utci_lwp, district_controls
                ),
                pattern = map(joined_diffs, district_controls),
-               iteration = "list"),
+               iteration = "list",
+               storage = "none"),
     ### Run bootstrap estimation
     #tar_target(boot_results_proj,
     #           run_bootstrap_estimation(
