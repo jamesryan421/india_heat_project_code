@@ -59,12 +59,12 @@ get_split_pipeline <- function(){
                ),
                pattern = map(rep_ids),
                iteration = "list",
-               storage = "none"),
+               storage = "transient"),
     tar_target(wage_boot_design_early,
                wage_boot_early_outputs$wage_design_early,
                pattern = map(wage_boot_early_outputs),
                iteration = "list",
-               storage = "none"),
+               storage = "transient"),
     # tar_target(wage_boot_early_coef,
     #            wage_boot_early_outputs$wage_early,
     #            pattern = map(wage_boot_early_outputs)),
@@ -77,14 +77,14 @@ get_split_pipeline <- function(){
                ),
                pattern = map(wage_boot_early_outputs),
                iteration = "list",
-               storage = "none"),
+               storage = "transient"),
     tar_target(wage_pc_early_boot_coef,
                get_boot_reg_outputs_vec(
                  wage_boot_early_outputs$wage_pc_early,alpha
                ),
                pattern = map(wage_boot_early_outputs),
                iteration = "list",
-               storage = "none"),
+               storage = "transient"),
     tar_target(rent_boot_early_outputs,
                get_boot_rent_model_early(
                  rep_ids,
@@ -92,26 +92,26 @@ get_split_pipeline <- function(){
                ),
                pattern = map(rep_ids),
                iteration = "list",
-               storage = "none"),
+               storage = "transient"),
     tar_target(rent_boot_design_early,
                rent_boot_early_outputs$rent_design_early,
                pattern = map(rent_boot_early_outputs),
                iteration = "list",
-               storage = "none"),
+               storage = "transient"),
     tar_target(rent_early_boot_coef,
                get_boot_reg_outputs_vec(
                  rent_boot_early_outputs$rent_early,alpha
                ),
                pattern = map(rent_boot_early_outputs),
                iteration = "list",
-               storage = "none"),
+               storage = "transient"),
     tar_target(rent_pc_early_boot_coef,
                get_boot_reg_outputs_vec(
                  rent_boot_early_outputs$rent_pc_early,alpha
                ),
                pattern = map(rent_boot_early_outputs),
                iteration = "list",
-               storage = "none"),
+               storage = "transient"),
     ### Late period
     tar_target(wage_boot_late_outputs,
                get_boot_wage_model_late(
@@ -120,26 +120,26 @@ get_split_pipeline <- function(){
                ),
                pattern = map(rep_ids),
                iteration = "list",
-               storage = "none"),
+               storage = "transient"),
     tar_target(wage_boot_design_late,
                wage_boot_late_outputs$wage_design_late,
                pattern = map(wage_boot_late_outputs),
                iteration = "list",
-               storage = "none"),
+               storage = "transient"),
     tar_target(wage_late_boot_coef,
                get_boot_reg_outputs_vec(
                  wage_boot_late_outputs$wage_late,alpha
                ),
                pattern = map(wage_boot_late_outputs),
                iteration = "list",
-               storage = "none"),
+               storage = "transient"),
     tar_target(wage_pc_late_boot_coef,
                get_boot_reg_outputs_vec(
                  wage_boot_late_outputs$wage_pc_late,alpha
                ),
                pattern = map(wage_boot_late_outputs),
                iteration = "list",
-               storage = "none"),
+               storage = "transient"),
     # tar_target(wage_boot_late_coef,
     #            wage_boot_late_outputs$wage_late,
     #            pattern = map(wage_boot_late_outputs)),
@@ -153,12 +153,12 @@ get_split_pipeline <- function(){
                ),
                pattern = map(rep_ids),
                iteration = "list",
-               storage = "none"),
+               storage = "transient"),
     tar_target(rent_boot_design_late,
                rent_boot_late_outputs$rent_design_late,
                pattern = map(rent_boot_late_outputs),
                iteration = "list",
-               storage = "none"),
+               storage = "transient"),
     # tar_target(rent_boot_late_coef,
     #            rent_boot_late_outputs$rent_late,
     #            pattern = map(rent_boot_late_outputs)),
@@ -171,14 +171,14 @@ get_split_pipeline <- function(){
                ),
                pattern = map(rent_boot_late_outputs),
                iteration = "list",
-               storage = "none"),
+               storage = "transient"),
     tar_target(rent_pc_late_boot_coef,
                get_boot_reg_outputs_vec(
                  rent_boot_late_outputs$rent_pc_late,alpha
                ),
                pattern = map(rent_boot_late_outputs),
                iteration = "list",
-               storage = "none"),
+               storage = "transient"),
     ### Get combined coefficients for one iteration for each period,
     ### then merge on population data
     ### For now, only do this for the per capita models
@@ -237,14 +237,14 @@ get_split_pipeline <- function(){
                ),
                pattern = map(joined_diffs, district_controls),
                iteration = "list",
-               storage = "none"),
+               storage = "transient"),
     tar_target(bootstrap_data_obs,
                get_bootstrap_data_redux(
                  joined_diffs, utci_ewp, utci_lwp, district_controls
                ),
                pattern = map(joined_diffs, district_controls),
                iteration = "list",
-               storage = "none"),
+               storage = "transient"),
     ### Run bootstrap estimation
     #tar_target(boot_results_proj,
     #           run_bootstrap_estimation(
@@ -264,14 +264,14 @@ get_split_pipeline <- function(){
                ),
                pattern = map(bootstrap_data_proj),
                iteration = "list",
-               storage = "none"),
+               storage = "transient"),
     tar_target(boot_results_obs_unified,
                run_bootstrap_estimation_unified(
                  bootstrap_data_obs, seed, R_2, housing_exp_share
                ),
                pattern = map(bootstrap_data_obs),
                iteration="list",
-               storage = "none"),
+               storage = "transient"),
     # ### Extract parameter estimates from second-stage bootstrap
     tar_target(boot_results_proj_t,
                boot_results_proj_unified$t,
