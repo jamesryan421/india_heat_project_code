@@ -57,24 +57,24 @@ get_split_pipeline <- function(){
                pattern = map(rep_ids),
                iteration = "list",
                memory = "transient"),
-    tar_target(wage_boot_design_early,
-               wage_boot_early_outputs$wage_design_early,
-               pattern = map(wage_boot_early_outputs),
-               iteration = "list",
-               memory = "transient"),
+    # tar_target(wage_boot_design_early,
+    #            wage_boot_early_outputs$wage_design_early,
+    #            pattern = map(wage_boot_early_outputs),
+    #            iteration = "list",
+    #            memory = "transient"),
     # tar_target(wage_boot_early_coef,
     #            wage_boot_early_outputs$wage_early,
     #            pattern = map(wage_boot_early_outputs)),
     # tar_target(wage_boot_pc_early_coef,
     #            wage_boot_early_outputs$wage_pc_early,
     #            pattern = map(wage_boot_early_outputs)),
-    tar_target(wage_early_boot_coef,
-               get_boot_reg_outputs_vec(
-                 wage_boot_early_outputs$wage_early,alpha
-               ),
-               pattern = map(wage_boot_early_outputs),
-               iteration = "list",
-               memory = "transient"),
+    # tar_target(wage_early_boot_coef,
+    #            get_boot_reg_outputs_vec(
+    #              wage_boot_early_outputs$wage_early,alpha
+    #            ),
+    #            pattern = map(wage_boot_early_outputs),
+    #            iteration = "list",
+    #            memory = "transient"),
     tar_target(wage_pc_early_boot_coef,
                get_boot_reg_outputs_vec(
                  wage_boot_early_outputs$wage_pc_early,alpha
@@ -90,11 +90,11 @@ get_split_pipeline <- function(){
                pattern = map(rep_ids),
                iteration = "list",
                memory = "transient"),
-    tar_target(rent_boot_design_early,
-               rent_boot_early_outputs$rent_design_early,
-               pattern = map(rent_boot_early_outputs),
-               iteration = "list",
-               memory = "transient"),
+    # tar_target(rent_boot_design_early,
+    #            rent_boot_early_outputs$rent_design_early,
+    #            pattern = map(rent_boot_early_outputs),
+    #            iteration = "list",
+    #            memory = "transient"),
     tar_target(rent_early_boot_coef,
                get_boot_reg_outputs_vec(
                  rent_boot_early_outputs$rent_early,alpha
@@ -118,18 +118,18 @@ get_split_pipeline <- function(){
                pattern = map(rep_ids),
                iteration = "list",
                memory = "transient"),
-    tar_target(wage_boot_design_late,
-               wage_boot_late_outputs$wage_design_late,
-               pattern = map(wage_boot_late_outputs),
-               iteration = "list",
-               memory = "transient"),
-    tar_target(wage_late_boot_coef,
-               get_boot_reg_outputs_vec(
-                 wage_boot_late_outputs$wage_late,alpha
-               ),
-               pattern = map(wage_boot_late_outputs),
-               iteration = "list",
-               memory = "transient"),
+    # tar_target(wage_boot_design_late,
+    #            wage_boot_late_outputs$wage_design_late,
+    #            pattern = map(wage_boot_late_outputs),
+    #            iteration = "list",
+    #            memory = "transient"),
+    # tar_target(wage_late_boot_coef,
+    #            get_boot_reg_outputs_vec(
+    #              wage_boot_late_outputs$wage_late,alpha
+    #            ),
+    #            pattern = map(wage_boot_late_outputs),
+    #            iteration = "list",
+    #            memory = "transient"),
     tar_target(wage_pc_late_boot_coef,
                get_boot_reg_outputs_vec(
                  wage_boot_late_outputs$wage_pc_late,alpha
@@ -151,24 +151,24 @@ get_split_pipeline <- function(){
                pattern = map(rep_ids),
                iteration = "list",
                memory = "transient"),
-    tar_target(rent_boot_design_late,
-               rent_boot_late_outputs$rent_design_late,
-               pattern = map(rent_boot_late_outputs),
-               iteration = "list",
-               memory = "transient"),
+    # tar_target(rent_boot_design_late,
+    #            rent_boot_late_outputs$rent_design_late,
+    #            pattern = map(rent_boot_late_outputs),
+    #            iteration = "list",
+    #            memory = "transient"),
     # tar_target(rent_boot_late_coef,
     #            rent_boot_late_outputs$rent_late,
     #            pattern = map(rent_boot_late_outputs)),
     # tar_target(rent_boot_pc_late_coef,
     #            rent_boot_late_outputs$rent_pc_late,
     #            pattern = map(rent_boot_late_outputs))
-    tar_target(rent_late_boot_coef,
-               get_boot_reg_outputs_vec(
-                 rent_boot_late_outputs$rent_late,alpha
-               ),
-               pattern = map(rent_boot_late_outputs),
-               iteration = "list",
-               memory = "transient"),
+    # tar_target(rent_late_boot_coef,
+    #            get_boot_reg_outputs_vec(
+    #              rent_boot_late_outputs$rent_late,alpha
+    #            ),
+    #            pattern = map(rent_boot_late_outputs),
+    #            iteration = "list",
+    #            memory = "transient"),
     tar_target(rent_pc_late_boot_coef,
                get_boot_reg_outputs_vec(
                  rent_boot_late_outputs$rent_pc_late,alpha
@@ -222,10 +222,10 @@ get_split_pipeline <- function(){
     ### Get joined district-level controls
     tar_target(district_controls,
                get_district_controls(
-                 wage_boot_design_early,
-                 wage_boot_design_late
+                 wage_boot_early_outputs$wage_design_early,
+                 wage_boot_late_outputs$wage_design_late
                ),
-               pattern = map(wage_boot_design_early, wage_boot_design_late),
+               pattern = map(wage_boot_early_outputs, wage_boot_late_outputs),
                iteration = "list"),
     ### Get bootstrap data for projected and observed temperatures
     tar_target(bootstrap_data_proj,
@@ -284,16 +284,18 @@ get_split_pipeline <- function(){
                do.call(rbind, boot_results_obs_t)),
     # Extract parameter estimates from first-stage bootstrap
     ## Early wages
-    tar_target(wage_early_coefs,
-               wage_early_boot_coef$coef,
-               pattern = map(wage_early_boot_coef),
-               iteration = "list"),
+    # tar_target(wage_early_coefs,
+    #            wage_early_boot_coef$coef,
+    #            pattern = map(wage_early_boot_coef),
+    #            iteration = "list"),
     tar_target(wage_pc_early_coefs,
                wage_pc_early_boot_coef$coef,
                pattern = map(wage_pc_early_boot_coef),
                iteration="list"),
     tar_target(master_wage_early_coefs,
-               get_merged_estimates(wage_early_coefs)),
+               get_merged_estimates(get_boot_reg_outputs_vec(
+                 wage_boot_early_outputs$wage_early,alpha
+               )$coef)),
     tar_target(master_wage_pc_early_coefs,
                get_merged_estimates(wage_pc_early_coefs)),
     #tar_target(master_wage_early_coefs,
@@ -301,44 +303,50 @@ get_split_pipeline <- function(){
     #tar_target(master_wage_pc_early_coefs,
     #           do.call(cbind, wage_pc_early_coefs)),
     ## Early rents
-    tar_target(rent_early_coefs,
-               rent_early_boot_coef$coef,
-               pattern = map(rent_early_boot_coef),
-               iteration = "list"),
+    # tar_target(rent_early_coefs,
+    #            rent_early_boot_coef$coef,
+    #            pattern = map(rent_early_boot_coef),
+    #            iteration = "list"),
     tar_target(rent_pc_early_coefs,
                rent_pc_early_boot_coef$coef,
                pattern = map(rent_pc_early_boot_coef),
                iteration = "list"),
     tar_target(master_rent_early_coefs,
-               get_merged_estimates(rent_early_coefs)),
+               get_merged_estimates(get_boot_reg_outputs_vec(
+                 rent_boot_early_outputs$rent_early,alpha
+               )$coef)),
     tar_target(master_rent_pc_early_coefs,
                get_merged_estimates(rent_pc_early_coefs)),
     ## Late wages
-    tar_target(wage_late_coefs,
-               wage_late_boot_coef$coef,
-               pattern = map(wage_late_boot_coef),
-               iteration = "list"),
+    # tar_target(wage_late_coefs,
+    #            wage_late_boot_coef$coef,
+    #            pattern = map(wage_late_boot_coef),
+    #            iteration = "list"),
     tar_target(wage_pc_late_coefs,
                wage_pc_late_boot_coef$coef,
                pattern = map(wage_pc_late_boot_coef),
                iteration="list"),
     tar_target(master_wage_late_coefs,
-               get_merged_estimates(wage_late_coefs)),
+               get_merged_estimates(get_boot_reg_outputs_vec(
+                 wage_boot_late_outputs$wage_late,alpha
+               )$coef)),
     tar_target(master_wage_pc_late_coefs,
                get_merged_estimates(wage_pc_late_coefs)),
     ## Late rents
-    tar_target(rent_late_coefs,
-               rent_late_boot_coef$coef,
-               pattern = map(rent_late_boot_coef),
-               iteration = "list"),
+    # tar_target(rent_late_coefs,
+    #            rent_late_boot_coef$coef,
+    #            pattern = map(rent_late_boot_coef),
+    #            iteration = "list"),
     tar_target(rent_pc_late_coefs,
                rent_pc_late_boot_coef$coef,
                pattern = map(rent_pc_late_boot_coef),
                iteration = "list"),
     tar_target(master_rent_late_coefs,
-               get_merged_estimates(rent_late_coefs)),
+               get_merged_estimates(get_boot_reg_outputs_vec(
+                 rent_boot_late_outputs$rent_late,alpha
+               ))$coef),
     tar_target(master_rent_pc_late_coefs,
-               get_merged_estimates(rent_pc_late_coefs)),
+               get_merged_estimates(rent_pc_late_boot_coef)),
     # Get stargazer outputs for pairs of models
     tar_target(wage_early_coefs_list,
                list(master_wage_early_coefs[1:9,], master_wage_pc_early_coefs[1:9,])),
