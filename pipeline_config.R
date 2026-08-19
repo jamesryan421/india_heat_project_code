@@ -33,8 +33,8 @@ year_suffixes_late = c("18","19","20","21","22")
 
 ## Bootstrapping options
 seed=8008315
-R_1 <- 3
-R_2 <- 2
+R_1 <- 500
+R_2 <- 10
 housing_exp_share=0.15
 alpha=0.05
 

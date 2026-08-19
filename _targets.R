@@ -16,7 +16,7 @@ tar_option_set(
                "dplyr", "purrr", "readr", "tidyr", "stringr", "tibble", "ggplot2"), # Packages that your targets need for their tasks.
   #format = "qs", # Optionally set the default storage format. qs is fast.
   controller = crew_controller_local(
-    workers = 3,
+    workers = 6,
     seconds_idle = 300),
   garbage_collection = T,
   memory = "transient",
