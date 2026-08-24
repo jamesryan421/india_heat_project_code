@@ -34,7 +34,9 @@ get_plot_log_pipeline <- function(){
                                     "Hindu", "Scheduled Caste/Tribe"),
                  single.row=T,
                  add.lines=list(c("District FE", "Yes", "Yes")),
-                 dep.var.labels=c("Expenditure", "Expenditure per Capita")),
+                 dep.var.labels=c("Expenditure", "Expenditure per Capita"),
+                 intercept.top=T,
+                 intercept.bottom=F),
                error = "null"
     ),
     tar_target(wage_late_stargazer,
@@ -46,7 +48,9 @@ get_plot_log_pipeline <- function(){
                                     "Education", "Hindu", "Scheduled Caste/Tribe"),
                  single.row=T,
                  add.lines=list(c("District FE", "Yes", "Yes")),
-                 dep.var.labels=c("Expenditure", "Expenditure per Capita")),
+                 dep.var.labels=c("Expenditure", "Expenditure per Capita"),
+                 intercept.top=T,
+                 intercept.bottom=F),
                error = "null"
     ),
     tar_target(rent_early_stargazer,
@@ -58,7 +62,9 @@ get_plot_log_pipeline <- function(){
                                     "Piped Water", "Own Latrine", "Electricity"),
                  single.row=T,
                  add.lines=list(c("District FE", "Yes", "Yes")),
-                 dep.var.labels=c("Rent", "Rent per Capita")),
+                 dep.var.labels=c("Rent", "Rent per Capita"),
+                 intercept.top=T,
+                 intercept.bottom=F),
                error = "null"
     ),
     tar_target(rent_late_stargazer,
@@ -70,7 +76,9 @@ get_plot_log_pipeline <- function(){
                                     "Gas/Electric Cooking Fuel", "Electric Lighting", "Piped Water", "Own Latrine"),
                  single.row=T,
                  add.lines=list(c("District FE", "Yes", "Yes")),
-                 dep.var.labels=c("Rent", "Rent per Capita")),
+                 dep.var.labels=c("Rent", "Rent per Capita"),
+                 intercept.top=T,
+                 intercept.bottom=F),
                error = "null"
     ),
     tar_target(stargazer_tables_list,
@@ -92,7 +100,9 @@ get_plot_log_pipeline <- function(){
                  covariate.labels=c("Intercept", "Hindu", "Scheduled Caste/Tribe", "Age", "High School", "Post-Secondary"),
                  single_row=T,
                  add_lines=list(c("Temperature Correction", "No", "No")),
-                 dep.var.labels=c("Wage per capita", "Rent per capita")
+                 dep.var.labels=c("Wage per capita", "Rent per capita"),
+                 intercept.top=T,
+                 intercept.bottom=F
                ),
                error="null"),
     tar_target(late_proj_stargazer,
@@ -103,7 +113,9 @@ get_plot_log_pipeline <- function(){
                  covariate.labels=c("Intercept", "Hindu", "Scheduled Caste/Tribe", "Age", "High School", "Post-Secondary"),
                  single_row=T,
                  add_lines=list(c("Temperature Correction", "No", "No")),
-                 dep.var.labels=c("Wage per capita", "Rent per capita")
+                 dep.var.labels=c("Wage per capita", "Rent per capita"),
+                 intercept.top=T,
+                 intercept.bottom=F
                ),
                error="null"),
     tar_target(early_obs_stargazer,
@@ -114,7 +126,9 @@ get_plot_log_pipeline <- function(){
                  covariate.labels=c("Intercept", "Hindu", "Scheduled Caste/Tribe", "Age", "High School", "Post-Secondary"),
                  single_row=T,
                  add_lines=list(c("Temperature Correction", "No", "No")),
-                 dep.var.labels=c("Wage per capita", "Rent per capita")
+                 dep.var.labels=c("Wage per capita", "Rent per capita"),
+                 intercept.top=T,
+                 intercept.bottom=F
                ),
                error="null"),
     tar_target(late_obs_stargazer,
@@ -125,7 +139,9 @@ get_plot_log_pipeline <- function(){
                  covariate.labels=c("Intercept", "Hindu", "Scheduled Caste/Tribe", "Age", "High School", "Post-Secondary"),
                  single_row=T,
                  add_lines=list(c("Temperature Correction", "No", "No")),
-                 dep.var.labels=c("Wage per capita", "Rent per capita")
+                 dep.var.labels=c("Wage per capita", "Rent per capita"),
+                 intercept.top=T,
+                 intercept.bottom=F
                ),
                error="null"),
     tar_target(stargazer_second_stage_tables_list,
