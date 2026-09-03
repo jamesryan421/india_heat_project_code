@@ -200,7 +200,7 @@ get_split_pipeline <- function(){
                  lm(logepc ~ poly(age,2)+male+edu+hindu+scstbc, data=hces_merged_emp_housing)
                )),
     tar_target(rent_late_coefs_list,
-               list(master_rent_late_coefs[1:8,], master_rent_pc_early_coefs[1:8,])),
+               list(master_rent_late_coefs[1:8,], master_rent_pc_late_coefs[1:8,])),
     tar_target(rent_late_base_models_list,
                list(
                  lm(loghc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine, data=hces_merged_emp_housing),
