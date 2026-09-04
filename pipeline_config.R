@@ -28,12 +28,14 @@ max_temp_hr_cols = c("ex_max", "vsh_max", "vsmh_max", "vsml_max", "vsl_max",
                      "or_max")
 
 ## Select years to use for climate variable averaging
-year_suffixes_early = c("07","08","09","10","11")
-year_suffixes_late = c("18","19","20","21","22")
+#year_suffixes_early = c("07","08","09","10","11")
+year_suffixes_early = sapply(seq(1, 11), function(x){sprintf("%02d",x)})
+#year_suffixes_late = c("18","19","20","21","22")
+year_suffixes_late = sapply(seq(12, 22), function(x){sprintf("%02d",x)})
 
 ## Bootstrapping options
 seed=8008315
-R_1 <- 1000
+R_1 <- 750
 R_2 <- 25
 housing_exp_share=0.15
 alpha=0.05
