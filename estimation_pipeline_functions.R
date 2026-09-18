@@ -39,7 +39,7 @@ get_nss_data=function(nss_ind,hces_distcodes){
   )
   id_cols=c(
     "hhid","year","Sector","State_code","state_id","District_code","District",
-    "FSU_Serial_no","Stratum","Combined_multiplier"
+    "FSU_Serial_no","Stratum","Sub_Stratum_No", "Combined_multiplier"
   )
   
   nss_ind_cols=c(
@@ -97,16 +97,21 @@ get_nss_data=function(nss_ind,hces_distcodes){
     nss_ind_reg,
     hces_distcodes,
     by=c("District_code" = "nsscode")
-  )
+  ) %>%
+    # filter to urban households
+    filter(Sector == "2")
+  
+  
   return(nss_ind_reg)
 }
 
 filter_nss<-function(nss_ind_reg,ss_filter=0){
   # Filter to only keep districts with more than "ssfilter" observations
-  district_freq=nss_ind_reg %>% count(district_name)
-  selected_dists=(district_freq %>% filter(n>=ss_filter))$district_name
+  district_freq=nss_ind_reg %>% count(pc11_sd_id)
+  #selected_dists=(district_freq %>% filter(n>=ss_filter))$district_name
+  selected_dists=(district_freq %>% filter(n>=ss_filter))$pc11_sd_id
   
-  return(nss_ind_reg %>% filter(district_name %in% selected_dists))
+  return(nss_ind_reg %>% filter(pc11_sd_id %in% selected_dists))
 }
 
 get_wage_regs_early=function(nss_ind_reg,survey_design,summary_format="latex"){
@@ -129,7 +134,7 @@ get_wage_regs_early=function(nss_ind_reg,survey_design,summary_format="latex"){
   # Models with survey design
   wage_model1 <- svyglm(log(totexp) ~ poly(Age,2)+male+educ+hindu+scst,
                         design = survey_design)
-  wage_model2 <- svyglm(log(totexp) ~ poly(Age,2)+male+educ+hindu+scst+factor(district_name),
+  wage_model2 <- svyglm(log(totexp) ~ poly(Age,2)+male+educ+hindu+scst+factor(pc11_sd_id),
                         design = survey_design)
   
   stargazer(wage_model1,wage_model2,
@@ -147,7 +152,7 @@ get_wage_regs_early=function(nss_ind_reg,survey_design,summary_format="latex"){
   # Models with survey design
   wage_model1_pc <- svyglm(logepc ~ poly(Age,2)+male+educ+hindu+scst,
                            design = survey_design)
-  wage_model2_pc <- svyglm(logepc ~ poly(Age,2)+male+educ+hindu+scst+factor(district_name),
+  wage_model2_pc <- svyglm(logepc ~ poly(Age,2)+male+educ+hindu+scst+factor(pc11_sd_id),
                            design = survey_design)
   stargazer(wage_model1_pc,wage_model2_pc,
             type="latex",
@@ -188,7 +193,7 @@ get_housing_data_early=function(df_hcs3,df_hcs4,df_hcs6,hces_distcodes){
   # These household IDs don't match with the household IDs we use for the wage regressions
   # That's not a big problem, just something to keep in mind
   housing_merge_cols=c(
-    "Key_hhold","State","Region","District","FSU","Stratum","Wgt_combined"
+    "Key_hhold","State","Region","District","FSU","Stratum","Sub_Stratum", "Wgt_combined", "Sector"
   )
   
   # Characteristics in df_hcs3
@@ -271,14 +276,18 @@ get_housing_data_early=function(df_hcs3,df_hcs4,df_hcs6,hces_distcodes){
   # Merge on districts
   # Load in district names from HCES late sample data
   #hces_distcodes=read_dta(here("../data/hces_2022/clean_data","HCES2022_distcodes.dta"))
-  hces_distcodes_to_merge=hces_distcodes[,c("state","district","state_name","district_name")]
-  names(hces_distcodes_to_merge)=c("State","District","state_name","district_name")
+  hces_distcodes_to_merge=hces_distcodes[,c("state","district","state_name","district_name","pc11_sd_id")]
+  names(hces_distcodes_to_merge)=c("State","District","state_name","district_name", "pc11_sd_id")
   
   df_housing_merged<-inner_join(
     df_housing_merged,
     hces_distcodes_to_merge,
     by=c("State","District")
-  )
+  ) %>% 
+    # filter to urban districts
+    filter(Sector == "2")
+  
+  
   return(df_housing_merged)
 }
 
@@ -301,7 +310,7 @@ get_rent_regs_early=function(df_housing_merged,survey_design,summary_format="lat
   #                data=df_housing_merged)
   rent_model1 <- svyglm(loghc ~ pucca_walls+pucca_floor+pucca_roof+piped_water+own_latrine+elec,
                         design = survey_design)
-  rent_model2 <- svyglm(loghc ~ pucca_walls+pucca_floor+pucca_roof+piped_water+own_latrine+elec+factor(district_name),
+  rent_model2 <- svyglm(loghc ~ pucca_walls+pucca_floor+pucca_roof+piped_water+own_latrine+elec+factor(pc11_sd_id),
                         design = survey_design)
   stargazer(rent_model1,rent_model2,
             type=summary_format,
@@ -318,7 +327,7 @@ get_rent_regs_early=function(df_housing_merged,survey_design,summary_format="lat
   #                   data=df_housing_merged)
   rent_model1_pc <- svyglm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+piped_water+own_latrine+elec,
                            design = survey_design)
-  rent_model2_pc <- svyglm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+piped_water+own_latrine+elec+factor(district_name),
+  rent_model2_pc <- svyglm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+piped_water+own_latrine+elec+factor(pc11_sd_id),
                            design = survey_design)
   stargazer(rent_model1_pc,rent_model2_pc,
             type=summary_format,
@@ -421,13 +430,13 @@ extract_n_signif=function(opt_models){
 get_plot_data=function(wage_model,rent_model,pval_thresh=0.05){
   # Extract coefficients from both models; should run with per capita models
   df_wage_diffs <- tidy(wage_model) %>% 
-    filter(str_detect(term, "district_name")) %>%
-    mutate(district = str_to_title(str_remove(term, fixed("factor(district_name)")))) %>%
+    filter(str_detect(term, "pc11_sd_id")) %>%
+    mutate(district = str_to_title(str_remove(term, fixed("factor(pc11_sd_id)")))) %>%
     select(district, estimate_wage = estimate, wage_pval=p.value)
   
   df_rent_diffs <- tidy(rent_model) %>% 
-    filter(str_detect(term, "district_name")) %>%
-    mutate(district = str_to_title(str_remove(term, fixed("factor(district_name)")))) %>%
+    filter(str_detect(term, "pc11_sd_id")) %>%
+    mutate(district = str_to_title(str_remove(term, fixed("factor(pc11_sd_id)")))) %>%
     select(district, estimate_rent = estimate, rent_pval=p.value)
   
   # Join them together
@@ -450,8 +459,9 @@ merge_pop_plot_data=function(plot_data,df_pop,recent_data=F){
       plot_data,
       #df_pop[,c("Dist_Name","pop_22")] %>% rename(pop = pop_22),
       # Update: use worldpopdata
-      df_pop[,c("Dist_name","pop_23_wp")] %>% rename(pop = pop_23_wp),
-      by=c("district" = "Dist_name")
+      #df_pop[,c("Dist_name","pop_23_wp")] %>% rename(pop = pop_23_wp),
+      df_pop[,c("pc11_sd_id", "pop_23_wp")] %>% rename(pop = pop_23_wp),
+      by=c("district" = "pc11_sd_id")
     ) %>%
       mutate(logpop=log(pop))
   } else {
@@ -460,8 +470,8 @@ merge_pop_plot_data=function(plot_data,df_pop,recent_data=F){
     plot_data <- inner_join(
       plot_data,
       #df_pop[,c("Dist_Name","pop_11")] %>% rename(pop = pop_11),
-      df_pop[,c("Dist_name","pop_11_proj")] %>% rename(pop = pop_11_proj),
-      by=c("district" = "Dist_name")
+      df_pop[,c("pc11_sd_id","pop_11_proj")] %>% rename(pop = pop_11_proj),
+      by=c("district" = "pc11_sd_id")
     ) %>%
       mutate(logpop=log(pop))
   }
@@ -598,14 +608,14 @@ get_hces_merged_emp <- function(hces_assets,hces_distcodes,hces_consumption,
   
   # Get hhid merged with district
   assets_merge_cols=c("hhid","state","district")
-  distcodes_merge_cols=c("state","district","state_name","district_name")
+  distcodes_merge_cols=c("state","district","state_name","district_name", "pc11_sd_id")
   hhid_district_merged<-left_join(hces_assets[,hces_assets_cols],
                                   hces_distcodes[,distcodes_merge_cols],
                                   by=c("state","district"))
   # Merge consumption with states and districts
-  hces_consumption_district_merged<-inner_join(hces_consumption,
-                                               hhid_district_merged,
-                                               by="hhid")
+  #hces_consumption_district_merged<-inner_join(hces_consumption,
+  #                                             hhid_district_merged,
+  #                                             by="hhid")
   
   #head(hces_consumption_district_merged)
   
@@ -678,12 +688,12 @@ get_hces_merged_emp <- function(hces_assets,hces_distcodes,hces_consumption,
   ## Level 9 Variables of Interest
   # Get monthly rents
   monthly_rents=level9_hhids[,c("hhid","b9pt1q2","b9pt1q3")] %>%
-    filter(b9pt1q2=="400") %>%
+    filter(b9pt1q2=="539") %>% #IMPUTED RENT, beyond just actual
     select(c("hhid","b9pt1q3"))
   names(monthly_rents)=c("hhid","mrent")
   # Get monthly water
   monthly_water=level9_hhids[,c("hhid","b9pt1q2","b9pt1q3")] %>%
-    filter(b9pt1q2=="404") %>%
+    filter(b9pt1q2=="540") %>% #Water
     select(c("hhid","b9pt1q3"))
   names(monthly_water)=c("hhid","mwater")
   
@@ -693,16 +703,16 @@ get_hces_merged_emp <- function(hces_assets,hces_distcodes,hces_consumption,
                                   by=c("state","district"))
   # Merge consumption with states and districts
   hces_merged_full=inner_join(hces_consumption,
-                              hhid_district_merged,
+                              hhid_district_merged %>% filter(!is.na(district_name)),
                               by="hhid") %>%
     inner_join(.,hces_roster_hh,by="hhid") %>%
     inner_join(.,dwelling_chars_emp,by="hhid") %>%
-    inner_join(.,monthly_rents,by="hhid") %>%
-    inner_join(.,monthly_water,by="hhid")
+    left_join(.,monthly_rents,by="hhid") %>%
+    left_join(.,monthly_water,by="hhid")
   
   # Subset to employed individuals
-  hces_merged_emp<-hces_merged_full %>%
-    filter(empstat=="1")
+  #hces_merged_emp<-hces_merged_full %>%
+  #  filter(empstat=="1")
   
   #names(hces_merged_emp)
   
@@ -718,7 +728,7 @@ get_hces_merged_emp <- function(hces_assets,hces_distcodes,hces_consumption,
   #hces_merged_emp <- hces_merged_emp %>% filter(district_name %in% hces_ncei$district_name)
   
   # Get male flag and per capita household expenditure variable
-  hces_merged_emp<-hces_merged_emp %>%
+  hces_merged_emp<-hces_merged_full %>%
     mutate(male=if_else(sex==0,1,0),
            logtexp=log(totexp),
            logepc=log(totexp/hhsize))
@@ -750,13 +760,12 @@ get_wage_regs_late<-function(hces_merged_emp,survey_design,summary_format="latex
   # Second model: including fixed effects
   # wage_model2=lm(log(totexp) ~ poly(age,2) + male + edu + hindu + scstbc + factor(district_name),
   #                data=hces_merged_emp)
-  wage_model2 <- svyglm(log(totexp) ~ poly(age,2)+male+edu+hindu+scstbc+factor(district_name),
+  wage_model2 <- svyglm(log(totexp) ~ poly(age,2)+male+edu+hindu+scstbc+factor(pc11_sd_id),
                         design = survey_design)
   # Get outputs
   stargazer(wage_model1,wage_model2,
             type=summary_format,
             keep=c("Intercept","age","I(age^2)","male","hs","univ","hindu","scstbc"),
-            omit="factor(district_name)davanagere",
             dep.var.labels=c("Log Total Exp.","Log Total Exp."),
             add.lines=list(c("District FE","No","Yes")))
   ## Regressions with log expenditure per capita
@@ -768,13 +777,12 @@ get_wage_regs_late<-function(hces_merged_emp,survey_design,summary_format="latex
   # Second model: including fixed effects
   # wage_model2_pc=lm(logepc ~ poly(age,2)+male+edu+hindu+scstbc+factor(district_name),
   #                   data=hces_merged_emp)
-  wage_model2_pc <- svyglm(logepc ~ poly(age,2)+male+edu+hindu+scstbc+factor(district_name),
+  wage_model2_pc <- svyglm(logepc ~ poly(age,2)+male+edu+hindu+scstbc+factor(pc11_sd_id),
                            design = survey_design)
   
   stargazer(wage_model1_pc,wage_model2_pc,
             type=summary_format,
             keep=c("Intercept","age","I(age^2)","male","edu","hindu","scstbc"),
-            omit="factor(district_name)davanagere",
             add.lines=list(c("District FE","No","Yes")),
             dep.var.labels=c("Log Monthly Exp. PC","Log Monthly Exp. PC"),
             covariate.labels=c("Age","Age Sq.","Male","Years of Schooling","Hindu","Scheduled Caste/Tribe"),
@@ -864,7 +872,7 @@ get_housing_data_late<-function(hces_merged_emp){
            no_lighting=(lighting_source=="No Lighting"),
            piped_water=if_else(water %in% piped_water_cats,1,0),
            own_latrine=if_else(latrineacc==1,1,0),
-           housing_cost=mrent+mwater,
+           housing_cost=mrent + coalesce(mwater, 0),
            loghc=log(housing_cost),
            loghcpc=log(housing_cost/hhsize) #Per capita housing expenditure
     ) %>%
@@ -898,7 +906,7 @@ get_rent_regs_late <- function(hces_merged_emp,survey_design,summary_format="lat
   # rent_model2=lm(loghc ~ pucca_walls+pucca_floor+pucca_roof+
   #                  cooking_fuel+lighting_source+piped_water+own_latrine+factor(district_name),
   #                data=hces_merged_emp)
-  rent_model2 <- svyglm(loghc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine+factor(district_name),
+  rent_model2 <- svyglm(loghc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine+factor(pc11_sd_id),
                         design = survey_design)
   
   stargazer(rent_model1,rent_model2,
@@ -923,7 +931,7 @@ get_rent_regs_late <- function(hces_merged_emp,survey_design,summary_format="lat
   # rent_model2_pc=lm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+
   #                     cooking_fuel+piped_water+own_latrine+factor(district_name),
   #                   data=hces_merged_emp)
-  rent_model2_pc <- svyglm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine+factor(district_name),
+  rent_model2_pc <- svyglm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine+factor(pc11_sd_id),
                            design = survey_design)
   
   stargazer(rent_model1_pc,rent_model2_pc,
@@ -1309,17 +1317,17 @@ get_bootstrap_data_redux=function(joined_diffs,utci_early,utci_late, district_co
   instr_cols=c("Unsuitable_Slope_Share","Internal_Water_Share","bartik_shock","coast_dist")
   bootstrap_data <- inner_join(joined_diffs,
                                inner_join(
-                                 utci_early[,c("d_name",col_prefixes_redux,instr_cols)] %>%
+                                 utci_early[,c("pc11_sd_id",col_prefixes_redux,instr_cols)] %>%
                                    rename_with(~ paste0(.x,"_early")),
-                                 utci_late[,c("d_name",col_prefixes_redux,instr_cols)] %>%
+                                 utci_late[,c("pc11_sd_id",col_prefixes_redux,instr_cols)] %>%
                                    rename_with(~ paste0(.x,"_late")),
-                                 by=c("d_name_early" = "d_name_late",
+                                 by=c("pc11_sd_id_early" = "pc11_sd_id_late",
                                       "Unsuitable_Slope_Share_early" = "Unsuitable_Slope_Share_late",
                                       "Internal_Water_Share_early" = "Internal_Water_Share_late",
                                       "bartik_shock_early" = "bartik_shock_late",
                                       "coast_dist_early" = "coast_dist_late")
                                ),
-                               by=c("district_early" = "d_name_early")) %>%
+                               by=c("district_early" = "pc11_sd_id_early")) %>%
     rename(
       "Unsuitable_Slope_Share" = "Unsuitable_Slope_Share_early",
       "Internal_Water_Share" = "Internal_Water_Share_early",
@@ -1329,7 +1337,7 @@ get_bootstrap_data_redux=function(joined_diffs,utci_early,utci_late, district_co
   bootstrap_data <- inner_join(
     bootstrap_data,
     district_controls,
-    by=c("district_early" = "district_name")
+    by=c("district_early" = "pc11_sd_id")
   )
   return(bootstrap_data)
 }
@@ -1337,47 +1345,43 @@ get_bootstrap_data_redux=function(joined_diffs,utci_early,utci_late, district_co
 get_district_controls <- function(nss_survey_design, hces_survey_design){
   dist_controls_early <- svyby(
     formula = ~educ_hs + educ_ps + hindu + scst + Age,
-    by = ~district_name,
+    by = ~pc11_sd_id,
     design = nss_survey_design,
     FUN = svymean,
     na.rm = T
   )
   dist_controls_early_fixed <- dist_controls_early %>% select(
-    district_name, hindu, scst, Age, educ_hs, educ_ps
+    pc11_sd_id, hindu, scst, Age, educ_hs, educ_ps
   ) %>% rename(
     educ_hs_early = educ_hs,
     educ_ps_early = educ_ps,
     hindu_early = hindu,
     scst_early = scst,
     Age_early = Age
-  ) %>% mutate(
-    district_name = str_to_sentence(district_name)
   )
   
   dist_controls_late <- svyby(
-    # edu=12 for high school, edu=15 for post-secondary
-    formula = ~hindu + scstbc + age + (edu==12) + (edu==15),
-    by = ~district_name,
+    # New fix: 3-7 are for schooling up through higher secondary education, 8 and 10-13 through diploma
+    formula = ~hindu + scstbc + age + I(edu %in% 3:7) + I(edu %in% c(8, 10:13)),
+    by = ~pc11_sd_id,
     design = hces_survey_design,
     FUN = svymean,
     na.rm=T
   )
   dist_controls_late_fixed <- dist_controls_late %>% select(
-    district_name,hindu, scstbc, age, `edu == 12TRUE`, `edu == 15TRUE`
+    pc11_sd_id,hindu, scstbc, age, `I(edu %in% 3:7)TRUE`, `I(edu %in% c(8, 10:13))TRUE`
   ) %>% rename(
-    educ_hs_late = `edu == 12TRUE`,
-    educ_ps_late = `edu == 15TRUE`,
+    educ_hs_late = `I(edu %in% 3:7)TRUE`,
+    educ_ps_late = `I(edu %in% c(8, 10:13))TRUE`,
     Age_late = age,
     hindu_late = hindu,
     scst_late = scstbc
-  ) %>% mutate(
-    district_name = str_to_sentence(district_name)
   )
   
   dist_controls_full <- inner_join(
     dist_controls_early_fixed,
     dist_controls_late_fixed,
-    by="district_name"
+    by="pc11_sd_id"
   )
   return(dist_controls_full)
 }
@@ -1468,31 +1472,20 @@ get_instruments=function(geog, bartik){
   names(bartik)=c("pc11_state_id","pc11_district_id","bartik_shock")
   geog <- geog %>% rename(coast_dist = NEAR_DIST)
   instr_merged <- inner_join(
-    geog[,c("pc11_s_id","pc11_d_id","d_name","Unsuitable_Slope_Share","Internal_Water_Share","coast_dist")],
+    geog[,c("pc11_s_id","pc11_d_id","pc11_sd_id", "d_name","Unsuitable_Slope_Share","Internal_Water_Share","coast_dist")],
     bartik[,c("pc11_state_id","pc11_district_id","bartik_shock")],
     by=c("pc11_s_id"="pc11_state_id","pc11_d_id"="pc11_district_id")
   )
   return(instr_merged)
 }
 
-merge_utci_instr=function(utci,instr_merged){
-  # Join UTCI and instruments and remove duplicated districts
-  # For now, just take the maximum across all numeric columns
-  inner_join(utci,
-             instr_merged,
-             by=c("pc11_s_id","pc11_d_id","d_name")) %>%
-    group_by(d_name) %>%
-    summarize(across(where(is.numeric),\(x) mean(x,na.rm=T)),.groups="drop")
-}
 
 merge_utci_instr_redux=function(utci,instr_merged){
   # Join UTCI and instruments and remove duplicated districts
   # For now, just take the maximum across all numeric columns
   inner_join(utci,
              instr_merged,
-             by=c("pc11_sd_id")) %>%
-    group_by(d_name) %>%
-    summarize(across(where(is.numeric),\(x) mean(x,na.rm=T)),.groups="drop")
+             by=c("pc11_sd_id"))
 }
 
 # get_instruments=function(joined_diffs){
@@ -1557,41 +1550,147 @@ get_first_stage_boot_wts <- function(survey_design, R_1){
   return(data_with_boot_weights)
 }
 
+get_nss_interaction <- function(nss_ind_reg){
+  nss_ind_reg$nss_interaction <- interaction(
+    nss_ind_reg$State_code,
+    nss_ind_reg$District_code,
+    nss_ind_reg$Sector,
+    nss_ind_reg$Stratum,
+    nss_ind_reg$Sub_Stratum_No,
+    drop=T
+  )
+  return(nss_ind_reg)
+}
+
+get_hcs_interaction <- function(df_housing_merged){
+  df_housing_merged$hcs_interaction <- interaction(
+    df_housing_merged$State,
+    df_housing_merged$District,
+    df_housing_merged$Stratum,
+    df_housing_merged$Sub_Stratum,
+    drop=T
+  )
+  return(df_housing_merged)
+}
+
+get_hces_interaction <- function(hces_merged_emp_housing){
+  hces_merged_emp_housing$hces_interaction <- interaction(
+    hces_merged_emp_housing$state,
+    hces_merged_emp_housing$district,
+    hces_merged_emp_housing$stratum,
+    hces_merged_emp_housing$sub_stratum,
+    drop=T
+  )
+  return(hces_merged_emp_housing)
+}
+
+fit_and_extract_coefs <- function(fml, data, weight_var, cluster_var) {
+  # Fit OLS with fixed effects and cluster SEs by PSU
+  fit <- feols(
+    fml,
+    data = data,
+    weights = weight_var,
+    cluster = cluster_var,
+    ssc = ssc(adj = TRUE, cluster.adj = TRUE)
+  )
+  
+  # 1. Main model coefficients (Intercept, poly terms, male, educ, etc.)
+  main_coefs <- coef(fit)
+  
+  # 2. Extract fixed effects (un-demeaned)
+  fe_list <- fixef(fit)
+  fe_values <- fe_list$pc11_sd_id
+  
+  # Format fixed effect names to match factor(pc11_sd_id)<level> dummy naming
+  names(fe_values) <- paste0("factor(pc11_sd_id)", names(fe_values))
+  
+  # Combine main coefficients and fixed effect values
+  all_coefs <- c(main_coefs, fe_values)
+  
+  # Replicate original string transformation logic:
+  # str_to_title(str_remove(term, fixed("factor(pc11_sd_id)")))
+  district_names <- str_to_title(str_remove(names(all_coefs), fixed("factor(pc11_sd_id)")))
+  
+  res_vec <- as.numeric(all_coefs)
+  names(res_vec) <- district_names
+  return(res_vec)
+}
+
 get_boot_wage_model_early <- function(i,nss_ind_reg_boot_weights){
   options(survey.lonely.psu = "adjust")
   # Run one bootstrap iteration of wage models for early period
   wgt_colname <- as.formula(paste0("~REP_WGT_",i))
+  # Pre-allocate the interaction
+  # nss_ind_reg_boot_weights$wage_early_strata_interact <- interaction(
+  #   nss_ind_reg_boot_weights$State_code,
+  #   nss_ind_reg_boot_weights$District_code,
+  #   nss_ind_reg_boot_weights$Sector,
+  #   nss_ind_reg_boot_weights$Stratum,
+  #   nss_ind_reg_boot_weights$Sub_Stratum_No,
+  #   drop=T
+  # )
   test_svydesign <- svydesign(
     ids = ~FSU_Serial_no,
-    strata = ~Stratum,
+    #strata = ~Stratum,
+    #strata = ~interaction(State_code, District_code, Sector, Stratum, Sub_Stratum_No),
+    strata = ~nss_interaction,
     weights = wgt_colname,
     data = nss_ind_reg_boot_weights,
     nest = T
   )
-  # Run weighted regression
-  wage_model_rep <- svyglm(log(totexp) ~ poly(Age,2)+male+educ+hindu+scst+factor(district_name),
-                           design = test_svydesign)
-  wage_model_rep_pc <- svyglm(logepc ~ poly(Age,2)+male+educ+hindu+scst+factor(district_name),
-                              design = test_svydesign)
+  # # Run weighted regression
+  # wage_model_rep <- svyglm(log(totexp) ~ poly(Age,2)+male+educ+hindu+scst+factor(pc11_sd_id),
+  #                          design = test_svydesign)
+  # wage_model_rep_pc <- svyglm(logepc ~ poly(Age,2)+male+educ+hindu+scst+factor(pc11_sd_id),
+  #                             design = test_svydesign)
+  # 
+  # # Extract coefficients with district names
+  # wage_model_rep_fes <- tidy(wage_model_rep) %>%
+  #   #filter(str_detect(term, "district_name")) %>%
+  #   mutate(district = str_to_title(str_remove(term, fixed("factor(pc11_sd_id)"))))
+  # wage_model_rep_coefs_vec <- wage_model_rep_fes %>% pull(estimate)
+  # names(wage_model_rep_coefs_vec) <- wage_model_rep_fes %>% pull(district)
+  # 
+  # wage_model_rep_pc_fes <- tidy(wage_model_rep_pc) %>%
+  #   #filter(str_detect(term, "district_name")) %>%
+  #   mutate(district = str_to_title(str_remove(term, fixed("factor(pc11_sd_id)"))))
+  # wage_model_rep_pc_coefs_vec <- wage_model_rep_pc_fes %>% pull(estimate)
+  # names(wage_model_rep_pc_coefs_vec) <- wage_model_rep_pc_fes %>% pull(district)
+  # 
+  # list_to_return <- list(
+  #   "wage_design_early" = test_svydesign,
+  #   "wage_early" = wage_model_rep_coefs_vec,
+  #   "wage_pc_early" = wage_model_rep_pc_coefs_vec
+  # )
   
-  # Extract coefficients with district names
-  wage_model_rep_fes <- tidy(wage_model_rep) %>%
-    #filter(str_detect(term, "district_name")) %>%
-    mutate(district = str_to_title(str_remove(term, fixed("factor(district_name)"))))
-  wage_model_rep_coefs_vec <- wage_model_rep_fes %>% pull(estimate)
-  names(wage_model_rep_coefs_vec) <- wage_model_rep_fes %>% pull(district)
+  # Dynamically pull weight vector column
+  wgt_vec <- nss_ind_reg_boot_weights[[paste0("REP_WGT_", i)]]
+  # Pull cluster column
+  cluster_vec <- nss_ind_reg_boot_weights$FSU_Serial_no
   
-  wage_model_rep_pc_fes <- tidy(wage_model_rep_pc) %>%
-    #filter(str_detect(term, "district_name")) %>%
-    mutate(district = str_to_title(str_remove(term, fixed("factor(district_name)"))))
-  wage_model_rep_pc_coefs_vec <- wage_model_rep_pc_fes %>% pull(estimate)
-  names(wage_model_rep_pc_coefs_vec) <- wage_model_rep_pc_fes %>% pull(district)
+  # Run models via feols
+  wage_model_rep_coefs_vec <- fit_and_extract_coefs(
+    log(totexp) ~ poly(Age, 2) + male + educ + hindu + scst | pc11_sd_id,
+    data = nss_ind_reg_boot_weights,
+    weight_var = wgt_vec,
+    cluster_var = cluster_vec
+  )
+  
+  wage_model_rep_pc_coefs_vec <- fit_and_extract_coefs(
+    logepc ~ poly(Age, 2) + male + educ + hindu + scst | pc11_sd_id,
+    data = nss_ind_reg_boot_weights,
+    weight_var = wgt_vec,
+    cluster_var = cluster_vec
+  )
+  
+  print("Finished running regressions")
   
   list_to_return <- list(
     "wage_design_early" = test_svydesign,
-    "wage_early" = wage_model_rep_coefs_vec,
-    "wage_pc_early" = wage_model_rep_pc_coefs_vec
+    "wage_early"        = wage_model_rep_coefs_vec,
+    "wage_pc_early"     = wage_model_rep_pc_coefs_vec
   )
+  
   print(paste("Finished with boot iteration",i))
   return(list_to_return)
 }
@@ -1600,31 +1699,60 @@ get_boot_rent_model_early <- function(i,hcs_reg_boot_weights){
   options(survey.lonely.psu = "adjust")
   # Run one bootstrap iteration of wage models for early period
   wgt_colname <- as.formula(paste0("~REP_WGT_",i))
+  # hcs_reg_boot_weights$rent_early_interaction <- interaction(
+  #   hcs_reg_boot_weights$State,
+  #   hcs_reg_boot_weights$District,
+  #   hcs_reg_boot_weights$Stratum,
+  #   hcs_reg_boot_weights$Sub_Stratum,
+  #   drop=T
+  # )
+  
   test_svydesign <- svydesign(
     ids = ~FSU,
-    strata = ~Stratum,
+    #strata = ~Stratum,
+    strata = ~hcs_interaction,
     weights = wgt_colname,
     data = hcs_reg_boot_weights,
     nest = T
   )
+  
   # Run weighted regression
-  rent_model_rep <- svyglm(loghc ~ pucca_walls+pucca_floor+pucca_roof+piped_water+own_latrine+elec+factor(district_name),
-                           design = test_svydesign)
-  rent_model_rep_pc <- svyglm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+piped_water+own_latrine+elec+factor(district_name),
-                              design = test_svydesign)
+  # rent_model_rep <- svyglm(loghc ~ pucca_walls+pucca_floor+pucca_roof+piped_water+own_latrine+elec+factor(pc11_sd_id),
+  #                          design = test_svydesign)
+  # rent_model_rep_pc <- svyglm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+piped_water+own_latrine+elec+factor(pc11_sd_id),
+  #                             design = test_svydesign)
+  # 
+  # # Extract coefficients with district names
+  # rent_model_rep_fes <- tidy(rent_model_rep) %>%
+  #   #filter(str_detect(term, "district_name")) %>%
+  #   mutate(district = str_to_title(str_remove(term, fixed("factor(pc11_sd_id)"))))
+  # rent_model_rep_coefs_vec <- rent_model_rep_fes %>% pull(estimate)
+  # names(rent_model_rep_coefs_vec) <- rent_model_rep_fes %>% pull(district)
+  # 
+  # rent_model_rep_pc_fes <- tidy(rent_model_rep_pc) %>%
+  #   #filter(str_detect(term, "district_name")) %>%
+  #   mutate(district = str_to_title(str_remove(term, fixed("factor(pc11_sd_id)"))))
+  # rent_model_rep_pc_coefs_vec <- rent_model_rep_pc_fes %>% pull(estimate)
+  # names(rent_model_rep_pc_coefs_vec) <- rent_model_rep_pc_fes %>% pull(district)
   
-  # Extract coefficients with district names
-  rent_model_rep_fes <- tidy(rent_model_rep) %>%
-    #filter(str_detect(term, "district_name")) %>%
-    mutate(district = str_to_title(str_remove(term, fixed("factor(district_name)"))))
-  rent_model_rep_coefs_vec <- rent_model_rep_fes %>% pull(estimate)
-  names(rent_model_rep_coefs_vec) <- rent_model_rep_fes %>% pull(district)
+  # Get weight and vector columns
+  wgt_vec <- hcs_reg_boot_weights[[paste0("REP_WGT_", i)]]
+  cluster_vec <- hcs_reg_boot_weights$FSU
   
-  rent_model_rep_pc_fes <- tidy(rent_model_rep_pc) %>%
-    #filter(str_detect(term, "district_name")) %>%
-    mutate(district = str_to_title(str_remove(term, fixed("factor(district_name)"))))
-  rent_model_rep_pc_coefs_vec <- rent_model_rep_pc_fes %>% pull(estimate)
-  names(rent_model_rep_pc_coefs_vec) <- rent_model_rep_pc_fes %>% pull(district)
+  # Run models via feols
+  rent_model_rep_coefs_vec <- fit_and_extract_coefs(
+    loghc ~ pucca_walls + pucca_floor + pucca_roof + piped_water + own_latrine + elec | pc11_sd_id,
+    data = hcs_reg_boot_weights,
+    weight_var = wgt_vec,
+    cluster_var = cluster_vec
+  )
+  
+  rent_model_rep_pc_coefs_vec <- fit_and_extract_coefs(
+    loghcpc ~ pucca_walls + pucca_floor + pucca_roof + piped_water + own_latrine + elec | pc11_sd_id,
+    data = hcs_reg_boot_weights,
+    weight_var = wgt_vec,
+    cluster_var = cluster_vec
+  )
   
   list_to_return <- list(
     "rent_design_early" = test_svydesign,
@@ -1638,33 +1766,59 @@ get_boot_rent_model_early <- function(i,hcs_reg_boot_weights){
 get_boot_wage_model_late <- function(i,hces_merged_emp_housing_boot_weights){
   options(survey.lonely.psu = "adjust")
   wgt_colname <- as.formula(paste0("~REP_WGT_",i))
+  # hces_merged_emp_housing_boot_weights$hces_interaction <- interaction(
+  #   hces_merged_emp_housing_boot_weights$state,
+  #   hces_merged_emp_housing_boot_weights$district,
+  #   hces_merged_emp_housing_boot_weights$stratum,
+  #   hces_merged_emp_housing_boot_weights$sub_stratum,
+  #   drop=T
+  # )
+  
   test_svydesign <- svydesign(
     ids = ~fsu,
-    strata = ~interaction(stratum, sub_stratum),
+    #strata = ~interaction(stratum, sub_stratum),
+    strata = ~hces_interaction,
     weights = wgt_colname,
     data = hces_merged_emp_housing_boot_weights,
     nest = T
   )
   
-  # Run weighted regression
-  wage_model_rep <-svyglm(log(totexp) ~ poly(age,2)+male+edu+hindu+scstbc+factor(district_name),
-                          design = test_svydesign)
+  # # Run weighted regression
+  # wage_model_rep <-svyglm(log(totexp) ~ poly(age,2)+male+edu+hindu+scstbc+factor(pc11_sd_id),
+  #                         design = test_svydesign)
+  # 
+  # wage_model_rep_pc <- svyglm(logepc ~ poly(age,2)+male+edu+hindu+scstbc+factor(pc11_sd_id),
+  #                             design = test_svydesign)
+  # 
+  # # Extract coefficients with district names
+  # wage_model_rep_fes <- tidy(wage_model_rep) %>%
+  #   #filter(str_detect(term, "district_name")) %>%
+  #   mutate(district = str_to_title(str_remove(term, fixed("factor(pc11_sd_id)"))))
+  # wage_model_rep_coefs_vec <- wage_model_rep_fes %>% pull(estimate)
+  # names(wage_model_rep_coefs_vec) <- wage_model_rep_fes %>% pull(district)
+  # 
+  # wage_model_rep_pc_fes <- tidy(wage_model_rep_pc) %>%
+  #   #filter(str_detect(term, "district_name")) %>%
+  #   mutate(district = str_to_title(str_remove(term, fixed("factor(pc11_sd_id)"))))
+  # wage_model_rep_pc_coefs_vec <- wage_model_rep_pc_fes %>% pull(estimate)
+  # names(wage_model_rep_pc_coefs_vec) <- wage_model_rep_pc_fes %>% pull(district)
   
-  wage_model_rep_pc <- svyglm(logepc ~ poly(age,2)+male+edu+hindu+scstbc+factor(district_name),
-                              design = test_svydesign)
+  wgt_vec <- hces_merged_emp_housing_boot_weights[[paste0("REP_WGT_", i)]]
+  cluster_vec <- hces_merged_emp_housing_boot_weights$fsu
   
-  # Extract coefficients with district names
-  wage_model_rep_fes <- tidy(wage_model_rep) %>%
-    #filter(str_detect(term, "district_name")) %>%
-    mutate(district = str_to_title(str_remove(term, fixed("factor(district_name)"))))
-  wage_model_rep_coefs_vec <- wage_model_rep_fes %>% pull(estimate)
-  names(wage_model_rep_coefs_vec) <- wage_model_rep_fes %>% pull(district)
+  wage_model_rep_coefs_vec <- fit_and_extract_coefs(
+    log(totexp) ~ poly(age, 2) + male + edu + hindu + scstbc | pc11_sd_id,
+    data = hces_merged_emp_housing_boot_weights,
+    weight_var = wgt_vec,
+    cluster_var = cluster_vec
+  )
   
-  wage_model_rep_pc_fes <- tidy(wage_model_rep_pc) %>%
-    #filter(str_detect(term, "district_name")) %>%
-    mutate(district = str_to_title(str_remove(term, fixed("factor(district_name)"))))
-  wage_model_rep_pc_coefs_vec <- wage_model_rep_pc_fes %>% pull(estimate)
-  names(wage_model_rep_pc_coefs_vec) <- wage_model_rep_pc_fes %>% pull(district)
+  wage_model_rep_pc_coefs_vec <- fit_and_extract_coefs(
+    logepc ~ poly(age, 2) + male + edu + hindu + scstbc | pc11_sd_id,
+    data = hces_merged_emp_housing_boot_weights,
+    weight_var = wgt_vec,
+    cluster_var = cluster_vec
+  )
   
   list_to_return <- list(
     "wage_design_late" = test_svydesign,
@@ -1678,33 +1832,65 @@ get_boot_wage_model_late <- function(i,hces_merged_emp_housing_boot_weights){
 get_boot_rent_model_late <- function(i,hces_merged_emp_housing_boot_weights){
   options(survey.lonely.psu = "adjust")
   wgt_colname <- as.formula(paste0("~REP_WGT_",i))
+  # hces_merged_emp_housing_boot_weights$hces_interaction <- interaction(
+  #   hces_merged_emp_housing_boot_weights$state,
+  #   hces_merged_emp_housing_boot_weights$district,
+  #   hces_merged_emp_housing_boot_weights$stratum,
+  #   hces_merged_emp_housing_boot_weights$sub_stratum,
+  #   drop=T
+  # )
+  
+  # Filter to renters
+  hces_merged_renters <- hces_merged_emp_housing_boot_weights %>% filter(mrent > 0)
+  
   test_svydesign <- svydesign(
     ids = ~fsu,
-    strata = ~interaction(stratum, sub_stratum),
+    #strata = ~interaction(stratum, sub_stratum),
+    strata = ~hces_interaction,
     weights = wgt_colname,
-    data = hces_merged_emp_housing_boot_weights,
+    data = hces_merged_renters,
     nest = T
   )
   
-  # Run weighted regression
-  rent_model_rep <-svyglm(loghc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine+factor(district_name),
-                          design = test_svydesign)
+  # Subset to dwellings with nonzero rent
+  # rent_design <- subset(test_svydesign, mrent > 0)
+  # 
+  # # Run weighted regression
+  # rent_model_rep <-svyglm(loghc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine+factor(pc11_sd_id),
+  #                         design = rent_design)
+  # 
+  # rent_model_rep_pc <- svyglm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine+factor(pc11_sd_id),
+  #                             design = rent_design)
+  # 
+  # # Extract coefficients with district names
+  # rent_model_rep_fes <- tidy(rent_model_rep) %>%
+  #   #filter(str_detect(term, "district_name")) %>%
+  #   mutate(district = str_to_title(str_remove(term, fixed("factor(pc11_sd_id)"))))
+  # rent_model_rep_coefs_vec <- rent_model_rep_fes %>% pull(estimate)
+  # names(rent_model_rep_coefs_vec) <- rent_model_rep_fes %>% pull(district)
+  # 
+  # rent_model_rep_pc_fes <- tidy(rent_model_rep_pc) %>%
+  #   #filter(str_detect(term, "district_name")) %>%
+  #   mutate(district = str_to_title(str_remove(term, fixed("factor(pc11_sd_id)"))))
+  # rent_model_rep_pc_coefs_vec <- rent_model_rep_pc_fes %>% pull(estimate)
+  # names(rent_model_rep_pc_coefs_vec) <- rent_model_rep_pc_fes %>% pull(district)
   
-  rent_model_rep_pc <- svyglm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine+factor(district_name),
-                              design = test_svydesign)
+  wgt_vec <- hces_merged_renters[[paste0("REP_WGT_", i)]]
+  cluster_vec <- hces_merged_renters$fsu
   
-  # Extract coefficients with district names
-  rent_model_rep_fes <- tidy(rent_model_rep) %>%
-    #filter(str_detect(term, "district_name")) %>%
-    mutate(district = str_to_title(str_remove(term, fixed("factor(district_name)"))))
-  rent_model_rep_coefs_vec <- rent_model_rep_fes %>% pull(estimate)
-  names(rent_model_rep_coefs_vec) <- rent_model_rep_fes %>% pull(district)
+  rent_model_rep_coefs_vec <- fit_and_extract_coefs(
+    loghc ~ pucca_walls + pucca_floor + pucca_roof + cooking_fuel + lighting_source + piped_water + own_latrine | pc11_sd_id,
+    data = hces_merged_renters,
+    weight_var = wgt_vec,
+    cluster_var = cluster_vec
+  )
   
-  rent_model_rep_pc_fes <- tidy(rent_model_rep_pc) %>%
-    #filter(str_detect(term, "district_name")) %>%
-    mutate(district = str_to_title(str_remove(term, fixed("factor(district_name)"))))
-  rent_model_rep_pc_coefs_vec <- rent_model_rep_pc_fes %>% pull(estimate)
-  names(rent_model_rep_pc_coefs_vec) <- rent_model_rep_pc_fes %>% pull(district)
+  rent_model_rep_pc_coefs_vec <- fit_and_extract_coefs(
+    loghcpc ~ pucca_walls + pucca_floor + pucca_roof + cooking_fuel + lighting_source + piped_water + own_latrine | pc11_sd_id,
+    data = hces_merged_renters,
+    weight_var = wgt_vec,
+    cluster_var = cluster_vec
+  )
   
   list_to_return <- list(
     "rent_design_late" = test_svydesign,

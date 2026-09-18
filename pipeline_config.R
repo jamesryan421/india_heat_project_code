@@ -35,8 +35,8 @@ year_suffixes_late = sapply(seq(12, 22), function(x){sprintf("%02d",x)})
 
 ## Bootstrapping options
 seed=8008315
-R_1 <- 750
-R_2 <- 25
+R_1 <- 100
+R_2 <- 20
 #R_1 <- 5
 #R_2 <- 3
 housing_exp_share=0.15

@@ -164,10 +164,12 @@ get_plot_log_pipeline <- function(){
     # summary statistics for late period wages
     tar_target(hcesme_w_ss, hces_merged_emp[,c("logepc","age","male","edu","hindu","scstbc")]),
     # Summary statistics for late period rents
-    tar_target(hcesme_r_ss, hces_merged_emp_housing[,c("loghc","loghcpc","pucca_walls","pucca_floor","pucca_roof",
-                                                       "cooking_fuel_gas_electric",
-                                                       "lighting_electric",
-                                                       "piped_water","own_latrine")]),
+    tar_target(hcesme_r_ss, hces_merged_emp_housing %>%
+                 filter(dwellingtype == 2, mrent > 0) %>%
+                 select(c("loghc","loghcpc","pucca_walls","pucca_floor","pucca_roof",
+                          "cooking_fuel_gas_electric",
+                          "lighting_electric",
+                          "piped_water","own_latrine", "dwellingtype"))),
     # summary statistics for migration costs
     #tar_target(d_ss, joined_diffs[,c("delta_logpop","delta_wage","delta_rent","delta_netwage")]),
     # Summary tables options

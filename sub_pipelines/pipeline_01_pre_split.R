@@ -69,6 +69,10 @@ get_pre_split_pipeline <- function(){
     tar_target(bartik_file,
                get_filename_str(here(bartik_path,"bartik_instruments_ec05_ec13.csv")),
                format="file"),
+    ### District master file
+    tar_target(district_master_file,
+               get_filename_str(here(main_data_path, "data", "DISTRICT_MASTER_V1.csv")),
+               format = "file"),
     ##
     # Read in files
     ##
@@ -76,7 +80,10 @@ get_pre_split_pipeline <- function(){
     tar_target(nss_ind,
                read_dta_file(nss_ind_file)),
     tar_target(hces_distcodes,
-               read_dta_file(hces_distcodes_file)),
+               read_dta_file(hces_distcodes_file) %>%
+                 mutate(pc11_sd_id = district_master$pc11_sd_id[
+                   match(sprintf("%04d", nsscode), district_master$canon_code)
+                 ])),
     tar_target(df_hcs3,
                read_dta_file(df_hcs3_file)),
     tar_target(df_hcs4,
@@ -108,15 +115,19 @@ get_pre_split_pipeline <- function(){
                read_input_csv(geog_file)),
     tar_target(bartik,
                read_input_csv(bartik_file)),
-    
+    ### District master
+    tar_target(district_master,
+               read_csv(district_master_file,col_types = cols(.default = col_character()))),
     ##
     # Assemble data inputs
     ##
     ### Early period - filtered
     tar_target(nss_ind_reg,
-               filter_nss(get_nss_data(nss_ind, hces_distcodes),opt_threshold)),
+               filter_nss(get_nss_data(nss_ind, hces_distcodes),opt_threshold) %>%
+                 get_nss_interaction(.)),
     tar_target(df_housing_merged,
-               filter_nss(get_housing_data_early(df_hcs3, df_hcs4, df_hcs6, hces_distcodes))),
+               filter_nss(get_housing_data_early(df_hcs3, df_hcs4, df_hcs6, hces_distcodes)) %>%
+                 get_hcs_interaction(.)),
     ### Late period
     tar_target(hces_merged_emp,
                get_hces_merged_emp(
@@ -124,14 +135,15 @@ get_pre_split_pipeline <- function(){
                  hces_types, level3_raw, level9_raw
                )),
     tar_target(hces_merged_emp_housing,
-               get_housing_data_late(hces_merged_emp)),
+               get_housing_data_late(hces_merged_emp) %>%
+                 get_hces_interaction(.)),
     
     ### Second stage
     #### Instruments
-    tar_target(instr_merged,
-               get_instruments(geog,bartik)),
     tar_target(instr_merged_new,
-               parse_sd_id_instr(instr_merged)),
+               get_instruments(geog,bartik)),
+    # tar_target(instr_merged_new,
+    #            parse_sd_id_instr(instr_merged)),
     #### Temperature data
     tar_target(utci_daily,
                fix_utci_celsius(utci_daily_input)),

@@ -5,13 +5,14 @@ get_split_pipeline <- function(){
     ##
     # Get weights from master survey designs
     ##
-    ### Early period wages
+    ### Early period rents
     tar_target(
       name = hcs_boot_wts,
       command = {
         hcs_survey_design <- svydesign(
           ids = ~FSU,
-          strata = ~Stratum,
+          #strata = ~Stratum,
+          strata = ~hcs_interaction,
           weights = ~Wgt_combined,
           data = df_housing_merged,
           nest = T
@@ -20,15 +21,16 @@ get_split_pipeline <- function(){
         get_first_stage_boot_wts(hcs_survey_design, R_1)
       }
     ),
-    ### Early period rents
+    ### Early period wages
     tar_target(
       name = nss_ind_reg_boot_wts,
       command = {
         nss_survey_design <- svydesign(
           ids = ~FSU_Serial_no,
-          strata = ~Stratum,
+          #strata = ~Stratum,
+          strata = ~nss_interaction,
           weights = ~Combined_multiplier,
-          data = filter_nss(nss_ind_reg,opt_threshold),
+          data = nss_ind_reg,
           nest = T
         )
         
@@ -39,9 +41,11 @@ get_split_pipeline <- function(){
     tar_target(
       name = hces_boot_wts,
       command = {
+        
         hces_survey_design <- svydesign(
           ids = ~fsu,
-          strata = ~interaction(stratum, sub_stratum),
+          #strata = ~interaction(stratum, sub_stratum),
+          strata = ~hces_interaction,
           weights = ~mult,
           data = hces_merged_emp_housing,
           nest = T
@@ -203,8 +207,8 @@ get_split_pipeline <- function(){
                list(master_rent_late_coefs[1:8,], master_rent_pc_late_coefs[1:8,])),
     tar_target(rent_late_base_models_list,
                list(
-                 lm(loghc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine, data=hces_merged_emp_housing),
-                 lm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine, data=hces_merged_emp_housing)
+                 lm(loghc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine, data=hces_merged_emp_housing %>% filter(mrent > 0)),
+                 lm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine, data=hces_merged_emp_housing %>% filter(mrent > 0))
                )),
     tar_target(second_stage_early_proj_coefs_list,
                list(t(master_boot_results_proj[,1:6]), t(master_boot_results_proj[,7:12]))),

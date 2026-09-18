@@ -13,7 +13,8 @@ Sys.setenv("_R_CHECK_LENGTH_1_CONDITION_" = "false")
 tar_option_set(
   packages = c("broom", "plm", "stargazer", "haven", "lubridate",
                "here", "ggExtra", "AER", "boot", "survey", "svrep",
-               "dplyr", "purrr", "readr", "tidyr", "stringr", "tibble", "ggplot2"), # Packages that your targets need for their tasks.
+               "dplyr", "purrr", "readr", "tidyr", "stringr", "tibble", "ggplot2",
+               "fixest"), # Packages that your targets need for their tasks.
   #format = "qs", # Optionally set the default storage format. qs is fast.
   controller = crew_controller_local(
     workers = 3,
