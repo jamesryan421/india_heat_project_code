@@ -79,11 +79,18 @@ get_pre_split_pipeline <- function(){
     ### Early period
     tar_target(nss_ind,
                read_dta_file(nss_ind_file)),
-    tar_target(hces_distcodes,
-               read_dta_file(hces_distcodes_file) %>%
+    # Perform lookup by getting the first index where canon_code (in district_master) equals formatted nsscode
+    # Then, select pc11_sd_id from district_master at this index
+    # Null values in hces_distcodes$pc11_sd_id indicates that the lookup failed
+    tar_target(hces_distcodes_unmerged,
+               read_dta_file(hces_distcodes_file)),
+    tar_target(hces_distcodes_first_merge,
+               hces_distcodes_unmerged %>%
                  mutate(pc11_sd_id = district_master$pc11_sd_id[
                    match(sprintf("%04d", nsscode), district_master$canon_code)
                  ])),
+    tar_target(hces_distcodes,
+               apply_hces_fixes(hces_distcodes_first_merge, hces_distcodes_unmerged)),
     tar_target(df_hcs3,
                read_dta_file(df_hcs3_file)),
     tar_target(df_hcs4,

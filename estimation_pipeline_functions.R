@@ -12,6 +12,83 @@ read_input_csv=function(filename){read_csv(filename)}
 get_filename_str=function(filename_here){return(as.character(filename_here))}
 
 ## :::::::::::
+## Manual reconciliation of HCES distcodes
+## :::::::::::
+apply_hces_fixes <- function(hces_distcodes, hces_distcodes_unmerged){
+  # 15 have values for pc11_sd_id, but don't have an nsscode
+  # For these 15 values, manually construct the pc11_sd_id from state and district ID
+  has_pc11_no_nsscode_distnames <- c(
+    "bandipore", "ganderbal", "shupiyan", "kulgam", "ramban",
+    "kishtwar", "reasi", "samba", "palwal", "pratapgarh rajasthan",
+    "ramgarh", "khunti", "tapi", "yadgir", "tiruppur"
+  )
+  hces_has_pc11_no_nsscode <- hces_distcodes_unmerged %>%
+    filter(is.na(nsscode)) %>%
+    filter(district_name %in% has_pc11_no_nsscode_distnames) %>%
+    mutate(
+      pc11_sd_id = paste0(sprintf("%02d", as.numeric(state)), "-", sprintf("%03d", as.numeric(district)))
+    )
+  
+  # 11 map to their 2011 parent districts
+  district_names_map_to_parents <- c(
+    "pathankot", "fazilka", "balodabazar", "gariyaband", "kondagaon",
+    "sukama", "bemetara", "balod", "mungeli","surajpur", "balrampur chattisgarh"
+  )
+  
+  hces_map_to_parents <- hces_distcodes_unmerged %>%
+    filter(is.na(nsscode)) %>%
+    filter(!(district_name %in% has_pc11_no_nsscode_distnames)) %>%
+    mutate(
+      pc11_sd_id = case_when(
+        district_name == "pathankot" ~ hces_distcodes[hces_distcodes$district_name == "gurdaspur",]$pc11_sd_id,
+        district_name == "fazilka" ~ hces_distcodes[hces_distcodes$district_name == "firozpur",]$pc11_sd_id,
+        district_name == "balodabazar" ~ hces_distcodes[hces_distcodes$district_name == "raipur",]$pc11_sd_id,
+        district_name == "gariyaband" ~ hces_distcodes[hces_distcodes$district_name == "raipur",]$pc11_sd_id,
+        district_name == "kondagaon" ~ hces_distcodes[hces_distcodes$district_name == "bastar",]$pc11_sd_id,
+        district_name == "sukama" ~ hces_distcodes[hces_distcodes$district_name == "dakshin bastar dantewada",]$pc11_sd_id,
+        district_name == "bemetara" ~ hces_distcodes[hces_distcodes$district_name == "durg",]$pc11_sd_id,
+        district_name == "balod" ~ hces_distcodes[hces_distcodes$district_name == "durg",]$pc11_sd_id,
+        district_name == "mungeli" ~ hces_distcodes[((hces_distcodes$district_name == "bilaspur") & (hces_distcodes$state_name == "chhattisgarh")),]$pc11_sd_id,
+        district_name == "surajpur" ~ hces_distcodes[hces_distcodes$district_name == "surguja",]$pc11_sd_id,
+        district_name == "balrampur chattisgarh" ~ hces_distcodes[hces_distcodes$district_name == "dakshin bastar dantewada",]$pc11_sd_id
+      )
+    )
+  
+  # 7 districts have mismatches NSS codes and need reassignment
+  nsscodes_to_fix <- c(
+    913, #Hathras
+    2327, #West nimar
+    2329, # East Nimar
+    3502, # Nicobars
+    3503, #North and middle Andaman
+    949, #Amethi
+    2721 #Palghar
+  )
+  hces_manual_pc11_fixes <- hces_distcodes %>%
+    filter(nsscode %in% nsscodes_to_fix) %>%
+    mutate(pc11_sd_id = case_when(
+      nsscode == 913 ~ "09-144", # Hathras
+      nsscode == 2327 ~ "23-440", # West Nimar
+      nsscode == 2329 ~ "23-466", # East Nimar
+      nsscode == 3502 ~ "35-638", # Nicobars
+      nsscode == 3503 ~ "35-639", # North and Middle Andaman
+      nsscode == 949 ~ "09-179", # Amethi
+      nsscode == 2721 ~ "27-517" # Palghar
+    )) 
+  
+  # Reconcile all fixes
+  hces_distcodes_fixed <- rbind(
+    hces_distcodes %>% 
+      filter(!(district_name %in% c(has_pc11_no_nsscode_distnames, district_names_map_to_parents))) %>%
+      filter(!(nsscode %in% nsscodes_to_fix)),
+    hces_has_pc11_no_nsscode,
+    hces_manual_pc11_fixes,
+    hces_map_to_parents
+  )
+  return(hces_distcodes_fixed)
+}
+
+## :::::::::::
 ## Early Period
 ## :::::::::::
 
