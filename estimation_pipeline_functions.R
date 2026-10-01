@@ -1330,6 +1330,128 @@ get_utci_proj_obs = function(utci_new){
   return(list_to_return)
 }
 
+get_utci_proj_obs_piecewise <- function(utci_new){
+  # New function to get piecewise function split for projected and observed UTCI
+  utci_new <- utci_new %>%
+    mutate(
+      heat_risk_cat = case_when(
+        heat_risk_cat == "Optimal Range" ~ "or_max",
+        heat_risk_cat == "Moderate_Low" ~ "ml_max",
+        heat_risk_cat == "Moderate_Mid" ~ "mm_max",
+        heat_risk_cat == "Moderate_High"~ "mh_max",
+        heat_risk_cat == "Strong_Low" ~ "sl_max",
+        heat_risk_cat == "Strong_Mid" ~ "sm_max",
+        heat_risk_cat == "Strong_High" ~ "sh_max",
+        heat_risk_cat == "Very Strong_Low" ~ "vsl_max",
+        heat_risk_cat == "Very Strong_Mid Low" ~ "vsml_max",
+        heat_risk_cat == "Very Strong_Mid High" ~ "vsmh_max",
+        heat_risk_cat == "Very Strong_High" ~ "vsh_max",
+        heat_risk_cat == "Extreme" ~ "ex_max",
+        heat_risk_cat == "Cold" ~ NA
+      ),
+      year_suffix=sprintf("%02d",year %% 100)
+    ) %>%
+    filter(
+      !is.na(heat_risk_cat)
+    )
+  
+  utci_receptacle <- utci_new %>%
+    group_by(pc11_sd_id, year) %>%
+    summarize(total_days = sum(proj_days_count, na.rm=T))
+  
+  # utci_days_above_38 <- utci_new %>% 
+  #   group_by(pc11_sd_id, year) %>%
+  #   filter(heat_risk_cat %in% c("ex_max", "vsh_max", "vsmh_max", "vsml_max", "vsl_max")) %>%
+  #   summarize(days_above_38_proj = sum(proj_days_count, na.rm=T),
+  #             days_above_38_obs = sum(obs_days_count, na.rm=T))
+  utci_days_above_38 <- utci_new %>% 
+    filter(heat_risk_cat %in% c("ex_max", "vsh_max", "vsmh_max", "vsml_max", "vsl_max")) %>%
+    summarize(days_above_38_proj = sum(proj_days_count, na.rm=T),
+              days_above_38_obs = sum(obs_days_count, na.rm=T),
+              .by=c(pc11_sd_id, year))
+  
+  utci_days_above_32 <- utci_new %>%
+    #group_by(pc11_sd_id, year) %>%
+    filter(heat_risk_cat %in% c("ex_max", "vsh_max", "vsmh_max", "vsml_max", "vsl_max", "sh_max", "sm_max", "sl_max")) %>%
+    # summarize(days_above_32_proj = sum(proj_days_count, na.rm=T),
+    #           days_above_32_obs = sum(obs_days_count, na.rm=T))
+    summarize(days_above_32_proj = sum(proj_days_count, na.rm=T),
+              days_above_32_obs = sum(obs_days_count, na.rm=T),
+              .by=c(pc11_sd_id, year))
+  
+  utci_days_above_26 <- utci_new %>%
+    #group_by(pc11_sd_id, year) %>%
+    filter(heat_risk_cat %in% c("ex_max", "vsh_max", "vsmh_max", "vsml_max", "vsl_max", "sh_max", "sm_max", "sl_max", "mh_max", "mm_max", "ml_max")) %>%
+    # summarize(days_above_26_proj = sum(proj_days_count, na.rm=T),
+    #           days_above_26_obs = sum(obs_days_count, na.rm=T))
+    summarize(days_above_26_proj = sum(proj_days_count, na.rm=T),
+              days_above_26_obs = sum(obs_days_count, na.rm=T),
+              .by=c(pc11_sd_id, year))
+  
+  utci_piecewise <- left_join(
+    utci_receptacle %>% ungroup(),
+    utci_days_above_38 %>% ungroup(),
+    by=join_by(pc11_sd_id, year)
+  ) %>%
+    left_join(
+      .,
+      utci_days_above_32 %>% ungroup(),
+      by=join_by(pc11_sd_id, year)
+    ) %>%
+    left_join(
+      .,
+      utci_days_above_26 %>% ungroup(),
+      by=join_by(pc11_sd_id, year)
+    ) %>%
+    mutate(
+      days_above_38_proj = replace_na(days_above_38_proj, 0),
+      days_above_32_proj = replace_na(days_above_32_proj, 0),
+      days_above_26_proj = replace_na(days_above_26_proj, 0),
+      days_above_38_obs = replace_na(days_above_38_obs, 0),
+      days_above_32_obs = replace_na(days_above_32_obs, 0),
+      days_above_26_obs = replace_na(days_above_26_obs, 0)
+    ) %>%
+    select(-total_days)
+  
+  utci_pivot_proj <- utci_piecewise %>% 
+    pivot_longer(
+      cols = c(days_above_38_proj, days_above_32_proj, days_above_26_proj),
+      names_to = "piecewise_cat",
+      values_to = "proj_days_count"
+    ) %>%
+    select(pc11_sd_id, year, piecewise_cat, proj_days_count) %>%
+    mutate(year_suffix=sprintf("%02d",year %% 100)) %>%
+    pivot_wider(
+      id_cols = pc11_sd_id,
+      names_from = c(piecewise_cat, year_suffix),
+      names_sep = "_",
+      values_from = proj_days_count,
+      names_expand = T,
+      values_fill = 0
+    )
+  
+  utci_pivot_obs <- utci_piecewise %>% 
+    pivot_longer(
+      cols = c(days_above_38_obs, days_above_32_obs, days_above_26_obs),
+      names_to = "piecewise_cat",
+      values_to = "obs_days_count"
+    ) %>%
+    select(pc11_sd_id, year, piecewise_cat, obs_days_count) %>%
+    mutate(year_suffix=sprintf("%02d",year %% 100)) %>%
+    pivot_wider(
+      id_cols = pc11_sd_id,
+      names_from = c(piecewise_cat, year_suffix),
+      names_sep = "_",
+      values_from = obs_days_count,
+      names_expand = T,
+      values_fill = 0
+    )
+  
+  list_to_return=list("utci_pivot_proj" = utci_pivot_proj,
+                      "utci_pivot_obs" = utci_pivot_obs)
+  return(list_to_return)
+}
+
 # Get window UTCI for both projected and observed
 get_window_average_redux <- function(df,cols){
   return(rowMeans(df %>% select(all_of(cols)),na.rm=T))
@@ -1340,6 +1462,18 @@ get_window_utci_redux <- function(utci,col_prefixes,year_suffixes){
     get_window_average_redux(utci,
                              sapply(year_suffixes,function(suf){
                                paste0(col,"_",suf)
+                             }))
+  })
+  window_utci <- data.frame(cbind(window_average_cats)) %>%
+    mutate(pc11_sd_id = utci$pc11_sd_id)
+  return(window_utci)
+}
+
+get_window_utci_redux_piecewise <- function(utci,col_prefixes,year_suffixes, proj){
+  window_average_cats <- sapply(col_prefixes,function(col){
+    get_window_average_redux(utci,
+                             sapply(year_suffixes,function(suf){
+                               paste0(col,"_",proj, "_", suf)
                              }))
   })
   window_utci <- data.frame(cbind(window_average_cats)) %>%
@@ -1415,7 +1549,11 @@ get_bootstrap_data_redux=function(joined_diffs,utci_early,utci_late, district_co
     bootstrap_data,
     district_controls,
     by=c("district_early" = "pc11_sd_id")
-  )
+  ) %>%
+    # New: add in a state fixed effect column
+    mutate(
+      state_early = substr(district_early, 1, 2)
+    )
   return(bootstrap_data)
 }
 
@@ -2113,12 +2251,13 @@ get_mwtp_unified = function(data, indices, housing_exp_share){
   pop_formula=as.formula("logpop_late ~ ex_max_late + vsh_max_late + vsmh_max_late + vsml_max_late + vsl_max_late + sh_max_late + sm_max_late + sl_max_late + mh_max_late + mm_max_late + ml_max_late")
   
   # Models for early period
-  model_wage_early=lm(wage_formula_early,data=d)
-  model_rent_early=lm(rent_formula_early,data=d)
+  # New: weighted least squares using population
+  model_wage_early=lm(wage_formula_early, weights = pop_early, data=d)
+  model_rent_early=lm(rent_formula_early, weights = pop_early, data=d)
   
   # Models for late period
-  model_wage_late=lm(wage_formula_late,data=d)
-  model_rent_late=lm(rent_formula_late,data=d)
+  model_wage_late=lm(wage_formula_late, weights = pop_late, data=d)
+  model_rent_late=lm(rent_formula_late, weights = pop_late, data=d)
   
   # Models for late population
   model_pop_late=lm(pop_formula,data=d)
@@ -2146,35 +2285,102 @@ get_mwtp_unified = function(data, indices, housing_exp_share){
   correction_terms = (1/migration_cost_term) * temp_coef_pop #11
   mwtp_late_adj = mwtp_late_unadj + correction_terms #11
   
-  
-  # mat_to_return = cbind(mwtp_early_unadj, mwtp_late_unadj, mwtp_late_adj,
-  #                       temp_coef_wage_early, temp_coef_rent_early,
-  #                       temp_coef_wage_late, temp_coef_rent_late,
-  #                       temp_coef_pop, rep(migration_cost_term, length(mwtp_early_unadj)))
-  # 
-  # colnames(mat_to_return)=c("mwtp_early_unadj", "mwtp_late_unadj", "mwtp_late_adj",
-  #                           "wage_elasticity_early", "wage_elasticity_late",
-  #                           "rent_elasticity_early", "rent_elasticity_late",
-  #                           "pop_elasticity_late", "migration_cost_param")
-  # vec_to_return = c(
-  #   controls_coef_wage_early, temp_coef_wage_early,
-  #   controls_coef_rent_early, temp_coef_rent_early,
-  #   controls_coef_wage_late, temp_coef_wage_late,
-  #   controls_coef_rent_late, temp_coef_rent_late,
-  #   mwtp_early_unadj, mwtp_late_unadj, mwtp_late_adj,
-  #   temp_coef_pop, migration_cost_term
-  # )
-  
   vec_to_return <- c(
-    controls_coef_wage_early, controls_coef_rent_early,
-    controls_coef_wage_late, controls_coef_rent_late,
-    mwtp_early_unadj, mwtp_late_unadj, mwtp_late_adj,
-    temp_coef_wage_early, temp_coef_rent_early,
-    temp_coef_wage_late, temp_coef_rent_late,
-    temp_coef_pop, rep(migration_cost_term, length(mwtp_early_unadj))
+    controls_coef_wage_early, controls_coef_rent_early, #1-12
+    controls_coef_wage_late, controls_coef_rent_late, #13-24
+    mwtp_early_unadj, mwtp_late_unadj, mwtp_late_adj, #25-57
+    # Starts at index 57
+    temp_coef_wage_early, temp_coef_rent_early, #58-79
+    temp_coef_wage_late, temp_coef_rent_late, #80-101
+    temp_coef_pop, rep(migration_cost_term, length(mwtp_early_unadj)) #102-123
   )
   # When returned to boot_results_proj_t, flattens into a row of length 99
   # "Blocks" of 11 coef each in order of labels above
+  
+  # Ensure max_temp_hr_cols exists in your global environment when running this
+  #rownames(mat_to_return) = max_temp_hr_cols 
+  
+  return(vec_to_return)
+}
+
+get_mwtp_piecewise <- function(data, indices, housing_exp_share){
+  # WHERE DO THESE INDICES COME FROM?
+  d <- data[indices,]
+  
+  model_wage_early <- feols(
+    estimate_wage_early ~ hindu_early + scst_early + Age_early + educ_hs_early + educ_ps_early + 
+      days_above_26_early + days_above_32_early + days_above_38_early |
+      state_early,
+    weights = ~ pop_early,
+    data = d
+  )
+  
+  model_rent_early <- feols(
+    estimate_rent_early ~ hindu_early + scst_early + Age_early + educ_hs_early + educ_ps_early + 
+      days_above_26_early + days_above_32_early + days_above_38_early |
+      state_early,
+    weights = ~ pop_early,
+    data = d
+  )
+  
+  model_wage_late <- feols(
+    estimate_wage_late ~ hindu_late + scst_late + Age_late + educ_hs_late + educ_ps_late + 
+      days_above_26_late + days_above_32_late + days_above_38_late |
+      state_early,
+    weights = ~ pop_late,
+    data = d
+  )
+  
+  model_rent_late <- feols(
+    estimate_rent_late ~ hindu_late + scst_late + Age_late + educ_hs_late + educ_ps_late + 
+      days_above_26_late + days_above_32_late + days_above_38_late |
+      state_early,
+    weights = ~ pop_late,
+    data = d
+  )
+  
+  # Models for late population
+  model_pop_late <- feols(
+    logpop_late ~ days_above_26_late + days_above_32_late + days_above_38_late |
+      state_early,
+    weights = ~ pop_late,
+    data = d
+  )
+  
+  # Model for migration costs
+  migration_costs_models=get_migration_costs(d,suppress_output=F)
+  migration_cost_term=coef(migration_costs_models[[2]])["delta_netwage"]
+  
+  # Extract coefficients for each model
+  controls_coef_wage_early <- coef(model_wage_early)[1:5] #5 coefs
+  controls_coef_rent_early <- coef(model_rent_early)[1:5] #5 coefs
+  controls_coef_wage_late <- coef(model_wage_late)[1:5] #5 coefs
+  controls_coef_rent_late <- coef(model_rent_late)[1:5] #5 coefs
+  
+  # Calculate MWTP
+  # Vectorized for all temperature variables
+  temp_coef_rent_early = coef(model_rent_early)[6:length(coef(model_rent_early))] #3 coefs
+  temp_coef_wage_early = coef(model_wage_early)[6:length(coef(model_wage_early))] #3 coefs
+  temp_coef_rent_late = coef(model_rent_late)[6:length(coef(model_rent_late))] #3 coefs
+  temp_coef_wage_late = coef(model_wage_late)[6:length(coef(model_wage_late))] #3 coefs
+  temp_coef_pop = coef(model_pop_late) #3 coefs
+  
+  mwtp_early_unadj = (housing_exp_share * exp(temp_coef_rent_early)) - exp(temp_coef_wage_early) #3
+  mwtp_late_unadj = (housing_exp_share * exp(temp_coef_rent_late)) - exp(temp_coef_wage_late) #3
+  correction_terms = (1/migration_cost_term) * temp_coef_pop #3
+  mwtp_late_adj = mwtp_late_unadj + correction_terms #3
+  
+  vec_to_return <- c(
+    controls_coef_wage_early, controls_coef_rent_early, #1-10
+    controls_coef_wage_late, controls_coef_rent_late, #11-20
+    mwtp_early_unadj, mwtp_late_unadj, mwtp_late_adj, #21-29
+    # Starts at index 30
+    temp_coef_wage_early, temp_coef_rent_early, #30-35
+    temp_coef_wage_late, temp_coef_rent_late, #36-41
+    temp_coef_pop, rep(migration_cost_term, length(mwtp_early_unadj)) #42-47
+  )
+  # When returned to boot_results_proj_t, flattens into a row of length 47
+  # "Blocks" in order of labels above
   
   # Ensure max_temp_hr_cols exists in your global environment when running this
   #rownames(mat_to_return) = max_temp_hr_cols 
@@ -2200,6 +2406,17 @@ run_bootstrap_estimation_unified = function(joined_data_full, seed, R, housing_e
   boot_results <- boot(
     data = joined_data_full,
     statistic = get_mwtp_unified,
+    R=R,
+    housing_exp_share = housing_exp_share
+  )
+  return(boot_results)
+}
+
+run_bootstrap_estimation_piecewise = function(joined_data_full, seed, R, housing_exp_share){
+  set.seed(seed)
+  boot_results <- boot(
+    data = joined_data_full,
+    statistic = get_mwtp_piecewise,
     R=R,
     housing_exp_share = housing_exp_share
   )
@@ -2291,6 +2508,26 @@ get_boot_means_ci_bounds=function(master_boot_matrix){
   return(list_to_return)
 }
 
+get_boot_means_ci_bounds_piecewise=function(master_boot_matrix){
+  means_vals <- apply(master_boot_matrix, 2, mean, na.rm=T)
+  ci_lower_vals <- apply(master_boot_matrix, 2, quantile, probs=0.025, na.rm=T)
+  ci_upper_vals <- apply(master_boot_matrix, 2, quantile, probs=0.975, na.rm=T)
+  col_names <- c("Early MWTP, Unadj.","Late MWTP, Unadj.","Late MWTP w/ Mig. Costs",
+                 "Early Wage Elasticity", "Late Wage Elasticity",
+                 "Early Rent Elasticity", "Late Rent Elasticity",
+                 "Late Pop Elasticity", "Migration Cost Parameter")
+  row_names <- c("Days above 26", "Days above 32", "Days above 38")
+  means <- matrix(means_vals, nrow=3, ncol=9, dimnames = list(row_names, col_names))
+  ci_lower <- matrix(ci_lower_vals, nrow=3, ncol=9, dimnames = list(row_names, col_names))
+  ci_upper <- matrix(ci_upper_vals, nrow=3, ncol=9, dimnames = list(row_names, col_names))
+  list_to_return=list(
+    "means" = means,
+    "ci_lower"=ci_lower,
+    "ci_upper"=ci_upper
+  )
+  return(list_to_return)
+}
+
 get_boot_means_ci_bounds_unified <- function(boot_results_array){
   means <- apply(boot_results_array, 2, mean, na.rm=T) %>% matrix(nrow=9, ncol=11)
   ci_lower <- apply(boot_results_array, 2, quantile, probs=0.025, na.rm=T) %>% matrix(nrow=9, ncol=11)
@@ -2316,6 +2553,18 @@ get_plot_data_boot=function(boot_estimates,ci_list){
       Column=factor(Column,levels=rev(c("Extreme", "Very Strong - High", "Very Strong - Mid High", "Very Strong - Mid Low", "Very Strong - Low",
                                         "Strong - High", "Strong - Mid", "Strong - Low",
                                         "Moderate - High", "Moderate - Mid", "Moderate - Low")),ordered=T),
+      Row=factor(Row,levels=c("Early MWTP, Unadj.","Late MWTP, Unadj.","Late MWTP w/ Mig. Costs"),ordered=T)
+    )
+  return(plot_data)
+}
+
+get_plot_data_boot_piecewise=function(boot_estimates,ci_list){
+  plot_data <- prep_matrix(t(boot_estimates), "Estimate") %>%
+    left_join(prep_matrix(t(ci_list$ci_lower), "Lower"), by = c("Row", "Column")) %>%
+    left_join(prep_matrix(t(ci_list$ci_upper), "Upper"), by = c("Row", "Column")) %>%
+    filter(Row %in% c("Early MWTP, Unadj.","Late MWTP, Unadj.","Late MWTP w/ Mig. Costs")) %>%
+    mutate(
+      Column=factor(Column,levels=rev(c("Days above 38", "Days above 32", "Days above 26")),ordered=T),
       Row=factor(Row,levels=c("Early MWTP, Unadj.","Late MWTP, Unadj.","Late MWTP w/ Mig. Costs"),ordered=T)
     )
   return(plot_data)

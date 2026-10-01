@@ -156,26 +156,28 @@ get_pre_split_pipeline <- function(){
                fix_utci_celsius(utci_daily_input)),
     tar_target(utci_new,
                get_adjusted_utci(utci_daily)),
+    # tar_target(utci_pivot_tables,
+    #            get_utci_proj_obs(utci_new)),
     tar_target(utci_pivot_tables,
-               get_utci_proj_obs(utci_new)),
+               get_utci_proj_obs_piecewise(utci_new)),
     tar_target(early_window_utci_proj,
-               get_window_utci_redux(
-                 utci_pivot_tables[["utci_pivot_proj"]], col_prefixes_redux, year_suffixes_early
+               get_window_utci_redux_piecewise(
+                 utci_pivot_tables[["utci_pivot_proj"]], col_prefixes_redux, year_suffixes_early, "proj"
                )
     ),
     tar_target(early_window_utci_obs,
-               get_window_utci_redux(
-                 utci_pivot_tables[["utci_pivot_obs"]], col_prefixes_redux, year_suffixes_early
+               get_window_utci_redux_piecewise(
+                 utci_pivot_tables[["utci_pivot_obs"]], col_prefixes_redux, year_suffixes_early, "obs"
                )
     ),
     tar_target(late_window_utci_proj,
-               get_window_utci_redux(
-                 utci_pivot_tables[["utci_pivot_proj"]], col_prefixes_redux, year_suffixes_late
+               get_window_utci_redux_piecewise(
+                 utci_pivot_tables[["utci_pivot_proj"]], col_prefixes_redux, year_suffixes_late, "proj"
                )
     ),
     tar_target(late_window_utci_obs,
-               get_window_utci_redux(
-                 utci_pivot_tables[["utci_pivot_obs"]], col_prefixes_redux, year_suffixes_late
+               get_window_utci_redux_piecewise(
+                 utci_pivot_tables[["utci_pivot_obs"]], col_prefixes_redux, year_suffixes_late, "obs"
                )
     ),
     tar_target(utci_ewp,

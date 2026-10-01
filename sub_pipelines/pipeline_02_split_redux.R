@@ -103,8 +103,10 @@ get_split_pipeline <- function(){
         # Observed bootstrap data
         bootstrap_data_obs <- get_bootstrap_data_redux(joined_diffs, utci_ewo, utci_lwo, district_controls)
         # Run estimation
-        boot_results_proj_unified <- run_bootstrap_estimation_unified(bootstrap_data_proj, seed, R_2, housing_exp_share)
-        boot_results_obs_unified <- run_bootstrap_estimation_unified(bootstrap_data_obs, seed, R_2, housing_exp_share)
+        #boot_results_proj_unified <- run_bootstrap_estimation_unified(bootstrap_data_proj, seed, R_2, housing_exp_share)
+        #boot_results_obs_unified <- run_bootstrap_estimation_unified(bootstrap_data_obs, seed, R_2, housing_exp_share)
+        boot_results_proj_unified <- run_bootstrap_estimation_piecewise(bootstrap_data_proj, seed, R_2, housing_exp_share)
+        boot_results_obs_unified <- run_bootstrap_estimation_piecewise(bootstrap_data_obs, seed, R_2, housing_exp_share)
         ## After Estimation
         # Extract first-stage parameter estimates
         # Order: wage early, rent early, wage late, rent late
@@ -210,34 +212,42 @@ get_split_pipeline <- function(){
                  lm(loghc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine, data=hces_merged_emp_housing %>% filter(mrent > 0)),
                  lm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine, data=hces_merged_emp_housing %>% filter(mrent > 0))
                )),
+    # tar_target(second_stage_early_proj_coefs_list,
+    #            list(t(master_boot_results_proj[,1:6]), t(master_boot_results_proj[,7:12]))),
     tar_target(second_stage_early_proj_coefs_list,
-               list(t(master_boot_results_proj[,1:6]), t(master_boot_results_proj[,7:12]))),
+               list(t(master_boot_results_proj[,1:5]), t(master_boot_results_proj[,6:10]))),
     tar_target(second_stage_early_proj_base_models_list,
                list(
-                 lm(estimate_wage_early ~ hindu_early + scst_early + Age_early + educ_hs_early + educ_ps_early, data=bootstrap_data_proj),
-                 lm(estimate_rent_early ~ hindu_early + scst_early + Age_early + educ_hs_early + educ_ps_early, data=bootstrap_data_proj)
+                 lm(estimate_wage_early ~ hindu_early + scst_early + Age_early + educ_hs_early + educ_ps_early - 1, data=bootstrap_data_proj),
+                 lm(estimate_rent_early ~ hindu_early + scst_early + Age_early + educ_hs_early + educ_ps_early - 1, data=bootstrap_data_proj)
                )),
+    # tar_target(second_stage_late_proj_coefs_list,
+    #            list(t(master_boot_results_proj[,13:18]), t(master_boot_results_proj[,19:24]))),
     tar_target(second_stage_late_proj_coefs_list,
-               list(t(master_boot_results_proj[,13:18]), t(master_boot_results_proj[,19:24]))),
+               list(t(master_boot_results_proj[,11:15]), t(master_boot_results_proj[,16:20]))),
     tar_target(second_stage_late_proj_base_models_list,
                list(
-                 lm(estimate_wage_late ~ hindu_late + scst_late + Age_late + educ_hs_late + educ_ps_late, data=bootstrap_data_proj),
-                 lm(estimate_rent_late ~ hindu_late + scst_late + Age_late + educ_hs_late + educ_ps_late, data=bootstrap_data_proj)
+                 lm(estimate_wage_late ~ hindu_late + scst_late + Age_late + educ_hs_late + educ_ps_late - 1, data=bootstrap_data_proj),
+                 lm(estimate_rent_late ~ hindu_late + scst_late + Age_late + educ_hs_late + educ_ps_late - 1, data=bootstrap_data_proj)
                )),
     
+    # tar_target(second_stage_early_obs_coefs_list,
+    #            list(t(master_boot_results_obs[,1:6]), t(master_boot_results_obs[,7:12]))),
     tar_target(second_stage_early_obs_coefs_list,
-               list(t(master_boot_results_obs[,1:6]), t(master_boot_results_obs[,7:12]))),
+               list(t(master_boot_results_obs[,1:5]), t(master_boot_results_obs[,6:10]))),
     tar_target(second_stage_early_obs_base_models_list,
                list(
-                 lm(estimate_wage_early ~ hindu_early + scst_early + Age_early + educ_hs_early + educ_ps_early, data=bootstrap_data_obs),
-                 lm(estimate_rent_early ~ hindu_early + scst_early + Age_early + educ_hs_early + educ_ps_early, data=bootstrap_data_obs)
+                 lm(estimate_wage_early ~ hindu_early + scst_early + Age_early + educ_hs_early + educ_ps_early - 1, data=bootstrap_data_obs),
+                 lm(estimate_rent_early ~ hindu_early + scst_early + Age_early + educ_hs_early + educ_ps_early - 1, data=bootstrap_data_obs)
                )),
+    # tar_target(second_stage_late_obs_coefs_list,
+    #            list(t(master_boot_results_obs[,13:18]), t(master_boot_results_obs[,19:24]))),
     tar_target(second_stage_late_obs_coefs_list,
-               list(t(master_boot_results_obs[,13:18]), t(master_boot_results_obs[,19:24]))),
+               list(t(master_boot_results_obs[,11:15]), t(master_boot_results_obs[,16:20]))),
     tar_target(second_stage_late_obs_base_models_list,
                list(
-                 lm(estimate_wage_late ~ hindu_late + scst_late + Age_late + educ_hs_late + educ_ps_late, data=bootstrap_data_obs),
-                 lm(estimate_rent_late ~ hindu_late + scst_late + Age_late + educ_hs_late + educ_ps_late, data=bootstrap_data_obs)
+                 lm(estimate_wage_late ~ hindu_late + scst_late + Age_late + educ_hs_late + educ_ps_late - 1, data=bootstrap_data_obs),
+                 lm(estimate_rent_late ~ hindu_late + scst_late + Age_late + educ_hs_late + educ_ps_late - 1, data=bootstrap_data_obs)
                ))
   )
   return(pipeline_estimation)

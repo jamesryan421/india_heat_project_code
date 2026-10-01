@@ -17,10 +17,11 @@ add_marginal=F
 col_prefixes=c("ex_min","vs_min","s_min","m_min","or_min",
                "ex_max","vs_max","s_max","m_max","or_max")
 #col_prefixes_redux = c("ex_max","vs_max","s_max","m_max","or_max")
-col_prefixes_redux = c("ex_max", "vsh_max", "vsmh_max", "vsml_max", "vsl_max",
-                       "sh_max", "sm_max", "sl_max",
-                       "mh_max", "mm_max", "ml_max",
-                       "or_max")
+# col_prefixes_redux = c("ex_max", "vsh_max", "vsmh_max", "vsml_max", "vsl_max",
+#                        "sh_max", "sm_max", "sl_max",
+#                        "mh_max", "mm_max", "ml_max",
+#                        "or_max")
+col_prefixes_redux <- c("days_above_26", "days_above_32", "days_above_38")
 #max_temp_hr_cols=c("ex_max","vs_max","s_max","m_max","or_max")
 max_temp_hr_cols = c("ex_max", "vsh_max", "vsmh_max", "vsml_max", "vsl_max",
                      "sh_max", "sm_max", "sl_max",
@@ -35,10 +36,10 @@ year_suffixes_late = sapply(seq(12, 22), function(x){sprintf("%02d",x)})
 
 ## Bootstrapping options
 seed=8008315
-R_1 <- 750
+R_1 <- 100
 R_2 <- 25
-#R_1 <- 5
-#R_2 <- 3
+#R_1 <- 10
+#R_2 <- 5
 housing_exp_share=0.15
 alpha=0.05
 
