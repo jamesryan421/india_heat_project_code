@@ -2793,6 +2793,37 @@ get_stargazer_other_table = function(other_outputs,other_output_options,output_t
   return(table_output)
 }
 
+get_coef_comparison_table <- function(master_boot_results){
+  temp_coef_matrix <- master_boot_results[,21:35]
+  colnames(temp_coef_matrix) <- c(
+    "Wage, Early, Above 26", "Wage, Early, Above 32", "Wage, Early, Above 38",
+    "Rent, Early, Above 26", "Rent, Early, Above 32", "Rent, Early, Above 38",
+    "Wage, Late, Above 26", "Wage, Late, Above 32", "Wage, Late, Above 38",
+    "Rent, Late, Above 26", "Rent, Late, Above 32", "Rent, Late, Above 38",
+    "Pop, Late, Above 26", "Pop, Late, Above 32", "Pop, Late, Above 38"
+  )
+  
+  temp_coef_summary_stats <- cbind(
+    apply(temp_coef_matrix, 2, mean, na.rm=T),
+    apply(temp_coef_matrix, 2, sd, na.rm=T),
+    apply(temp_coef_matrix, 2, min),
+    apply(temp_coef_matrix, 2, max)
+  )
+  
+  colnames(temp_coef_summary_stats) <- c("Mean", "SD", "Min", "Max")
+  
+  new_row_order <- c(
+    "Wage, Early, Above 26", "Rent, Early, Above 26",
+    "Wage, Early, Above 32", "Rent, Early, Above 32",
+    "Wage, Early, Above 38", "Rent, Early, Above 38",
+    "Wage, Late, Above 26", "Rent, Late, Above 26",
+    "Wage, Late, Above 32", "Wage, Late, Above 32",
+    "Wage, Late, Above 38", "Rent, Late, Above 38"
+  )
+  
+  return(data.frame(temp_coef_summary_stats[new_row_order,]))
+}
+
 write_text_stargazer_logs = function(stargazer_tables_list, text_path){
   text_path <- as.character(text_path)
   

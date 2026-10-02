@@ -13,6 +13,8 @@ get_plot_log_pipeline <- function(){
                get_boot_means_ci_bounds_piecewise(master_boot_results_obs[,21:ncol(master_boot_results_obs)])),
     tar_target(boot_estimates_proj, boot_means_ci_bounds_proj[["means"]]),
     tar_target(boot_estimates_obs, boot_means_ci_bounds_obs[["means"]]),
+    tar_target(coef_comparison_proj, get_coef_comparison_table(master_boot_results_proj)),
+    tar_target(coef_comparison_obs, get_coef_comparison_table(master_boot_results_obs)),
     tar_target(ci_list_proj, boot_means_ci_bounds_proj[c("ci_lower","ci_upper")]),
     tar_target(ci_list_obs, boot_means_ci_bounds_obs[c("ci_lower","ci_upper")]),
     tar_target(plot_data_proj, get_plot_data_boot_piecewise(boot_estimates_proj, ci_list_proj)),
@@ -148,12 +150,22 @@ get_plot_log_pipeline <- function(){
                  intercept.bottom=F
                ),
                error="null"),
+    tar_target(coef_comparison_stargazer_obs,
+               get_stargazer_other_table(coef_comparison_obs, list(
+                 summary=F
+               ))),
+    tar_target(coef_comparison_stargazer_proj,
+               get_stargazer_other_table(coef_comparison_proj, list(
+                 summary=F
+               ))),
     tar_target(stargazer_second_stage_tables_list,
                list(
                  second_stage_early_proj = early_proj_stargazer,
                  second_stage_late_proj = late_proj_stargazer,
                  second_stage_early_obs = early_obs_stargazer,
-                 second_stage_late_obs = late_obs_stargazer
+                 second_stage_late_obs = late_obs_stargazer,
+                 coef_comparison_proj = coef_comparison_stargazer_proj,
+                 coef_comparison_obs = coef_comparison_stargazer_obs
                )),
     tar_target(text_stargazer_outfile_second_stage,
                write_text_stargazer_logs(stargazer_second_stage_tables_list, file.path(logs_path, "second_stage_text_regression_summaries.txt")), format="file"),
