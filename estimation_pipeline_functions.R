@@ -2794,13 +2794,12 @@ get_stargazer_other_table = function(other_outputs,other_output_options,output_t
 }
 
 get_coef_comparison_table <- function(master_boot_results){
-  temp_coef_matrix <- master_boot_results[,21:35]
+  temp_coef_matrix <- master_boot_results[,21:32]
   colnames(temp_coef_matrix) <- c(
     "Wage, Early, Above 26", "Wage, Early, Above 32", "Wage, Early, Above 38",
     "Rent, Early, Above 26", "Rent, Early, Above 32", "Rent, Early, Above 38",
     "Wage, Late, Above 26", "Wage, Late, Above 32", "Wage, Late, Above 38",
-    "Rent, Late, Above 26", "Rent, Late, Above 32", "Rent, Late, Above 38",
-    "Pop, Late, Above 26", "Pop, Late, Above 32", "Pop, Late, Above 38"
+    "Rent, Late, Above 26", "Rent, Late, Above 32", "Rent, Late, Above 38"
   )
   
   temp_coef_summary_stats <- cbind(
@@ -2817,7 +2816,7 @@ get_coef_comparison_table <- function(master_boot_results){
     "Wage, Early, Above 32", "Rent, Early, Above 32",
     "Wage, Early, Above 38", "Rent, Early, Above 38",
     "Wage, Late, Above 26", "Rent, Late, Above 26",
-    "Wage, Late, Above 32", "Wage, Late, Above 32",
+    "Wage, Late, Above 32", "Rent, Late, Above 32",
     "Wage, Late, Above 38", "Rent, Late, Above 38"
   )
   
