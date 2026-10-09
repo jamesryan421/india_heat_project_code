@@ -116,7 +116,7 @@ get_nss_data=function(nss_ind,hces_distcodes){
   )
   id_cols=c(
     "hhid","year","Sector","State_code","state_id","District_code","District",
-    "FSU_Serial_no","Stratum","Sub_Stratum_No", "Combined_multiplier"
+    "FSU_Serial_no","Stratum","Sub_Stratum_No", "Combined_multiplier", "HH_Type"
   )
   
   nss_ind_cols=c(
@@ -176,7 +176,8 @@ get_nss_data=function(nss_ind,hces_distcodes){
     by=c("District_code" = "nsscode")
   ) %>%
     # filter to urban households
-    filter(Sector == "2")
+    # NEW: Filter to households which are regular wage/salary earning, as a proxy for formal employment
+    filter(Sector == "2" & HH_Type == "2")
   
   
   return(nss_ind_reg)
@@ -362,7 +363,9 @@ get_housing_data_early=function(df_hcs3,df_hcs4,df_hcs6,hces_distcodes){
     by=c("State","District")
   ) %>% 
     # filter to urban districts
-    filter(Sector == "2")
+    filter(Sector == "2") %>%
+    # NEW: Filter to formal housing which has pucca materials and electricity
+    filter(pucca_floor == 1 & pucca_walls == 1 & pucca_roof == 1 & elec == 1)
   
   
   return(df_housing_merged)
@@ -370,11 +373,11 @@ get_housing_data_early=function(df_hcs3,df_hcs4,df_hcs6,hces_distcodes){
 
 get_rent_regs_early=function(df_housing_merged,survey_design,summary_format="latex"){
   # Summary stats
-  rent_reg_vars=c("loghc","loghcpc","pucca_walls","pucca_floor","pucca_roof",
-                  "piped_water","own_latrine","elec")
+  rent_reg_vars=c("loghc","loghcpc",
+                  "piped_water","own_latrine")
   stargazer(as.data.frame(df_housing_merged[,rent_reg_vars]),type=summary_format,summary=T,
-            covariate.labels=c("Log Rent","Log Rent per Capita","Pucca Walls","Pucca Floor","Pucca Roof",
-                               "Piped Drinking Water","Exclusive Latrine","Electricity"))
+            covariate.labels=c("Log Rent","Log Rent per Capita",
+                               "Piped Drinking Water","Exclusive Latrine"))
   
   # Initial regressions
   # No fixed effects
@@ -385,14 +388,14 @@ get_rent_regs_early=function(df_housing_merged,survey_design,summary_format="lat
   # rent_model2=lm(loghc ~ pucca_walls+pucca_floor+pucca_roof+
   #                  piped_water+own_latrine+elec+factor(district_name),
   #                data=df_housing_merged)
-  rent_model1 <- svyglm(loghc ~ pucca_walls+pucca_floor+pucca_roof+piped_water+own_latrine+elec,
+  rent_model1 <- svyglm(loghc ~ piped_water+own_latrine,
                         design = survey_design)
-  rent_model2 <- svyglm(loghc ~ pucca_walls+pucca_floor+pucca_roof+piped_water+own_latrine+elec+factor(pc11_sd_id),
+  rent_model2 <- svyglm(loghc ~ piped_water+own_latrine+factor(pc11_sd_id),
                         design = survey_design)
   stargazer(rent_model1,rent_model2,
             type=summary_format,
-            keep=c("Intercept","pucca_walls","pucca_floor","pucca_roof",
-                   "piped_water","own_latrine","elec"),
+            keep=c("Intercept",
+                   "piped_water","own_latrine"),
             add.lines=list(c("District FE","No","Yes")))
   # # Rent per capita regressions
   # rent_model1_pc=lm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+
@@ -402,14 +405,14 @@ get_rent_regs_early=function(df_housing_merged,survey_design,summary_format="lat
   # rent_model2_pc=lm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+
   #                     piped_water+own_latrine+elec+factor(district_name),
   #                   data=df_housing_merged)
-  rent_model1_pc <- svyglm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+piped_water+own_latrine+elec,
+  rent_model1_pc <- svyglm(loghcpc ~ piped_water+own_latrine,
                            design = survey_design)
-  rent_model2_pc <- svyglm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+piped_water+own_latrine+elec+factor(pc11_sd_id),
+  rent_model2_pc <- svyglm(loghcpc ~ piped_water+own_latrine+factor(pc11_sd_id),
                            design = survey_design)
   stargazer(rent_model1_pc,rent_model2_pc,
             type=summary_format,
-            keep=c("Intercept","pucca_walls","pucca_floor","pucca_roof",
-                   "piped_water","own_latrine","elec"),
+            keep=c("Intercept",
+                   "piped_water","own_latrine"),
             add.lines=list(c("District FE","No","Yes")))
   list_to_return=list(rent_model1,rent_model2,rent_model1_pc,rent_model2_pc)
   return(list_to_return)
@@ -791,6 +794,7 @@ get_hces_merged_emp <- function(hces_assets,hces_distcodes,hces_consumption,
   #hces_merged_emp<-hces_merged_full %>%
   #  filter(empstat=="1")
   
+  
   #names(hces_merged_emp)
   
   # Try restricting this to districts where we actually have NCEI data
@@ -808,7 +812,9 @@ get_hces_merged_emp <- function(hces_assets,hces_distcodes,hces_consumption,
   hces_merged_emp<-hces_merged_full %>%
     mutate(male=if_else(sex==0,1,0),
            logtexp=log(totexp),
-           logepc=log(totexp/hhsize))
+           logepc=log(totexp/hhsize)) %>%
+    # NEW: Subset to individuals who earn regular wages or salary, as a proxy for formal employment
+    filter(emptype == "2")
   return(hces_merged_emp)
 }
 
@@ -933,8 +939,8 @@ get_housing_data_late<-function(hces_merged_emp){
            ),
            cooking_fuel=factor(x=cooking_fuel,levels=c("No Cooking Source","Biofuel","Gas/Electric"),ordered=F),
            # Dummy vars for summary stats
-           cooking_fuel_biofuel=(cooking_fuel=="Biofuel"),
-           cooking_fuel_gas_electric=(cooking_fuel=="Gas/Electric"),
+           cooking_fuel_biofuel=if_else(cooking_fuel=="Biofuel", 1, 0),
+           cooking_fuel_gas_electric=if_else(cooking_fuel=="Gas/Electric", 1, 0),
            lighting_source=case_when(
              lighting %in% gas_light_cats ~ "Non-Electric",
              lighting==1 ~ "Electric",
@@ -953,21 +959,24 @@ get_housing_data_late<-function(hces_merged_emp){
            loghc=log(housing_cost),
            loghcpc=log(housing_cost/hhsize) #Per capita housing expenditure
     ) %>%
-    filter(cooking_fuel!="No Cooking Source")
+    filter(cooking_fuel!="No Cooking Source") %>%
+    # NEW: For formal housing, subset to cases with pucca materials and electric lighting
+    filter(
+      pucca_walls == 1 & pucca_floor == 1 & pucca_roof == 1 & lighting_electric == 1
+    )
   return(hces_merged_emp)
 }
 
 get_rent_regs_late <- function(hces_merged_emp,survey_design,summary_format="latex"){
   # Summary stats
-  housing_reg_vars=c("loghc","loghcpc","pucca_walls","pucca_floor","pucca_roof",
-                     "cooking_fuel_gas_electric",
-                     "lighting_electric",
-                     "piped_water","own_latrine")
+  # housing_reg_vars=c("loghc","loghcpc","pucca_walls","pucca_floor","pucca_roof",
+  #                    "cooking_fuel_gas_electric",
+  #                    "lighting_electric",
+  #                    "piped_water","own_latrine")
+  housing_reg_vars <- c("loghc", "loghcpc", "cooking_fuel_gas_electric", "piped_water", "own_latrine")
   stargazer(as.data.frame(hces_merged_emp[,housing_reg_vars]),type=summary_format,summary=T,
             covariate.labels=c("Log Housing Costs","Log Housing Costs Per Capita",
-                               "Pucca Walls","Pucca Flooring","Pucca Roofing",
                                "Gas/Electric Cooking Fuel",
-                               "Electric Lighting",
                                "Piped Water","Exclusive Latrine Access"))
   #stargazer(ftable(hces_merged_emp$cooking_fuel),type="text")
   
@@ -976,19 +985,18 @@ get_rent_regs_late <- function(hces_merged_emp,survey_design,summary_format="lat
   # rent_model1=lm(loghc ~ pucca_walls+pucca_floor+pucca_roof+
   #                  cooking_fuel+lighting_source+piped_water+own_latrine,
   #                data=hces_merged_emp)
-  rent_model1 <- svyglm(loghc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine,
+  rent_model1 <- svyglm(loghc ~ cooking_fuel+piped_water+own_latrine,
                         design = survey_design)
   
   # Model 2: With fixed effects
   # rent_model2=lm(loghc ~ pucca_walls+pucca_floor+pucca_roof+
   #                  cooking_fuel+lighting_source+piped_water+own_latrine+factor(district_name),
   #                data=hces_merged_emp)
-  rent_model2 <- svyglm(loghc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine+factor(pc11_sd_id),
+  rent_model2 <- svyglm(loghc ~ cooking_fuel+piped_water+own_latrine+factor(pc11_sd_id),
                         design = survey_design)
   
   stargazer(rent_model1,rent_model2,
-            keep=c("pucca_walls","pucca_floor","pucca_roof",
-                   "cooking_fuelGas/Electric","lighting_sourceElectric",
+            keep=c("cooking_fuelGas/Electric",
                    "piped_water","own_latrine"),
             type=summary_format,
             add.lines=list(c("District FE","No","Yes")))
@@ -1000,7 +1008,7 @@ get_rent_regs_late <- function(hces_merged_emp,survey_design,summary_format="lat
   # rent_model1_pc=lm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+
   #                     cooking_fuel+piped_water+own_latrine,
   #                   data=hces_merged_emp)
-  rent_model1_pc <- svyglm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine,
+  rent_model1_pc <- svyglm(loghcpc ~ cooking_fuel+piped_water+own_latrine,
                            design = survey_design)
   
   
@@ -1008,18 +1016,16 @@ get_rent_regs_late <- function(hces_merged_emp,survey_design,summary_format="lat
   # rent_model2_pc=lm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+
   #                     cooking_fuel+piped_water+own_latrine+factor(district_name),
   #                   data=hces_merged_emp)
-  rent_model2_pc <- svyglm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine+factor(pc11_sd_id),
+  rent_model2_pc <- svyglm(loghcpc ~ cooking_fuel+piped_water+own_latrine+factor(pc11_sd_id),
                            design = survey_design)
   
   stargazer(rent_model1_pc,rent_model2_pc,
-            keep=c("pucca_walls","pucca_floor","pucca_roof",
-                   "cooking_fuelGas/Electric",
+            keep=c("cooking_fuelGas/Electric",
                    "piped_water","own_latrine"),
             type=summary_format,
             add.lines=list(c("District FE","No","Yes")),
             dep.var.labels=c("Log Monthly Housing Exp. PC"),
-            covariate.labels=c("Pucca Walls","Pucca Flooring","Pucca Roof",
-                               "Gas/Electric Cooking Fuel",
+            covariate.labels=c("Gas/Electric Cooking Fuel",
                                "Piped Water","Exclusive Latrine"),
             single.row=T)
   model_list=list(rent_model1,rent_model2,rent_model1_pc,rent_model2_pc)

@@ -185,32 +185,32 @@ get_split_pipeline <- function(){
     ### Get stargazer outputs
     #### First stage
     tar_target(wage_early_coefs_list,
-               list(master_wage_early_coefs[1:9,], master_wage_pc_early_coefs[1:9,])),
+               list(master_wage_early_coefs[1:8,], master_wage_pc_early_coefs[1:8,])),
     tar_target(wage_early_base_models_list,
                list(
-                 lm(log(totexp) ~ poly(Age,2)+male+educ+hindu+scst, data=nss_ind_reg),
-                 lm(logepc ~ poly(Age,2)+male+educ+hindu+scst, data=nss_ind_reg)
+                 lm(log(totexp) ~ poly(Age,2)+male+educ_nfs + educ_hs + educ_ps +hindu+scst-1, data=nss_ind_reg),
+                 lm(logepc ~ poly(Age,2)+male+educ_nfs + educ_hs + educ_ps +hindu+scst-1, data=nss_ind_reg)
                )),
     tar_target(rent_early_coefs_list,
-               list(master_rent_early_coefs[1:7,], master_rent_pc_early_coefs[1:7,])),
+               list(master_rent_early_coefs[1:2,], master_rent_pc_early_coefs[1:2,])),
     tar_target(rent_early_base_models_list,
                list(
-                 lm(loghc ~ pucca_walls+pucca_floor+pucca_roof+piped_water+own_latrine+elec, data=df_housing_merged),
-                 lm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+piped_water+own_latrine+elec, data=df_housing_merged)
+                 lm(loghc ~ piped_water+own_latrine-1, data=df_housing_merged),
+                 lm(loghcpc ~ piped_water+own_latrine-1, data=df_housing_merged)
                )),
     tar_target(wage_late_coefs_list,
-               list(master_wage_late_coefs[1:7,], master_wage_pc_late_coefs[1:7,])),
+               list(master_wage_late_coefs[1:6,], master_wage_pc_late_coefs[1:6,])),
     tar_target(wage_late_base_models_list,
                list(
-                 lm(log(totexp) ~ poly(age,2)+male+edu+hindu+scstbc, data=hces_merged_emp_housing),
-                 lm(logepc ~ poly(age,2)+male+edu+hindu+scstbc, data=hces_merged_emp_housing)
+                 lm(log(totexp) ~ poly(age,2)+male+edu+hindu+scstbc-1, data=hces_merged_emp_housing),
+                 lm(logepc ~ poly(age,2)+male+edu+hindu+scstbc-1, data=hces_merged_emp_housing)
                )),
     tar_target(rent_late_coefs_list,
-               list(master_rent_late_coefs[1:8,], master_rent_pc_late_coefs[1:8,])),
+               list(master_rent_late_coefs[1:3,], master_rent_pc_late_coefs[1:3,])),
     tar_target(rent_late_base_models_list,
                list(
-                 lm(loghc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine, data=hces_merged_emp_housing %>% filter(mrent > 0)),
-                 lm(loghcpc ~ pucca_walls+pucca_floor+pucca_roof+cooking_fuel+lighting_source+piped_water+own_latrine, data=hces_merged_emp_housing %>% filter(mrent > 0))
+                 lm(loghc ~ cooking_fuel_gas_electric+piped_water+own_latrine-1, data=hces_merged_emp_housing %>% filter(mrent > 0)),
+                 lm(loghcpc ~ cooking_fuel_gas_electric+piped_water+own_latrine-1, data=hces_merged_emp_housing %>% filter(mrent > 0))
                )),
     # tar_target(second_stage_early_proj_coefs_list,
     #            list(t(master_boot_results_proj[,1:6]), t(master_boot_results_proj[,7:12]))),
