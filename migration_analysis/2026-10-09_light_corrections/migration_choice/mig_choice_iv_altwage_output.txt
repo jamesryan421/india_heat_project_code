@@ -1,0 +1,26 @@
+NSS 64 urban work migrants mapped to districts: 15892 (moved within 5 years: 6701)
+PLFS 2020-21 urban work migrants from another district, mapped: 7491 (from another state: 3850)
+
+--- PLFS21 wage instrumented by NSS68 wage: no controls | migrants 3715, destinations 354 | first stage: alt_wage 0.189 (t = 4.6, F = 20.9)
+   Not instrumented: wage  1.800 (0.405) | heat -0.00494 (0.00146) | value of 30 days >32C -0.082 (0.039)
+   Control function: wage  7.687 (2.923) | heat -0.00001 (0.00336) | value -0.000 (0.010), 95% bootstrap interval [-0.023,  0.018] | residual -6.515 (2.977)
+
+--- PLFS21 wage instrumented by NSS68 wage: + controls | migrants 3566, destinations 345 | first stage: alt_wage 0.183 (t = 4.1, F = 16.6)
+   Not instrumented: wage  1.136 (0.454) | heat -0.00053 (0.00175) | value of 30 days >32C -0.014 (0.136)
+   Control function: wage  5.407 (3.850) | heat -0.00056 (0.00333) | value -0.003 (0.030), 95% bootstrap interval [-0.030,  0.029] | residual -4.686 (3.814)
+
+--- PLFS21 wage instrumented by NSS68 wage: + controls + dest-state FE | migrants 3566, destinations 345 | first stage: alt_wage 0.101 (t = 2.0, F = 4.0)
+   Not instrumented: wage  1.186 (0.450) | heat -0.00268 (0.00281) | value of 30 days >32C -0.068 (0.227)
+   Control function: wage  8.162 (141.878) | heat  0.00040 (0.09630) | value  0.001 (0.050), 95% bootstrap interval [-0.043,  0.043] | residual -7.300 (141.866)
+
+--- NSS64 (NSS68 wage) instrumented by PLFS wage: + controls | migrants 3292, destinations 345 | first stage: alt_wage 0.279 (t = 4.0, F = 15.9)
+   Not instrumented: wage  0.550 (0.278) | heat  0.00057 (0.00168) | value of 30 days >32C  0.031 (0.441)
+   Control function: wage  3.472 (2.200) | heat  0.00291 (0.00245) | value  0.025 (0.027), 95% bootstrap interval [-0.006,  0.086] | residual -3.171 (2.188)
+
+--- Pooled, each wage instrumented by the other survey: + controls | migrants 6858, destinations 345 | first stage: alt_wage 0.175 (t = 4.6, F = 21.3)
+   Not instrumented: wage  0.693 (0.314) | heat -0.00024 (0.00147) | value of 30 days >32C -0.011 (0.286)
+   Control function: wage  5.766 (15.293) | heat  0.00136 (0.00310) | value  0.007 (0.010), 95% bootstrap interval [-0.010,  0.030] | residual -5.336 (15.272)
+
+--- Pooled, each wage instrumented by the other survey: + controls + dest-state FE | migrants 6858, destinations 345 | first stage: alt_wage 0.115 (t = 2.7, F = 7.5)
+   Not instrumented: wage  0.722 (0.267) | heat -0.00212 (0.00199) | value of 30 days >32C -0.088 (0.249)
+   Control function: wage  7.756 (412.573) | heat  0.00227 (0.12579) | value  0.009 (0.015), 95% bootstrap interval [-0.017,  0.042] | residual -7.269 (412.579)

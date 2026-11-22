@@ -26,7 +26,19 @@ apply_hces_fixes <- function(hces_distcodes, hces_distcodes_unmerged){
     filter(is.na(nsscode)) %>%
     filter(district_name %in% has_pc11_no_nsscode_distnames) %>%
     mutate(
-      pc11_sd_id = paste0(sprintf("%02d", as.numeric(state)), "-", sprintf("%03d", as.numeric(district)))
+      pc11_sd_id = paste0(sprintf("%02d", as.numeric(state)), "-", sprintf("%03d", as.numeric(district))),
+      # The state-district construction above only gives the Census 2011 id for the J&K districts.
+      # The other seven take their Census 2011 ids from the geodata file.
+      pc11_sd_id = case_when(
+        district_name == "palwal" ~ "06-089",
+        district_name == "pratapgarh rajasthan" ~ "08-131",
+        district_name == "ramgarh" ~ "20-361",
+        district_name == "khunti" ~ "20-365",
+        district_name == "tapi" ~ "24-493",
+        district_name == "yadgir" ~ "29-580",
+        district_name == "tiruppur" ~ "33-633",
+        TRUE ~ pc11_sd_id
+      )
     )
   
   # 11 map to their 2011 parent districts
@@ -93,7 +105,7 @@ apply_hces_fixes <- function(hces_distcodes, hces_distcodes_unmerged){
 ## :::::::::::
 
 ### Wage Regressions
-get_nss_data=function(nss_ind,hces_distcodes){
+get_nss_data=function(nss_ind,hces_distcodes,nss_heads,worker_sample="all"){
   # Start with reading clean data in NSS files for 2011
   
   #nss_cloth=read_dta(here("../data/nss/CleanData","hh_cloth.dta")) #Clothing consumption
@@ -143,6 +155,19 @@ get_nss_data=function(nss_ind,hces_distcodes){
     logepc=log(totexp/num_hhmem),
     male=if_else(Sex=="1",1,0) #Think this is right?
   )
+  # NEW (Oct 9): Sex, Age and Education in IND_2011_v2 describe one household member, who is the head
+  # in only a third of households (a fifth are under 15). Replace them with the head's characteristics
+  # from the NSS 68 roster. Education is in years, coded the same way as the late period.
+  nss_ind_reg <- nss_ind_reg %>%
+    left_join(nss_heads, by="hhid") %>%
+    mutate(
+      Age = head_age,
+      male = head_male,
+      edu = head_edu,
+      # District education controls, same definitions in both periods
+      educ_hs = if_else(edu >= 10, 1, 0), # secondary or above
+      educ_ps = if_else(edu >= 15, 1, 0)  # graduate or above
+    )
   # Try removing the filter on heads of household
   # ) %>% filter(
   #   Relation==1 #Only heads of household
@@ -176,8 +201,10 @@ get_nss_data=function(nss_ind,hces_distcodes){
     by=c("District_code" = "nsscode")
   ) %>%
     # filter to urban households
-    # NEW: Filter to households which are regular wage/salary earning, as a proxy for formal employment
-    filter(Sector == "2" & HH_Type == "2")
+    # Household type 2 (regular wage/salary earning) is the household's main income source, not job formality,
+    # and with the 30-household threshold it leaves 123 districts. Kept as an option (worker_sample in config).
+    filter(Sector == "2") %>%
+    filter(if (worker_sample == "regular_wage") HH_Type == "2" else TRUE)
   
   
   return(nss_ind_reg)
@@ -276,8 +303,9 @@ get_housing_data_early=function(df_hcs3,df_hcs4,df_hcs6,hces_distcodes){
   
   # Characteristics in df_hcs3
   # B3_q3: Total household size
-  hcs3_cols=c("B3_q3")
-  hcs3_names=c("hhsize")
+  # NEW: B3_q11 tenurial status (3 employer quarters, 4 hired with written contract, 5 hired without)
+  hcs3_cols=c("B3_q3","B3_q11")
+  hcs3_names=c("hhsize","tenure")
   
   # Characteristics in df_hcs4
   # B4_q1_1: Major source of drinking water
@@ -301,8 +329,9 @@ get_housing_data_early=function(df_hcs3,df_hcs4,df_hcs6,hces_distcodes){
   # B6_q17: Monthly rent in Rs
   
   df_hcs6 <- df_hcs6 %>% rename(Wgt_combined = Wgt_Combined)
-  hcs6_cols=c("B6_q8","B6_q13","B6_q14","B6_q15","B6_q16","B6_q17")
-  hcs6_names=c("total_area","kitchen_type","floor_type","wall_type","roof_type","rent")
+  # NEW: B6_q1 type of dwelling (1 independent house, 2 flat, 9 other), B6_q2/B6_q3 living and other rooms
+  hcs6_cols=c("B6_q8","B6_q13","B6_q14","B6_q15","B6_q16","B6_q17","B6_q1","B6_q2","B6_q3")
+  hcs6_names=c("total_area","kitchen_type","floor_type","wall_type","roof_type","rent","dwelling_type","living_rooms","other_rooms")
   
   df_housing_merged=inner_join(
     df_hcs3[,c(housing_merge_cols,hcs3_cols)],
@@ -348,7 +377,11 @@ get_housing_data_early=function(df_hcs3,df_hcs4,df_hcs6,hces_distcodes){
       pucca_walls=if_else(wall_type %in% c("5","6","7","8","9"),1,0),
       pucca_roof=if_else(roof_type %in% c("5","6","7","8","9"),1,0),
       loghc=log(rent),
-      loghcpc=log(rent/hhsize)
+      loghcpc=log(rent/hhsize),
+      # NEW: dwelling size controls
+      log_area=if_else(total_area > 0, log(total_area), NA_real_),
+      rooms=living_rooms + coalesce(other_rooms, 0),
+      dwelling_type=factor(dwelling_type)
     )
   
   # Merge on districts
@@ -364,8 +397,9 @@ get_housing_data_early=function(df_hcs3,df_hcs4,df_hcs6,hces_distcodes){
   ) %>% 
     # filter to urban districts
     filter(Sector == "2") %>%
-    # NEW: Filter to formal housing which has pucca materials and electricity
-    filter(pucca_floor == 1 & pucca_walls == 1 & pucca_roof == 1 & elec == 1)
+    # NEW (Oct 9): market tenants only. Drop employer quarters (tenure 3), whose rents are not market rents.
+    # Pucca materials and electricity cover 88% of renters, so they enter as controls, not as a filter.
+    filter(tenure %in% c("4","5"))
   
   
   return(df_housing_merged)
@@ -529,7 +563,7 @@ get_plot_data=function(wage_model,rent_model,pval_thresh=0.05){
   return(plot_data)
 }
 
-merge_pop_plot_data=function(plot_data,df_pop,recent_data=F){
+merge_pop_plot_data=function(plot_data,df_pop,recent_data=F,late_pop_col="pop_23_proj"){
   # Merge in population data using latest projections
   #df_pop<-read_csv(here("../data/population_projections","india_population_projections.csv"))
   
@@ -540,7 +574,9 @@ merge_pop_plot_data=function(plot_data,df_pop,recent_data=F){
       #df_pop[,c("Dist_Name","pop_22")] %>% rename(pop = pop_22),
       # Update: use worldpopdata
       #df_pop[,c("Dist_name","pop_23_wp")] %>% rename(pop = pop_23_wp),
-      df_pop[,c("pc11_sd_id", "pop_23_wp")] %>% rename(pop = pop_23_wp),
+      # NEW (Oct 9): column set in config. pop_23_proj is on the same Census basis as pop_11_proj;
+      # growth from pop_23_wp correlates 0.06-0.08 with it across districts.
+      df_pop[,c("pc11_sd_id", late_pop_col)] %>% rename(pop = all_of(late_pop_col)),
       by=c("district" = "pc11_sd_id")
     ) %>%
       mutate(logpop=log(pop))
@@ -653,7 +689,7 @@ write_diffs=function(plot_data,period="early"){
 ### Wage Regressions
 get_hces_merged_emp <- function(hces_assets,hces_distcodes,hces_consumption,
                                 hces_ident,hces_roster,hces_types,
-                                level3_raw,level9_raw){
+                                level3_raw,level9_raw,worker_sample="all"){
   # First load in HCES data
   #setwd(file.path(getwd(),"hces_2022\\clean_data"))
   
@@ -757,18 +793,20 @@ get_hces_merged_emp <- function(hces_assets,hces_distcodes,hces_consumption,
   dwelling_chars_emp=level3_hhids %>%
     select(c(hhid,b4q4pt1,b4q4pt3,b4q4pt6,
              b4q4pt13,b4q4pt15,b4q4pt16,b4q4pt17,b4q4pt18,b4q4pt19,b4q4pt20,b4q4pt21,
-             b4q4pt22,b4q4pt23,b4q4pt25,b4q4pt26))
+             b4q4pt22,b4q4pt23,b4q4pt25,b4q4pt26,b4q4pt12))
   names(dwelling_chars_emp)=c("hhid","empstat","nco2015","emptype",
                               "landown","landacsq","hasdwelling",
                               "dwellingtype","walls","roof","floor",
                               "cooking","lighting","water",
-                              "latrineacc","latrinetype")
+                              "latrineacc","latrinetype","socgroup")
   #dwelling_chars_emp
   
   ## Level 9 Variables of Interest
   # Get monthly rents
   monthly_rents=level9_hhids[,c("hhid","b9pt1q2","b9pt1q3")] %>%
-    filter(b9pt1q2=="539") %>% #IMPUTED RENT, beyond just actual
+    # NEW (Oct 9): item 520 is house rent actually paid (present for every hired dwelling).
+    # Item 539 is imputed rent, reported almost only by owner-occupiers (99% of owned, 7% of hired dwellings).
+    filter(b9pt1q2=="520") %>%
     select(c("hhid","b9pt1q3"))
   names(monthly_rents)=c("hhid","mrent")
   # Get monthly water
@@ -812,9 +850,18 @@ get_hces_merged_emp <- function(hces_assets,hces_distcodes,hces_consumption,
   hces_merged_emp<-hces_merged_full %>%
     mutate(male=if_else(sex==0,1,0),
            logtexp=log(totexp),
-           logepc=log(totexp/hhsize)) %>%
-    # NEW: Subset to individuals who earn regular wages or salary, as a proxy for formal employment
-    filter(emptype == "2")
+           logepc=log(totexp/hhsize),
+           # NEW (Oct 9): hh_roster's edu applies the NSS 68 year mapping to HCES codes, which were renumbered.
+           # Remap to years (codes 1-4 stay at 0 because the roster cannot separate them).
+           edu=case_when(edu == 3 ~ 8, edu == 5 ~ 10, edu == 8 ~ 12, edu == 10 ~ 11,
+                         edu == 12 ~ 13, edu == 13 ~ 16, TRUE ~ edu),
+           # District education controls, same definitions as the early period
+           educ_hs=if_else(edu >= 10, 1, 0), # secondary or above
+           educ_ps=if_else(edu >= 15, 1, 0), # graduate or above
+           # SC/ST only (scstbc also includes OBC); social group 1 = ST, 2 = SC, matches the early scst
+           scst=if_else(socgroup %in% c("1","2"), 1, 0)) %>%
+    # Household type 2 is the main income source, not job formality; optional (worker_sample in config)
+    filter(if (worker_sample == "regular_wage") emptype == "2" else TRUE)
   return(hces_merged_emp)
 }
 
@@ -955,15 +1002,14 @@ get_housing_data_late<-function(hces_merged_emp){
            no_lighting=(lighting_source=="No Lighting"),
            piped_water=if_else(water %in% piped_water_cats,1,0),
            own_latrine=if_else(latrineacc==1,1,0),
-           housing_cost=mrent + coalesce(mwater, 0),
+           # NEW (Oct 9): rent actually paid (item 520), without water charges, to match the NSS 65 rent
+           housing_cost=mrent,
            loghc=log(housing_cost),
            loghcpc=log(housing_cost/hhsize) #Per capita housing expenditure
-    ) %>%
-    filter(cooking_fuel!="No Cooking Source") %>%
-    # NEW: For formal housing, subset to cases with pucca materials and electric lighting
-    filter(
-      pucca_walls == 1 & pucca_floor == 1 & pucca_roof == 1 & lighting_electric == 1
     )
+  # NEW (Oct 9): no sample filters here. The cooking filter dropped tenants who do not cook (often single
+  # migrants); cooking fuel is a control in the rent model instead. Pucca materials and electric lighting
+  # cover 95% of urban households, so they are controls too.
   return(hces_merged_emp)
 }
 
@@ -1240,11 +1286,14 @@ get_adjusted_utci=function(utci_daily){
     )
   
   # Merge together
-  dy_heat_risk_joined <- inner_join(
+  # NEW (Oct 9): full join. An inner join dropped any bin that had days in one series and none in the
+  # other, which removed observed days from 3-5% of district-years.
+  dy_heat_risk_joined <- full_join(
     dy_heat_risk_projections,
     dy_heat_risk_observed,
     by=c("pc11_sd_id","year","heat_risk_cat")
-  )
+  ) %>%
+    mutate(across(c(proj_days_count, proj_share, obs_days_count, obs_share), ~ replace_na(.x, 0)))
   
   # Write out to disc
   # write_csv(dy_heat_risk_joined,
@@ -1582,21 +1631,23 @@ get_district_controls <- function(nss_survey_design, hces_survey_design){
   )
   
   dist_controls_late <- svyby(
-    # New fix: 3-7 are for schooling up through higher secondary education, 8 and 10-13 through diploma
-    formula = ~hindu + scstbc + age + I(edu %in% 3:7) + I(edu %in% c(8, 10:13)),
+    # NEW (Oct 9): edu here is in years, so the code ranges 3:7 and c(8,10:13) picked middle-secondary and
+    # higher secondary plus diplomas. Use the same definitions as the early period: secondary or above,
+    # graduate or above, and SC/ST (not SC/ST/OBC).
+    formula = ~hindu + scst + age + educ_hs + educ_ps,
     by = ~pc11_sd_id,
     design = hces_survey_design,
     FUN = svymean,
     na.rm=T
   )
   dist_controls_late_fixed <- dist_controls_late %>% select(
-    pc11_sd_id,hindu, scstbc, age, `I(edu %in% 3:7)TRUE`, `I(edu %in% c(8, 10:13))TRUE`
+    pc11_sd_id, hindu, scst, age, educ_hs, educ_ps
   ) %>% rename(
-    educ_hs_late = `I(edu %in% 3:7)TRUE`,
-    educ_ps_late = `I(edu %in% c(8, 10:13))TRUE`,
+    educ_hs_late = educ_hs,
+    educ_ps_late = educ_ps,
     Age_late = age,
     hindu_late = hindu,
-    scst_late = scstbc
+    scst_late = scst
   )
   
   dist_controls_full <- inner_join(
@@ -1610,7 +1661,7 @@ get_district_controls <- function(nss_survey_design, hces_survey_design){
 ## Estimating Migration costs
 ## Migrated (and modified) from migration_cost_reduced_form
 
-get_joined_differentials=function(early_diffs,late_diffs){
+get_joined_differentials=function(early_diffs,late_diffs,housing_exp_share=0.20){
   #early_diffs=read_csv(here("../data/differentials","early_period_differentials.csv"))
   #late_diffs=read_csv(here("../data/differentials","late_period_differentials.csv"))
   cols_to_keep=c("district","estimate_wage","estimate_rent","pop","logpop")
@@ -1632,7 +1683,7 @@ get_joined_differentials=function(early_diffs,late_diffs){
       delta_logpop=logpop_late - logpop_early,
       delta_wage = estimate_wage_late - estimate_wage_early,
       delta_rent = estimate_rent_late - estimate_rent_early,
-      delta_netwage = (delta_wage - 0.15*delta_rent) #Assumes 15% of expenditure on housing
+      delta_netwage = (delta_wage - housing_exp_share*delta_rent) # NEW: same housing share as the MWTP
     )
   return(joined_diffs)
 }
@@ -1891,14 +1942,14 @@ get_boot_wage_model_early <- function(i,nss_ind_reg_boot_weights){
   
   # Run models via feols
   wage_model_rep_coefs_vec <- fit_and_extract_coefs(
-    log(totexp) ~ poly(Age, 2) + male + educ + hindu + scst | pc11_sd_id,
+    log(totexp) ~ poly(Age, 2) + male + edu + hindu + scst | pc11_sd_id, # NEW: head's age, sex, years of schooling
     data = nss_ind_reg_boot_weights,
     weight_var = wgt_vec,
     cluster_var = cluster_vec
   )
   
   wage_model_rep_pc_coefs_vec <- fit_and_extract_coefs(
-    logepc ~ poly(Age, 2) + male + educ + hindu + scst | pc11_sd_id,
+    logepc ~ poly(Age, 2) + male + edu + hindu + scst | pc11_sd_id, # NEW: head's age, sex, years of schooling
     data = nss_ind_reg_boot_weights,
     weight_var = wgt_vec,
     cluster_var = cluster_vec
@@ -1961,15 +2012,17 @@ get_boot_rent_model_early <- function(i,hcs_reg_boot_weights){
   cluster_vec <- hcs_reg_boot_weights$FSU
   
   # Run models via feols
+  # NEW (Oct 9): dwelling size (log floor area, rooms) and dwelling type added; the rent differential used
+  # downstream is now the dwelling rent model (loghc), not rent per person
   rent_model_rep_coefs_vec <- fit_and_extract_coefs(
-    loghc ~ pucca_walls + pucca_floor + pucca_roof + piped_water + own_latrine + elec | pc11_sd_id,
+    loghc ~ log_area + rooms + dwelling_type + pucca_walls + pucca_floor + pucca_roof + piped_water + own_latrine + elec | pc11_sd_id,
     data = hcs_reg_boot_weights,
     weight_var = wgt_vec,
     cluster_var = cluster_vec
   )
-  
+
   rent_model_rep_pc_coefs_vec <- fit_and_extract_coefs(
-    loghcpc ~ pucca_walls + pucca_floor + pucca_roof + piped_water + own_latrine + elec | pc11_sd_id,
+    loghcpc ~ log_area + rooms + dwelling_type + pucca_walls + pucca_floor + pucca_roof + piped_water + own_latrine + elec | pc11_sd_id,
     data = hcs_reg_boot_weights,
     weight_var = wgt_vec,
     cluster_var = cluster_vec
@@ -2028,14 +2081,14 @@ get_boot_wage_model_late <- function(i,hces_merged_emp_housing_boot_weights){
   cluster_vec <- hces_merged_emp_housing_boot_weights$fsu
   
   wage_model_rep_coefs_vec <- fit_and_extract_coefs(
-    log(totexp) ~ poly(age, 2) + male + edu + hindu + scstbc | pc11_sd_id,
+    log(totexp) ~ poly(age, 2) + male + edu + hindu + scst | pc11_sd_id, # NEW: SC/ST, remapped years
     data = hces_merged_emp_housing_boot_weights,
     weight_var = wgt_vec,
     cluster_var = cluster_vec
   )
   
   wage_model_rep_pc_coefs_vec <- fit_and_extract_coefs(
-    logepc ~ poly(age, 2) + male + edu + hindu + scstbc | pc11_sd_id,
+    logepc ~ poly(age, 2) + male + edu + hindu + scst | pc11_sd_id, # NEW: SC/ST, remapped years
     data = hces_merged_emp_housing_boot_weights,
     weight_var = wgt_vec,
     cluster_var = cluster_vec
@@ -2050,7 +2103,7 @@ get_boot_wage_model_late <- function(i,hces_merged_emp_housing_boot_weights){
   return(list_to_return)
 }
 
-get_boot_rent_model_late <- function(i,hces_merged_emp_housing_boot_weights){
+get_boot_rent_model_late <- function(i,hces_merged_emp_housing_boot_weights,rent_min_n=10){
   options(survey.lonely.psu = "adjust")
   wgt_colname <- as.formula(paste0("~REP_WGT_",i))
   # hces_merged_emp_housing_boot_weights$hces_interaction <- interaction(
@@ -2062,7 +2115,9 @@ get_boot_rent_model_late <- function(i,hces_merged_emp_housing_boot_weights){
   # )
   
   # Filter to renters
-  hces_merged_renters <- hces_merged_emp_housing_boot_weights %>% filter(mrent > 0)
+  # NEW (Oct 9): tenants only (hired dwellings paying actual rent), districts with at least rent_min_n tenants
+  hces_merged_renters <- hces_merged_emp_housing_boot_weights %>% filter(dwellingtype == 2, mrent > 0) %>%
+    filter_nss(rent_min_n)
   
   test_svydesign <- svydesign(
     ids = ~fsu,
@@ -2174,10 +2229,14 @@ get_boot_reg_outputs_vec <- function(wage_reg_boot_outputs_vec, alpha){
   )
 }
 
-get_combined_iter_coef <- function(wage_coefs, rent_coefs, wage_controls_to_drop, rent_controls_to_drop){
+get_combined_iter_coef <- function(wage_coefs, rent_coefs, wage_controls_to_drop=NULL, rent_controls_to_drop=NULL){
   # Get combined wage and rent differentials for one period, for one iteration
-  wage_diffs <- wage_coefs[-wage_controls_to_drop,]
-  rent_diffs <- rent_coefs[-rent_controls_to_drop,]
+  # NEW (Oct 9): keep the district fixed effects by name (pc11 id "SS-DDD"). Dropping the first k rows
+  # removed real districts whenever feols dropped a collinear control (1-5 districts per vector on Oct 9).
+  # The two drop arguments are kept for compatibility and ignored.
+  is_district <- function(x) grepl("^[0-9]{2}-[0-9]{3}$", rownames(x))
+  wage_diffs <- wage_coefs[is_district(wage_coefs), 1]
+  rent_diffs <- rent_coefs[is_district(rent_coefs), 1]
   # Convert to data frames and merge
   wage_diffs_to_merge <- data.frame(
     district = names(wage_diffs),
@@ -2222,8 +2281,10 @@ get_mwtp_single_temp_var=function(data,indices,temp_var,housing_exp_share){
   migration_cost_term=coef(migration_costs_models[[2]])["delta_netwage"]
   # Calculate MWTP
   # Index of temperature var is 7
-  mwtp_early_unadj=(housing_exp_share*exp(coef(model_rent_early)[7]))-exp(coef(model_wage_early))[7]
-  mwtp_late_unadj=(housing_exp_share*exp(coef(model_rent_late)[7]))-exp(coef(model_wage_late))[7]
+  # NEW (Oct 9): MWTP is linear in the log-point coefficients (s_y*beta_p - beta_w). The exp() version
+  # equals s_y - 1 = -0.85 plus a small term for any small coefficient.
+  mwtp_early_unadj=(housing_exp_share*coef(model_rent_early)[7])-coef(model_wage_early)[7]
+  mwtp_late_unadj=(housing_exp_share*coef(model_rent_late)[7])-coef(model_wage_late)[7]
   correction_term=(1/migration_cost_term)*coef(model_pop_late)[2]
   mwtp_late_adj=mwtp_late_unadj+correction_term
   # Edit: also include explicit parameters beyond just MWTP
@@ -2286,8 +2347,9 @@ get_mwtp_unified = function(data, indices, housing_exp_share){
   temp_coef_wage_late = coef(model_wage_late)[7:length(coef(model_wage_late))] #11 coefs
   temp_coef_pop = coef(model_pop_late)[2:length(coef(model_pop_late))] #11 coefs
   
-  mwtp_early_unadj = (housing_exp_share * exp(temp_coef_rent_early)) - exp(temp_coef_wage_early) #11
-  mwtp_late_unadj = (housing_exp_share * exp(temp_coef_rent_late)) - exp(temp_coef_wage_late) #11
+  # NEW (Oct 9): linear MWTP, s_y*beta_p - beta_w (see get_mwtp_piecewise)
+  mwtp_early_unadj = (housing_exp_share * temp_coef_rent_early) - temp_coef_wage_early #11
+  mwtp_late_unadj = (housing_exp_share * temp_coef_rent_late) - temp_coef_wage_late #11
   correction_terms = (1/migration_cost_term) * temp_coef_pop #11
   mwtp_late_adj = mwtp_late_unadj + correction_terms #11
   
@@ -2371,8 +2433,12 @@ get_mwtp_piecewise <- function(data, indices, housing_exp_share){
   temp_coef_wage_late = coef(model_wage_late)[6:length(coef(model_wage_late))] #3 coefs
   temp_coef_pop = coef(model_pop_late) #3 coefs
   
-  mwtp_early_unadj = (housing_exp_share * exp(temp_coef_rent_early)) - exp(temp_coef_wage_early) #3
-  mwtp_late_unadj = (housing_exp_share * exp(temp_coef_rent_late)) - exp(temp_coef_wage_late) #3
+  # NEW (Oct 9): MWTP is linear in the log-point coefficients, as in the paper: s_y*beta_p - beta_w.
+  # The exp() version was s_y*exp(beta_p) - exp(beta_w), which is s_y - 1 = -0.85 for any small coefficients.
+  # Units: share of income per day in the band. The three coefficients are cumulative (days above 26, 32, 38),
+  # so the value of a day in the 32-38 band is the sum of the first two entries, above 38 the sum of all three.
+  mwtp_early_unadj = (housing_exp_share * temp_coef_rent_early) - temp_coef_wage_early #3
+  mwtp_late_unadj = (housing_exp_share * temp_coef_rent_late) - temp_coef_wage_late #3
   correction_terms = (1/migration_cost_term) * temp_coef_pop #3
   mwtp_late_adj = mwtp_late_unadj + correction_terms #3
   
@@ -2496,9 +2562,11 @@ get_boot_means_ci_bounds=function(master_boot_matrix){
   means_vals <- apply(master_boot_matrix, 2, mean, na.rm=T)
   ci_lower_vals <- apply(master_boot_matrix, 2, quantile, probs=0.025, na.rm=T)
   ci_upper_vals <- apply(master_boot_matrix, 2, quantile, probs=0.975, na.rm=T)
+  # NEW (Oct 9): get_mwtp_unified() returns wage early, rent early, wage late, rent late, so the
+  # 5th and 6th labels were swapped
   col_names <- c("Early MWTP, Unadj.","Late MWTP, Unadj.","Late MWTP w/ Mig. Costs",
-                       "Early Wage Elasticity", "Late Wage Elasticity",
-                       "Early Rent Elasticity", "Late Rent Elasticity",
+                       "Early Wage Elasticity", "Early Rent Elasticity",
+                       "Late Wage Elasticity", "Late Rent Elasticity",
                        "Late Pop Elasticity", "Migration Cost Parameter")
   row_names <- c("Extreme", "Very Strong - High", "Very Strong - Mid High", "Very Strong - Mid Low", "Very Strong - Low",
                  "Strong - High", "Strong - Mid", "Strong - Low",
@@ -2518,9 +2586,11 @@ get_boot_means_ci_bounds_piecewise=function(master_boot_matrix){
   means_vals <- apply(master_boot_matrix, 2, mean, na.rm=T)
   ci_lower_vals <- apply(master_boot_matrix, 2, quantile, probs=0.025, na.rm=T)
   ci_upper_vals <- apply(master_boot_matrix, 2, quantile, probs=0.975, na.rm=T)
+  # NEW (Oct 9): get_mwtp_piecewise() returns wage early, rent early, wage late, rent late, so the
+  # 5th and 6th labels were swapped
   col_names <- c("Early MWTP, Unadj.","Late MWTP, Unadj.","Late MWTP w/ Mig. Costs",
-                 "Early Wage Elasticity", "Late Wage Elasticity",
-                 "Early Rent Elasticity", "Late Rent Elasticity",
+                 "Early Wage Elasticity", "Early Rent Elasticity",
+                 "Late Wage Elasticity", "Late Rent Elasticity",
                  "Late Pop Elasticity", "Migration Cost Parameter")
   row_names <- c("Days above 26", "Days above 32", "Days above 38")
   means <- matrix(means_vals, nrow=3, ncol=9, dimnames = list(row_names, col_names))
@@ -2800,7 +2870,9 @@ get_stargazer_other_table = function(other_outputs,other_output_options,output_t
 }
 
 get_coef_comparison_table <- function(master_boot_results){
-  temp_coef_matrix <- master_boot_results[,21:32]
+  # NEW (Oct 9): the temperature coefficients are columns 30-41 of the get_mwtp_piecewise() vector.
+  # Columns 21-29 are the three MWTP blocks, which were printed under the wage and rent labels.
+  temp_coef_matrix <- master_boot_results[,30:41]
   colnames(temp_coef_matrix) <- c(
     "Wage, Early, Above 26", "Wage, Early, Above 32", "Wage, Early, Above 38",
     "Rent, Early, Above 26", "Rent, Early, Above 32", "Rent, Early, Above 38",

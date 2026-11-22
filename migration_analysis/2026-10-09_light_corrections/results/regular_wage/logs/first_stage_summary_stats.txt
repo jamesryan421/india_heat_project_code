@@ -1,0 +1,77 @@
+==================================================
+
+PIPELINE LOG GENERATED ON: 2026-10-09 22:09:07.99853 
+
+==================================================
+
+
+
+--- early_period_wages_summary Regression Outputs ---
+
+
+Wage Regression Summary Statistics, Early Period
+=============================================================
+Statistic                    N    Mean  St. Dev.  Min   Max  
+-------------------------------------------------------------
+Log Expenditure Per Capita 9,862 7.918   0.625   6.033 10.844
+Age (head)                 9,862 44.812  12.837   14    100  
+Male (head)                9,862 0.891   0.312     0     1   
+Years of Schooling (head)  9,862 10.129  4.992     0     17  
+Secondary or Above (head)  9,862 0.636   0.481     0     1   
+Graduate or Above (head)   9,862 0.306   0.461     0     1   
+Hindu                      9,862 0.768   0.422     0     1   
+Scheduled Caste/Tribe      9,861 0.217   0.412     0     1   
+-------------------------------------------------------------
+
+--- early_period_rents_summary Regression Outputs ---
+
+
+Rent Regression Summary Statistics, Early Period
+======================================================
+Statistic             N    Mean  St. Dev.  Min    Max 
+------------------------------------------------------
+Log Rent            12,843 6.514  1.029   0.000  9.999
+Log Rent Per Capita 12,843 5.366  1.130   -1.504 9.999
+Log Floor Area      12,843 5.425  0.671   2.303  8.189
+Rooms               12,623 2.743  1.605     1     19  
+Pucca Walls         12,843 0.922  0.268     0      1  
+Pucca Floor         12,843 0.939  0.239     0      1  
+Pucca Roof          12,843 0.967  0.180     0      1  
+Piped Water Access  12,843 0.944  0.230     0      1  
+Exclusive Latrine   12,843 0.405  0.491     0      1  
+Electricity         12,843 0.972  0.164     0      1  
+------------------------------------------------------
+
+--- late_period_wages_summary Regression Outputs ---
+
+
+Wage Regression Summary Statistics, Late Period
+======================================================================
+Statistic                            N     Mean  St. Dev.  Min   Max  
+----------------------------------------------------------------------
+Log Monthly Expenditure Per Capita 38,387 8.888   0.545   6.592 12.360
+Age                                38,387 46.235  13.043   15     95  
+Male                               38,385 0.855   0.352     0     1   
+Years of Schooling                 38,387 9.913   5.827     0     17  
+Hindu                              38,387 0.786   0.410     0     1   
+Scheduled Caste/Tribe              38,387 0.231   0.421     0     1   
+----------------------------------------------------------------------
+
+--- late_period_rents_summary Regression Outputs ---
+
+
+Rent Regression Summary Statistics, Late Period
+===============================================================
+Statistic                      N    Mean  St. Dev.  Min   Max  
+---------------------------------------------------------------
+Log Housing Costs            14,547 8.271  0.818   1.386 11.408
+Log Housing Costs Per Capita 14,547 7.239  0.904   0.182 10.820
+Pucca Walls                  14,547 0.988  0.110     0     1   
+Pucca Flooring               14,547 0.986  0.116     0     1   
+Pucca Roofing                14,547 0.995  0.068     0     1   
+Gas/Electric Cooking Fuel    14,547 0.946  0.226     0     1   
+Electric Lighting            14,538 1.000  0.020     0     1   
+Piped Water                  14,547 0.700  0.458     0     1   
+Exclusive Latrine Access     14,547 0.775  0.418     0     1   
+dwellingtype                 14,547 2.000  0.000     2     2   
+---------------------------------------------------------------

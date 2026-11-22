@@ -77,27 +77,29 @@ get_split_pipeline <- function(){
         wage_late_coefs <- get_boot_reg_outputs_vec(wage_boot_late_outputs$wage_late, alpha)$coef
         wage_pc_late_coefs <- get_boot_reg_outputs_vec(wage_boot_late_outputs$wage_pc_late, alpha)$coef
         # Late rents
-        rent_boot_late_outputs <- get_boot_rent_model_late(rep_ids, hces_boot_wts)
+        rent_boot_late_outputs <- get_boot_rent_model_late(rep_ids, hces_boot_wts, rent_min_n)
         rent_late_coefs <- get_boot_reg_outputs_vec(rent_boot_late_outputs$rent_late, alpha)$coef
         rent_pc_late_coefs <- get_boot_reg_outputs_vec(rent_boot_late_outputs$rent_pc_late, alpha)$coef
         # Joined district-level controls
         district_controls <- get_district_controls(wage_boot_design_early, wage_boot_design_late)
         # Combined early coefficients
+        # NEW (Oct 9): rent differential from the dwelling-rent model (loghc), not rent per person;
+        # district effects are matched by name inside get_combined_iter_coef
         combined_iter_coef_early <- get_combined_iter_coef(
           wage_pc_early_coefs,
-          rent_pc_early_coefs,
-          seq(1,9), seq(1,7)
+          rent_early_coefs
         )
         combined_iter_coef_early_pop <- merge_pop_plot_data(combined_iter_coef_early, df_pop, recent_data=F)
         # Combined late coefficients
         combined_iter_coef_late <- get_combined_iter_coef(
           wage_pc_late_coefs,
-          rent_pc_late_coefs,
-          seq(1,7), seq(1,8)
+          rent_late_coefs
         )
-        combined_iter_coef_late_pop <- merge_pop_plot_data(combined_iter_coef_late, df_pop, recent_data=T)
+        combined_iter_coef_late_pop <- merge_pop_plot_data(combined_iter_coef_late, df_pop, recent_data=T,
+                                                           late_pop_col=late_pop_col)
         # Joined differentials
-        joined_diffs <- get_joined_differentials(combined_iter_coef_early_pop, combined_iter_coef_late_pop)
+        joined_diffs <- get_joined_differentials(combined_iter_coef_early_pop, combined_iter_coef_late_pop,
+                                                 housing_exp_share)
         # Projected bootstrap data
         bootstrap_data_proj <- get_bootstrap_data_redux(joined_diffs, utci_ewp, utci_lwp, district_controls)
         # Observed bootstrap data
@@ -184,33 +186,36 @@ get_split_pipeline <- function(){
                data_elements[[1]]$boot_data_obs),
     ### Get stargazer outputs
     #### First stage
+    # NEW (Oct 9): skeletons follow the new first-stage formulas (same terms, same order, no intercept)
     tar_target(wage_early_coefs_list,
-               list(master_wage_early_coefs[1:8,], master_wage_pc_early_coefs[1:8,])),
+               list(master_wage_early_coefs[1:6,], master_wage_pc_early_coefs[1:6,])),
     tar_target(wage_early_base_models_list,
                list(
-                 lm(log(totexp) ~ poly(Age,2)+male+educ_nfs + educ_hs + educ_ps +hindu+scst-1, data=nss_ind_reg),
-                 lm(logepc ~ poly(Age,2)+male+educ_nfs + educ_hs + educ_ps +hindu+scst-1, data=nss_ind_reg)
+                 lm(log(totexp) ~ poly(Age,2)+male+edu+hindu+scst-1, data=nss_ind_reg),
+                 lm(logepc ~ poly(Age,2)+male+edu+hindu+scst-1, data=nss_ind_reg)
                )),
     tar_target(rent_early_coefs_list,
-               list(master_rent_early_coefs[1:2,], master_rent_pc_early_coefs[1:2,])),
+               list(master_rent_early_coefs[1:10,], master_rent_pc_early_coefs[1:10,])),
     tar_target(rent_early_base_models_list,
                list(
-                 lm(loghc ~ piped_water+own_latrine-1, data=df_housing_merged),
-                 lm(loghcpc ~ piped_water+own_latrine-1, data=df_housing_merged)
+                 lm(loghc ~ log_area + rooms + as.numeric(dwelling_type=="2") + as.numeric(dwelling_type=="9") + pucca_walls + pucca_floor + pucca_roof + piped_water + own_latrine + elec - 1, data=df_housing_merged),
+                 lm(loghcpc ~ log_area + rooms + as.numeric(dwelling_type=="2") + as.numeric(dwelling_type=="9") + pucca_walls + pucca_floor + pucca_roof + piped_water + own_latrine + elec - 1, data=df_housing_merged)
                )),
     tar_target(wage_late_coefs_list,
                list(master_wage_late_coefs[1:6,], master_wage_pc_late_coefs[1:6,])),
     tar_target(wage_late_base_models_list,
                list(
-                 lm(log(totexp) ~ poly(age,2)+male+edu+hindu+scstbc-1, data=hces_merged_emp_housing),
-                 lm(logepc ~ poly(age,2)+male+edu+hindu+scstbc-1, data=hces_merged_emp_housing)
+                 lm(log(totexp) ~ poly(age,2)+male+edu+hindu+scst-1, data=hces_merged_emp_housing),
+                 lm(logepc ~ poly(age,2)+male+edu+hindu+scst-1, data=hces_merged_emp_housing)
                )),
     tar_target(rent_late_coefs_list,
-               list(master_rent_late_coefs[1:3,], master_rent_pc_late_coefs[1:3,])),
+               list(master_rent_late_coefs[1:8,], master_rent_pc_late_coefs[1:8,])),
     tar_target(rent_late_base_models_list,
                list(
-                 lm(loghc ~ cooking_fuel_gas_electric+piped_water+own_latrine-1, data=hces_merged_emp_housing %>% filter(mrent > 0)),
-                 lm(loghcpc ~ cooking_fuel_gas_electric+piped_water+own_latrine-1, data=hces_merged_emp_housing %>% filter(mrent > 0))
+                 lm(loghc ~ pucca_walls + pucca_floor + pucca_roof + as.numeric(cooking_fuel=="Biofuel") + as.numeric(cooking_fuel=="Gas/Electric") + as.numeric(lighting_source=="Non-Electric") + piped_water + own_latrine - 1,
+                    data=hces_merged_emp_housing %>% filter(dwellingtype == 2, mrent > 0)),
+                 lm(loghcpc ~ pucca_walls + pucca_floor + pucca_roof + as.numeric(cooking_fuel=="Biofuel") + as.numeric(cooking_fuel=="Gas/Electric") + as.numeric(lighting_source=="Non-Electric") + piped_water + own_latrine - 1,
+                    data=hces_merged_emp_housing %>% filter(dwellingtype == 2, mrent > 0))
                )),
     # tar_target(second_stage_early_proj_coefs_list,
     #            list(t(master_boot_results_proj[,1:6]), t(master_boot_results_proj[,7:12]))),

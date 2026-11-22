@@ -40,8 +40,18 @@ R_1 <- 100
 R_2 <- 25
 #R_1 <- 10
 #R_2 <- 5
-housing_exp_share=0.15
+# Housing share: HCES 2022-23 urban tenants spend 0.20 of total expenditure on rent (item 520 / totexp, weighted)
+housing_exp_share=0.20
 alpha=0.05
+
+## Sample definitions (light corrections, Oct 9)
+# Worker sample: "all" urban households, or "regular_wage" households (household type 2).
+# Household type is the household's main income source, not job formality.
+worker_sample <- "all"
+# Minimum number of tenant households per district for a rent fixed effect
+rent_min_n <- 10
+# Late-period population: "pop_23_proj" (Census-based, same basis as pop_11_proj) or "pop_23_wp" (WorldPop)
+late_pop_col <- "pop_23_proj"
 
 ## What to do with lonely survey strata - DON'T TOUCH THIS
 options(survey.lonely.psu = "adjust")

@@ -1,0 +1,133 @@
+=== Survey micro ===
+NSS 64 wage earners mapped: 93829; missing migration record 29; interstate movers 6156; from abroad 317; inconsistent origin 19
+PLFS: regular workers with earnings 40753; casual workers with daily wages 27345
+PLFS wage earners mapped: 65626; interstate movers 4474 (of which same 2011 state after recoding Telangana/Ladakh: 42); from abroad 266
+Male wage earners aged 15-64 by survey and sector, with interstate movers:
+   survey sector     n movers return_movers work_movers mean_lw
+   <char> <char> <int>  <int>         <int>       <int>   <num>
+1:  nss64      1 41360   1205           300         941   4.448
+2:  nss64      2 27868   3745           512        3276   5.099
+3: plfs21      1 24236    863           484         376   5.905
+4: plfs21      2 24722   2622           520        2086   6.224
+=== Estimation ===
+Micro rows 118186; without a Census cell 282; with a zero Census count 18 (movers 33)
+Interstate movers with a Census share: 8402 (NSS 64 4943, PLFS 3459); origin-destination cells 2062; destinations 495; origins 35
+Return migrants among movers: NSS 64 807 of 4943, PLFS 989 of 3459
+NOTE: 42 observations removed because of NA values (RHS: 42).
+
+Census gravity, interstate cells with positive counts (18293): log share on log distance -1.381 (0.119), contiguous states 0.673 (0.165)
+NOTE: 30 observations removed because of NA values (RHS: 30).
+Reduced form, movers: log wage on log distance 0.0489 (0.0217) [Bryan-Morten Indonesia: 0.029]
+
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+                                                        spec              method   beta    se      theta theta_lo theta_hi      n cells  dest  orig fs_coef    fs_F
+                                                      <char>              <char>  <num> <num>      <num>    <num>    <num>  <int> <int> <int> <int>   <num>   <num>
+ 1:                                  A1 movers, both surveys                 OLS -0.055 0.010     18.295   13.303   29.284   8402  2062   495    35      NA      NA
+ 2:                                  A1 movers, both surveys           IV: ldist -0.030 0.013     33.022   17.936  207.871   8372  2057   493    35  -1.615 455.956
+ 3:                                  A1 movers, both surveys  IV: ldist + contig -0.030 0.013     33.359   18.061  218.085   8372  2057   493    35  -1.465 273.268
+ 4:                                  A1 movers, both surveys         IV: lpi_nbr  0.000 0.029 -81879.630   17.567      Inf   8376  2042   492    33   0.605  40.161
+ 5:                                   A2 movers, NSS 64 only                 OLS -0.082 0.013     12.172    9.219   17.911   4943  1329   399    35      NA      NA
+ 6:                                   A2 movers, NSS 64 only           IV: ldist -0.049 0.017     20.420   12.153   63.855   4918  1325   397    35  -1.624 414.181
+ 7:                                   A2 movers, NSS 64 only  IV: ldist + contig -0.049 0.017     20.332   12.202   60.912   4918  1325   397    35  -1.411 301.820
+ 8:                             A3 movers, PLFS 2020-21 only                 OLS -0.015 0.011     65.774   26.626      Inf   3459  1233   372    34      NA      NA
+ 9:                             A3 movers, PLFS 2020-21 only           IV: ldist -0.002 0.015    572.504   31.574      Inf   3454  1231   370    34  -1.599 400.436
+10:                             A3 movers, PLFS 2020-21 only  IV: ldist + contig -0.001 0.015    748.321   32.045      Inf   3454  1231   370    34  -1.549 216.595
+11:                   A4 movers in urban areas, urban shares                 OLS -0.062 0.012     16.255   11.881   25.728   6346  1527   406    35      NA      NA
+12:                   A4 movers in urban areas, urban shares           IV: ldist -0.037 0.015     26.874   15.202  115.730   6316  1522   404    35  -1.615 518.899
+13:                   A4 movers in urban areas, urban shares  IV: ldist + contig -0.037 0.015     27.047   15.190  123.233   6316  1522   404    35  -1.508 327.461
+14:                           A5 movers, + education dummies                 OLS -0.029 0.009     34.730   21.979   82.725   8402  2062   495    35      NA      NA
+15:                           A5 movers, + education dummies           IV: ldist -0.019 0.011     53.159   24.565      Inf   8372  2057   493    35  -1.611 461.755
+16:                           A5 movers, + education dummies  IV: ldist + contig -0.019 0.011     51.823   24.459      Inf   8372  2057   493    35  -1.459 279.297
+17:                             A6 movers who moved for work                 OLS -0.066 0.012     15.050   11.078   23.466   6654  1643   447    35      NA      NA
+18:                             A6 movers who moved for work           IV: ldist -0.043 0.015     23.141   13.730   73.576   6633  1639   445    35  -1.629 468.289
+19:                             A6 movers who moved for work  IV: ldist + contig -0.043 0.015     23.361   13.855   74.434   6633  1639   445    35  -1.444 301.248
+20:              A7 movers, excluding job transfers (NSS 64)                 OLS -0.050 0.011     20.168   14.002   36.036   7951  1931   484    35      NA      NA
+21:              A7 movers, excluding job transfers (NSS 64)           IV: ldist -0.030 0.014     33.437   17.166  641.430   7921  1926   482    35  -1.618 464.917
+22:              A7 movers, excluding job transfers (NSS 64)  IV: ldist + contig -0.030 0.014     33.625   17.216  717.690   7921  1926   482    35  -1.481 266.885
+23:                                A8 movers in regular jobs                 OLS -0.067 0.011     14.889   11.306   21.796   6294  1658   425    35      NA      NA
+24:                                A8 movers in regular jobs           IV: ldist -0.046 0.015     21.785   13.413   57.959   6275  1654   423    35  -1.588 427.361
+25:                                A8 movers in regular jobs  IV: ldist + contig -0.045 0.015     22.325   13.650   61.245   6275  1654   423    35  -1.424 288.073
+26:                                 A9 movers in casual jobs                 OLS  0.005 0.012   -186.492   53.676      Inf   2108   861   361    33      NA      NA
+27:                                 A9 movers in casual jobs           IV: ldist  0.011 0.017    -90.549   46.568      Inf   2097   859   359    33  -1.765 306.809
+28:                                 A9 movers in casual jobs  IV: ldist + contig  0.010 0.017    -97.307   45.228      Inf   2097   859   359    33  -1.669 160.078
+29:                               A10 movers, survey weights                 OLS -0.066 0.018     15.101    9.906   31.750   8402  2062   495    35      NA      NA
+30:                               A10 movers, survey weights           IV: ldist -0.038 0.023     26.345   11.992      Inf   8372  2057   493    35  -1.600 363.339
+31:                               A10 movers, survey weights  IV: ldist + contig -0.038 0.023     26.056   11.936      Inf   8372  2057   493    35  -1.571 185.130
+32:                        A11 movers, shares of all persons                 OLS -0.049 0.010     20.284   14.518   33.647   8402  2062   495    35      NA      NA
+33:                        A11 movers, shares of all persons           IV: ldist -0.028 0.012     35.930   19.419  239.872   8372  2057   493    35  -1.757 467.777
+34:                        A11 movers, shares of all persons  IV: ldist + contig -0.027 0.012     36.370   19.581  255.137   8372  2057   493    35  -1.576 285.482
+35:  A12 movers who head the household (Bryan-Morten sample)                 OLS -0.060 0.012     16.653   12.093   26.735   6333  1792   469    35      NA      NA
+36:  A12 movers who head the household (Bryan-Morten sample)           IV: ldist -0.034 0.014     29.731   16.313  167.509   6309  1788   467    35  -1.633 514.831
+37:  A12 movers who head the household (Bryan-Morten sample)  IV: ldist + contig -0.033 0.014     30.196   16.426  186.701   6309  1788   467    35  -1.488 320.875
+38:            X1 movers excl. return migrants, both surveys                 OLS -0.078 0.011     12.865   10.090   17.746   6606  1574   428    35      NA      NA
+39:            X1 movers excl. return migrants, both surveys           IV: ldist -0.058 0.014     17.235   11.745   32.362   6578  1571   426    35  -1.630 416.776
+40:            X1 movers excl. return migrants, both surveys  IV: ldist + contig -0.058 0.014     17.285   11.781   32.441   6578  1571   426    35  -1.447 301.205
+41:                  X2 movers excl. return migrants, NSS 64                 OLS -0.097 0.015     10.268    7.873   14.760   4136  1104   348    35      NA      NA
+42:                  X2 movers excl. return migrants, NSS 64           IV: ldist -0.071 0.018     13.994    9.346   27.839   4112  1101   346    35  -1.658 404.126
+43:                  X2 movers excl. return migrants, NSS 64  IV: ldist + contig -0.072 0.018     13.972    9.290   28.162   4112  1101   346    35  -1.437 322.956
+44:            X3 movers excl. return migrants, PLFS 2020-21                 OLS -0.039 0.012     25.478   15.885   64.327   2470   863   292    33      NA      NA
+45:            X3 movers excl. return migrants, PLFS 2020-21           IV: ldist -0.033 0.017     30.160   14.885      Inf   2466   862   291    33  -1.582 285.801
+46:            X3 movers excl. return migrants, PLFS 2020-21  IV: ldist + contig -0.032 0.017     30.788   15.156      Inf   2466   862   291    33  -1.471 167.455
+47:          X4 movers excl. return migrants, moved for work                 OLS -0.080 0.013     12.476    9.383   18.610   5609  1400   400    35      NA      NA
+48:          X4 movers excl. return migrants, moved for work           IV: ldist -0.059 0.016     16.824   11.033   35.418   5589  1397   398    35  -1.630 393.790
+49:          X4 movers excl. return migrants, moved for work  IV: ldist + contig -0.059 0.016     16.931   11.123   35.439   5589  1397   398    35  -1.433 278.498
+50:                        B1 all wage earners incl. natives                 OLS -0.021 0.003     46.727   35.611   67.936 117886  2689   627    35      NA      NA
+51:                        B1 all wage earners incl. natives IV: inter + ldist_i -0.018 0.003     54.728   39.815   87.507 117798  2682   625    35   3.359 518.156
+52: X5 all wage earners incl. natives, excl. return migrants                 OLS -0.031 0.005     31.947   24.606   45.532 116090  2201   627    35      NA      NA
+53: X5 all wage earners incl. natives, excl. return migrants IV: inter + ldist_i -0.026 0.005     37.788   27.752   59.192 116004  2196   625    35   3.349 438.488
+54:    B2 all urban wage earners incl. natives, urban shares                 OLS -0.037 0.006     27.390   20.865   39.855  52454  2140   613    35      NA      NA
+55:    B2 all urban wage earners incl. natives, urban shares IV: inter + ldist_i -0.032 0.006     31.505   22.840   50.766  52366  2133   611    35   3.805 459.618
+56:                      C1 cell means, cells with 5+ movers                 OLS -0.011 0.025     87.890   16.690      Inf    385   299   150    25      NA      NA
+57:                      C1 cell means, cells with 5+ movers           IV: ldist  0.053 0.028    -18.968  386.897      Inf    383   297   148    25  -1.439 408.690
+58:                      C1 cell means, cells with 5+ movers  IV: ldist + contig  0.058 0.026    -17.278       NA      Inf    383   297   148    25  -1.271 657.749
+                                                        spec              method   beta    se      theta theta_lo theta_hi      n cells  dest  orig fs_coef    fs_F
+=== Implied heat value ===
+Spherical geometry (s2) switched off
+NSS 64 urban work migrants mapped to districts: 15892 (moved within 5 years: 6701)
+PLFS 2020-21 urban work migrants from another district, mapped: 7491 (from another state: 3850)
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+
+Value of 30 extra days above 32 C with the wage coefficient fixed at theta (share of income; negative = cost):
+    theta sample   wage migrants  dest heat_coef heat_se value30 value30_lo value30_hi
+    <num> <char> <char>    <int> <int>     <num>   <num>   <num>      <num>      <num>
+ 1:   5.0  nss64  lwage     5353   542    0.0017  0.0015  0.0102    -0.0079     0.0283
+ 2:   5.0  nss64     bm     5387   535    0.0043  0.0025  0.0258    -0.0040     0.0557
+ 3:   5.0 plfs21  lwage     3571   360   -0.0002  0.0022 -0.0014    -0.0276     0.0248
+ 4:   5.0 plfs21     bm     6315   533    0.0054  0.0019  0.0325     0.0097     0.0553
+ 5:   5.0   pool  lwage     8924   557    0.0005  0.0013  0.0030    -0.0122     0.0183
+ 6:   5.0   pool     bm    11702   569    0.0056  0.0017  0.0333     0.0133     0.0534
+ 7:  12.2  nss64  lwage     5353   542    0.0115  0.0033  0.0282     0.0122     0.0441
+ 8:  12.2  nss64     bm     5387   535    0.0099  0.0062  0.0244    -0.0055     0.0542
+ 9:  12.2 plfs21  lwage     3571   360   -0.0010  0.0051 -0.0024    -0.0269     0.0220
+10:  12.2 plfs21     bm     6315   533    0.0160  0.0037  0.0394     0.0215     0.0573
+11:  12.2   pool  lwage     8924   557    0.0053  0.0031  0.0130    -0.0020     0.0281
+12:  12.2   pool     bm    11702   569    0.0154  0.0029  0.0379     0.0240     0.0519
+13:  18.3  nss64  lwage     5353   542    0.0194  0.0043  0.0319     0.0181     0.0456
+14:  18.3  nss64     bm     5387   535    0.0133  0.0092  0.0217    -0.0079     0.0514
+15:  18.3 plfs21  lwage     3571   360   -0.0021  0.0071 -0.0034    -0.0264     0.0195
+16:  18.3 plfs21     bm     6315   533    0.0266  0.0056  0.0437     0.0256     0.0617
+17:  18.3   pool  lwage     8924   557    0.0094  0.0039  0.0155     0.0028     0.0282
+18:  18.3   pool     bm    11702   569    0.0186  0.0037  0.0305     0.0187     0.0423
+19:  33.0  nss64  lwage     5353   542    0.0383  0.0065  0.0348     0.0233     0.0464
+20:  33.0  nss64     bm     5387   535    0.0077  0.0017  0.0070     0.0039     0.0101
+21:  33.0 plfs21  lwage     3571   360    0.0008  0.0096  0.0008    -0.0163     0.0178
+22:  33.0 plfs21     bm     6315   533   -0.0723  0.0244 -0.0657    -0.1092    -0.0223
+23:  33.0   pool  lwage     8924   557    0.0189  0.0054  0.0172     0.0077     0.0268
+24:  33.0   pool     bm    11702   569    0.0071  0.0002  0.0065     0.0062     0.0068
+    theta sample   wage migrants  dest heat_coef heat_se value30 value30_lo value30_hi
+
+Wage gradient in heat across urban destinations, within state, with controls (per 30 days):

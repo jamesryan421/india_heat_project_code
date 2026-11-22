@@ -35,8 +35,7 @@ get_plot_log_pipeline <- function(){
                  wage_early_coefs_list,
                  wage_early_base_models_list,
                  type="text",
-                 covariate.labels=c("Age", "Age Sq.", "Male", "Illiterate",
-                                    "No Formal Schooling", "High School", "Post-Secondary",
+                 covariate.labels=c("Age (head)", "Age Sq.", "Male (head)", "Years of Schooling (head)",
                                     "Hindu", "Scheduled Caste/Tribe"),
                  single.row=T,
                  add.lines=list(c("District FE", "Yes", "Yes")),
@@ -51,7 +50,7 @@ get_plot_log_pipeline <- function(){
                  wage_late_base_models_list,
                  type="text",
                  covariate.labels=c("Age", "Age Sq.", "Male",
-                                    "Education", "Hindu", "Scheduled Caste/Tribe"),
+                                    "Years of Schooling", "Hindu", "Scheduled Caste/Tribe"),
                  single.row=T,
                  add.lines=list(c("District FE", "Yes", "Yes")),
                  dep.var.labels=c("Expenditure", "Expenditure per Capita"),
@@ -64,7 +63,8 @@ get_plot_log_pipeline <- function(){
                  rent_early_coefs_list,
                  rent_early_base_models_list,
                  type="text",
-                 covariate.labels=c("Piped Water", "Own Latrine"),
+                 covariate.labels=c("Log Floor Area", "Rooms", "Flat", "Other Dwelling", "Pucca Walls", "Pucca Floor",
+                                    "Pucca Roof", "Piped Water", "Own Latrine", "Electricity"),
                  single.row=T,
                  add.lines=list(c("District FE", "Yes", "Yes")),
                  dep.var.labels=c("Rent", "Rent per Capita"),
@@ -77,7 +77,8 @@ get_plot_log_pipeline <- function(){
                  rent_late_coefs_list,
                  rent_late_base_models_list,
                  type="text",
-                 covariate.labels=c("Gas/Electric Cooking Fuel", "Piped Water", "Own Latrine"),
+                 covariate.labels=c("Pucca Walls", "Pucca Floor", "Pucca Roof", "Biofuel Cooking", "Gas/Electric Cooking",
+                                    "Non-Electric Lighting", "Piped Water", "Own Latrine"),
                  single.row=T,
                  add.lines=list(c("District FE", "Yes", "Yes")),
                  dep.var.labels=c("Rent", "Rent per Capita"),
@@ -101,7 +102,7 @@ get_plot_log_pipeline <- function(){
                  second_stage_early_proj_coefs_list,
                  second_stage_early_proj_base_models_list,
                  type="text",
-                 covariate.labels=c("Intercept", "Hindu", "Scheduled Caste/Tribe", "Age", "High School", "Post-Secondary"),
+                 covariate.labels=c("Intercept", "Hindu", "Scheduled Caste/Tribe", "Age", "Secondary or Above", "Graduate or Above"),
                  single_row=T,
                  add_lines=list(c("Temperature Correction", "No", "No")),
                  dep.var.labels=c("Wage per capita", "Rent per capita"),
@@ -114,7 +115,7 @@ get_plot_log_pipeline <- function(){
                  second_stage_late_proj_coefs_list,
                  second_stage_late_proj_base_models_list,
                  type="text",
-                 covariate.labels=c("Intercept", "Hindu", "Scheduled Caste/Tribe", "Age", "High School", "Post-Secondary"),
+                 covariate.labels=c("Intercept", "Hindu", "Scheduled Caste/Tribe", "Age", "Secondary or Above", "Graduate or Above"),
                  single_row=T,
                  add_lines=list(c("Temperature Correction", "No", "No")),
                  dep.var.labels=c("Wage per capita", "Rent per capita"),
@@ -127,7 +128,7 @@ get_plot_log_pipeline <- function(){
                  second_stage_early_obs_coefs_list,
                  second_stage_early_obs_base_models_list,
                  type="text",
-                 covariate.labels=c("Intercept", "Hindu", "Scheduled Caste/Tribe", "Age", "High School", "Post-Secondary"),
+                 covariate.labels=c("Intercept", "Hindu", "Scheduled Caste/Tribe", "Age", "Secondary or Above", "Graduate or Above"),
                  single_row=T,
                  add_lines=list(c("Temperature Correction", "No", "No")),
                  dep.var.labels=c("Wage per capita", "Rent per capita"),
@@ -140,7 +141,7 @@ get_plot_log_pipeline <- function(){
                  second_stage_late_obs_coefs_list,
                  second_stage_late_obs_base_models_list,
                  type="text",
-                 covariate.labels=c("Intercept", "Hindu", "Scheduled Caste/Tribe", "Age", "High School", "Post-Secondary"),
+                 covariate.labels=c("Intercept", "Hindu", "Scheduled Caste/Tribe", "Age", "Secondary or Above", "Graduate or Above"),
                  single_row=T,
                  add_lines=list(c("Temperature Correction", "No", "No")),
                  dep.var.labels=c("Wage per capita", "Rent per capita"),
@@ -169,14 +170,14 @@ get_plot_log_pipeline <- function(){
                write_text_stargazer_logs(stargazer_second_stage_tables_list, file.path(logs_path, "second_stage_text_regression_summaries.txt")), format="file"),
     # Summary statistics
     # Summary statistics for early period wages
-    tar_target(nss_ind_reg_ss,nss_ind_reg[,c("logepc","Age","male",
-                                             "educ_ill","educ_nfs","educ_hs","educ_ps",
+    tar_target(nss_ind_reg_ss,nss_ind_reg[,c("logepc","Age","male","edu",
+                                             "educ_hs","educ_ps",
                                              "hindu","scst")]),
     # Summary statistics for early period rents
-    tar_target(dfhm_ss, df_housing_merged[,c("loghc","loghcpc","pucca_walls","pucca_floor","pucca_roof",
+    tar_target(dfhm_ss, df_housing_merged[,c("loghc","loghcpc","log_area","rooms","pucca_walls","pucca_floor","pucca_roof",
                                              "piped_water","own_latrine","elec")]),
     # summary statistics for late period wages
-    tar_target(hcesme_w_ss, hces_merged_emp[,c("logepc","age","male","edu","hindu","scstbc")]),
+    tar_target(hcesme_w_ss, hces_merged_emp[,c("logepc","age","male","edu","hindu","scst")]),
     # Summary statistics for late period rents
     tar_target(hcesme_r_ss, hces_merged_emp_housing %>%
                  filter(dwellingtype == 2, mrent > 0) %>%
@@ -190,14 +191,14 @@ get_plot_log_pipeline <- function(){
     # Early period wages
     tar_target(st_epw_opt,list(
       title = "Wage Regression Summary Statistics, Early Period",
-      covariate.labels = c("Log Expenditure Per Capita","Age","Male",
-                           "Illiterate","No Formal Schooling","High School or Below","Post-Secondary",
+      covariate.labels = c("Log Expenditure Per Capita","Age (head)","Male (head)","Years of Schooling (head)",
+                           "Secondary or Above (head)","Graduate or Above (head)",
                            "Hindu","Scheduled Caste/Tribe")
     )),
     # Early period rents
     tar_target(st_epr_opt,list(
       title = "Rent Regression Summary Statistics, Early Period",
-      covariate.labels = c("Log Housing Costs","Log Housing Costs Per Capita",
+      covariate.labels = c("Log Rent","Log Rent Per Capita","Log Floor Area","Rooms",
                            "Pucca Walls","Pucca Floor","Pucca Roof","Piped Water Access",
                            "Exclusive Latrine","Electricity")
     )),

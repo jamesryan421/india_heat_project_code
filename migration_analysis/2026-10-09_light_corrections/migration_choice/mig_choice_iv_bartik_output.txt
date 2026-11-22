@@ -1,0 +1,26 @@
+NSS 64 urban work migrants mapped to districts: 15892 (moved within 5 years: 6701)
+PLFS 2020-21 urban work migrants from another district, mapped: 7491 (from another state: 3850)
+
+--- PLFS21: wage, no controls | migrants 3720, destinations 369 | first stage: Bartik 0.039 (t = 3.6, F = 12.8)
+   Not instrumented: wage  1.791 (0.379) | heat -0.00497 (0.00148) | value of 30 days >32C -0.083 (0.043)
+   Bartik control function: wage  5.726 (3.330) | heat -0.00059 (0.00459) | value -0.003 (0.019), 95% bootstrap interval [-0.042,  0.025] | residual -4.128 (3.399)
+
+--- PLFS21: wage + controls | migrants 3571, destinations 360 | first stage: Bartik 0.026 (t = 2.6, F = 6.7)
+   Not instrumented: wage  1.106 (0.426) | heat -0.00057 (0.00179) | value of 30 days >32C -0.015 (0.402)
+   Bartik control function: wage  5.519 (73.701) | heat  0.00003 (0.06498) | value  0.000 (0.173), 95% bootstrap interval [-0.060,  0.033] | residual -4.545 (73.700)
+
+--- PLFS21: wage + controls + dest-state FE | migrants 3571, destinations 360 | first stage: Bartik 0.043 (t = 3.4, F = 11.4)
+   Not instrumented: wage  1.168 (0.412) | heat -0.00264 (0.00316) | value of 30 days >32C -0.068 (0.145)
+   Bartik control function: wage  0.798 (5.092) | heat -0.00280 (0.00559) | value -0.105 (1.136), 95% bootstrap interval [-0.744,  0.813] | residual  0.395 (5.108)
+
+--- NSS64 <=5y: wage + controls (first stage F < 1) | migrants 5167, destinations 541 | first stage: Bartik -0.006 (t = -0.3, F = 0.1)
+   Not instrumented: wage  0.646 (0.249) | heat -0.00162 (0.00159) | value of 30 days >32C -0.075 (0.657)
+   Bartik control function: wage -23.983 (203.669) | heat -0.01706 (0.05901) | value  0.021 (0.058), 95% bootstrap interval [-0.001,  0.067] | residual 24.617 (203.681)
+
+--- Pooled: wage + controls (first stage F < 1) | migrants 8738, destinations 556 | first stage: Bartik 0.008 (t = 0.6, F = 0.4)
+   Not instrumented: wage  0.650 (0.259) | heat -0.00138 (0.00130) | value of 30 days >32C -0.064 (0.272)
+   Bartik control function: wage 16.638 (325.385) | heat  0.00480 (0.08391) | value  0.009 (0.037), 95% bootstrap interval [-0.013,  0.025] | residual -16.051 (325.392)
+
+--- Pooled: wage + controls + dest-state FE | migrants 8738, destinations 556 | first stage: Bartik 0.023 (t = 1.9, F = 3.7)
+   Not instrumented: wage  0.622 (0.237) | heat -0.00237 (0.00149) | value of 30 days >32C -0.114 (0.437)
+   Bartik control function: wage  2.113 (47.124) | heat -0.00185 (0.01270) | value -0.026 (0.606), 95% bootstrap interval [-0.340,  0.177] | residual -1.518 (47.133)

@@ -1,0 +1,67 @@
+==================================================
+
+PIPELINE LOG GENERATED ON: 2026-10-09 22:08:42.361512 
+
+==================================================
+
+
+
+--- utci_early_proj_summary Regression Outputs ---
+
+
+Early Period UTCI Summary Stats, Projected
+===========================================================
+Statistic              N   Mean   St. Dev.  Min      Max   
+-----------------------------------------------------------
+Extreme               636 184.541  77.038  0.000   317.273 
+Very Strong, High     636 60.883   44.984  0.000   186.000 
+Very Strong, Mid-High 636  0.175   0.285   0.000    0.985  
+Very Strong, Mid-Low  636  0.031   0.047   0.000    0.717  
+Very Strong, Low      636 450.242 335.751  0.367  1,357.678
+Strong, High          636 164.421  53.353  34.795  677.097 
+-----------------------------------------------------------
+
+--- utci_early_obs_summary Regression Outputs ---
+
+
+Early Period UTCI Summary Stats, Observed
+===========================================================
+Statistic              N   Mean   St. Dev.  Min      Max   
+-----------------------------------------------------------
+Extreme               636 191.623  77.394  0.000   321.545 
+Very Strong, High     636 61.531   45.251  0.000   191.182 
+Very Strong, Mid-High 636  0.175   0.285   0.000    0.985  
+Very Strong, Mid-Low  636  0.031   0.047   0.000    0.717  
+Very Strong, Low      636 450.242 335.751  0.367  1,357.678
+Strong, High          636 164.421  53.353  34.795  677.097 
+-----------------------------------------------------------
+
+--- utci_late_proj_summary Regression Outputs ---
+
+
+Late Period UTCI Summary Stats, Projected
+===========================================================
+Statistic              N   Mean   St. Dev.  Min      Max   
+-----------------------------------------------------------
+Extreme               636 181.494  74.818  0.000   321.364 
+Very Strong, High     636 60.369   44.175  0.000   185.636 
+Very Strong, Mid-High 636  0.175   0.285   0.000    0.985  
+Very Strong, Mid-Low  636  0.031   0.047   0.000    0.717  
+Very Strong, Low      636 450.242 335.751  0.367  1,357.678
+Strong, High          636 164.421  53.353  34.795  677.097 
+-----------------------------------------------------------
+
+--- utci_late_obs_summary Regression Outputs ---
+
+
+Late Period UTCI Summary Stats, Observed
+===========================================================
+Statistic              N   Mean   St. Dev.  Min      Max   
+-----------------------------------------------------------
+Extreme               636 188.322  75.280  0.000   323.727 
+Very Strong, High     636 61.189   44.373  0.000   190.273 
+Very Strong, Mid-High 636  0.175   0.285   0.000    0.985  
+Very Strong, Mid-Low  636  0.031   0.047   0.000    0.717  
+Very Strong, Low      636 450.242 335.751  0.367  1,357.678
+Strong, High          636 164.421  53.353  34.795  677.097 
+-----------------------------------------------------------

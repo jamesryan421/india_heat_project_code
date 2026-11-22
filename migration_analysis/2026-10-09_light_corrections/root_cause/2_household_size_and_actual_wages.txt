@@ -1,0 +1,16 @@
+log household size coefficient in per-person consumption: late -0.481  early -0.396 
+
+Effect of 30 more days above 38 C on district differentials (state FE, district controls, pop weights), 413 districts
+  mean household size (late):               0.096 (0.037) 
+  late: per-person consumption (pipeline):  -0.068 (0.018) 
+  late: per-person, + log household size:   -0.057 (0.017) 
+  late: household total, + log hh size:     -0.057 (0.017) 
+  early: per-person consumption:            -0.064 (0.021) 
+  early: per-person, + log household size:  -0.053 (0.020) 
+  late QOL using the household-size-adjusted wage:   0.050 (0.015) 
+
+Actual wages and tenant hedonic rents (30 more days above 38 C)
+  wage_eus      N=537 | base  -0.036 (0.020) | geography  -0.025 (0.024) | all  -0.016 (0.024)
+  wage_plfs     N=358 | base  -0.041 (0.018) | geography  -0.026 (0.019) | all  -0.023 (0.021)
+  rent_hedonic  N=229 | base  -0.067 (0.059) | geography  -0.054 (0.081) | all   0.015 (0.091)
+  rent76_hed    N=198 | base  -0.001 (0.049) | geography  -0.007 (0.057) | all  -0.011 (0.059)

@@ -1,0 +1,1129 @@
+2026-10-09 22:07:21.85 dispatched target temp_covariate_labels
+2026-10-09 22:07:21.87 dispatched target rep_ids
+2026-10-09 22:07:21.91 dispatched target nss_raw_path
+2026-10-09 22:07:21.92 dispatched target vis_output_path
+2026-10-09 22:07:21.92 dispatched target hces_2022_raw_path
+2026-10-09 22:07:21.93 dispatched target pop_projections_path
+2026-10-09 22:07:21.93 dispatched target logs_path
+2026-10-09 22:07:21.94 dispatched target st_lpw_opt
+2026-10-09 22:07:31.82 completed target temp_covariate_labels [5.2s, 210 B]
+2026-10-09 22:07:31.85 dispatched target utci_ewp_ss_opt
+2026-10-09 22:07:32.24 completed target utci_ewp_ss_opt [0ms, 287 B]
+2026-10-09 22:07:32.28 dispatched target temperature_output_path
+2026-10-09 22:07:36.10 completed target rep_ids [4.8s, 99 B]
+2026-10-09 22:07:36.10 dispatched target st_lpr_opt
+2026-10-09 22:07:36.11 completed target temperature_output_path [0ms, 122 B]
+2026-10-09 22:07:36.11 dispatched target utci_daily_filename
+2026-10-09 22:07:36.12 completed target nss_raw_path [6.7s, 114 B]
+2026-10-09 22:07:36.12 dispatched target df_hcs3_file
+2026-10-09 22:07:36.12 completed target vis_output_path [3.6s, 105 B]
+2026-10-09 22:07:36.12 dispatched target df_hcs4_file
+2026-10-09 22:07:36.13 completed target hces_2022_raw_path [5s, 118 B]
+2026-10-09 22:07:36.13 dispatched target df_hcs6_file
+2026-10-09 22:07:36.14 completed target pop_projections_path [3.5s, 124 B]
+2026-10-09 22:07:36.15 dispatched target level3_raw_file
+2026-10-09 22:07:36.15 completed target st_lpw_opt [3.5s, 227 B]
+2026-10-09 22:07:36.15 dispatched target level9_raw_file
+2026-10-09 22:07:36.45 completed target st_lpr_opt [0ms, 268 B]
+2026-10-09 22:07:36.45 dispatched target bartik_path
+2026-10-09 22:07:36.66 completed target logs_path [6.9s, 106 B]
+2026-10-09 22:07:36.66 dispatched target hces_2022_clean_path
+2026-10-09 22:07:36.75 completed target bartik_path [0ms, 110 B]
+2026-10-09 22:07:36.75 dispatched target bartik_file
+2026-10-09 22:07:36.87 completed target df_hcs3_file [1ms, 27.05 MB]
+2026-10-09 22:07:36.88 dispatched target df_hcs3
+2026-10-09 22:07:36.98 completed target hces_2022_clean_path [1ms, 120 B]
+2026-10-09 22:07:36.98 dispatched target hces_ident_file
+2026-10-09 22:07:37.08 completed target bartik_file [0ms, 17 kB]
+2026-10-09 22:07:37.08 dispatched target bartik
+2026-10-09 22:07:37.25 completed target df_hcs4_file [1ms, 17.07 MB]
+2026-10-09 22:07:37.26 dispatched target df_hcs4
+2026-10-09 22:07:37.36 completed target hces_ident_file [1ms, 3.10 MB]
+2026-10-09 22:07:37.36 dispatched target hces_ident
+2026-10-09 22:07:37.42 completed target utci_daily_filename [1ms, 87.32 MB]
+2026-10-09 22:07:37.42 dispatched target utci_daily_input
+2026-10-09 22:07:37.76 completed target level3_raw_file [1ms, 23.04 MB]
+2026-10-09 22:07:37.76 dispatched target level3_raw
+2026-10-09 22:07:37.83 completed target bartik [382ms, 7.03 kB]
+2026-10-09 22:07:37.83 dispatched target st_epw_opt
+2026-10-09 22:07:37.84 completed target df_hcs6_file [1ms, 26.58 MB]
+2026-10-09 22:07:37.84 dispatched target df_hcs6
+2026-10-09 22:07:38.02 completed target hces_ident [237ms, 273.85 kB]
+2026-10-09 22:07:38.02 dispatched target nss_clean_path
+2026-10-09 22:07:38.23 completed target st_epw_opt [1ms, 257 B]
+2026-10-09 22:07:38.23 dispatched target st_epr_opt
+2026-10-09 22:07:38.36 completed target nss_clean_path [0ms, 116 B]
+2026-10-09 22:07:38.36 dispatched target nss_ind_file
+2026-10-09 22:07:38.61 completed target st_epr_opt [0ms, 249 B]
+2026-10-09 22:07:38.61 dispatched target district_master_file
+2026-10-09 22:07:38.89 completed target district_master_file [1ms, 120.25 kB]
+2026-10-09 22:07:38.89 dispatched target district_master
+2026-10-09 22:07:39.33 completed target district_master [66ms, 37.48 kB]
+2026-10-09 22:07:39.33 dispatched target geog_path
+2026-10-09 22:07:39.46 completed target nss_ind_file [1ms, 77.19 MB]
+2026-10-09 22:07:39.46 dispatched target nss_ind
+2026-10-09 22:07:39.70 completed target geog_path [0ms, 107 B]
+2026-10-09 22:07:39.71 dispatched target geog_file
+2026-10-09 22:07:40.07 completed target geog_file [1ms, 86.89 kB]
+2026-10-09 22:07:40.07 dispatched target geog
+2026-10-09 22:07:40.54 completed target level9_raw_file [1ms, 397.12 MB]
+2026-10-09 22:07:40.54 dispatched target level9_raw
+2026-10-09 22:07:40.58 completed target geog [129ms, 35.64 kB]
+2026-10-09 22:07:40.58 dispatched target instr_merged_new
+2026-10-09 22:07:41.11 completed target df_hcs4 [2.2s, 1.86 MB]
+2026-10-09 22:07:41.12 dispatched target utci_lwp_ss_opt
+2026-10-09 22:07:41.13 completed target instr_merged_new [12ms, 27.82 kB]
+2026-10-09 22:07:41.13 dispatched target utci_ewo_ss_opt
+2026-10-09 22:07:41.27 completed target df_hcs6 [1.5s, 2.86 MB]
+2026-10-09 22:07:41.27 dispatched target utci_lwo_ss_opt
+2026-10-09 22:07:41.46 completed target df_hcs3 [2.4s, 3.18 MB]
+2026-10-09 22:07:41.46 dispatched target df_pop_file
+2026-10-09 22:07:41.58 completed target utci_ewo_ss_opt [1ms, 287 B]
+2026-10-09 22:07:41.58 dispatched target hces_distcodes_file
+2026-10-09 22:07:41.71 completed target utci_lwo_ss_opt [0ms, 286 B]
+2026-10-09 22:07:41.71 dispatched target hces_assets_file
+2026-10-09 22:07:41.89 completed target hces_distcodes_file [1ms, 64.33 kB]
+2026-10-09 22:07:41.90 dispatched target hces_distcodes_unmerged
+2026-10-09 22:07:42.08 completed target utci_lwp_ss_opt [1ms, 287 B]
+2026-10-09 22:07:42.09 dispatched target hces_types_file
+2026-10-09 22:07:42.26 completed target hces_assets_file [1ms, 12.64 MB]
+2026-10-09 22:07:42.26 dispatched target hces_assets
+2026-10-09 22:07:42.29 completed target hces_distcodes_unmerged [54ms, 10.43 kB]
+2026-10-09 22:07:42.29 dispatched target hces_distcodes_first_merge
+2026-10-09 22:07:42.85 completed target hces_distcodes_first_merge [5ms, 12.22 kB]
+2026-10-09 22:07:42.85 dispatched target hces_distcodes
+2026-10-09 22:07:42.95 completed target hces_types_file [1ms, 35.62 MB]
+2026-10-09 22:07:42.96 dispatched target hces_types
+2026-10-09 22:07:42.97 completed target df_pop_file [1ms, 71.97 MB]
+2026-10-09 22:07:42.98 dispatched target df_pop
+2026-10-09 22:07:43.38 completed target hces_distcodes [46ms, 12.41 kB]
+2026-10-09 22:07:43.38 dispatched target df_housing_merged
+2026-10-09 22:07:45.52 completed target hces_assets [1.8s, 1.61 MB]
+2026-10-09 22:07:45.52 dispatched target hces_consumption_file
+2026-10-09 22:07:45.93 completed target level3_raw [4.6s, 3.31 MB]
+2026-10-09 22:07:45.94 dispatched target hces_roster_file
+2026-10-09 22:07:46.00 completed target hces_consumption_file [1ms, 9.95 MB]
+2026-10-09 22:07:46.00 dispatched target hces_consumption
+2026-10-09 22:07:46.53 completed target hces_roster_file [1ms, 19.18 MB]
+2026-10-09 22:07:46.53 dispatched target hces_roster
+2026-10-09 22:07:47.01 completed target hces_types [1.7s, 5.98 MB]
+2026-10-09 22:07:47.01 dispatched target nss_heads_file
+2026-10-09 22:07:47.42 completed target nss_heads_file [1ms, 1.77 MB]
+2026-10-09 22:07:47.42 dispatched target nss_heads
+2026-10-09 22:07:47.85 completed target df_housing_merged [674ms, 321.91 kB]
+2026-10-09 22:07:47.85 dispatched target rent_early_base_models_list
+2026-10-09 22:07:48.04 completed target nss_heads [142ms, 478.07 kB]
+2026-10-09 22:07:48.04 dispatched target hcs_boot_wts
+2026-10-09 22:07:48.17 completed target hces_consumption [467ms, 6.09 MB]
+2026-10-09 22:07:48.17 dispatched target dfhm_ss
+2026-10-09 22:07:48.65 completed target dfhm_ss [1ms, 86.11 kB]
+2026-10-09 22:07:48.66 dispatched target early_period_rents_stargazer
+2026-10-09 22:07:48.67 completed target hces_roster [884ms, 1.93 MB]
+2026-10-09 22:07:48.68 completed target rent_early_base_models_list [14ms, 2.20 MB]
+2026-10-09 22:07:49.33 completed target early_period_rents_stargazer [213ms, 378 B]
+2026-10-09 22:07:49.33 completed target df_pop [800ms, 25.77 MB]
+2026-10-09 22:07:49.40 completed target nss_ind [4.5s, 17.60 MB]
+2026-10-09 22:07:49.40 dispatched target nss_ind_reg
+2026-10-09 22:07:51.72 completed target utci_daily_input [5.5s, 51.61 MB]
+2026-10-09 22:07:51.73 dispatched target utci_daily
+2026-10-09 22:07:52.07 completed target nss_ind_reg [167ms, 397.64 kB]
+2026-10-09 22:07:52.08 dispatched target wage_early_base_models_list
+2026-10-09 22:07:52.08 dispatched target nss_ind_reg_boot_wts
+2026-10-09 22:07:52.09 dispatched target nss_ind_reg_ss
+2026-10-09 22:07:52.60 completed target hcs_boot_wts [3.6s, 2.71 MB]
+2026-10-09 22:07:52.75 completed target wage_early_base_models_list [9ms, 1.48 MB]
+2026-10-09 22:07:53.16 completed target nss_ind_reg_ss [0ms, 103.00 kB]
+2026-10-09 22:07:53.17 dispatched target early_period_wages_stargazer
+2026-10-09 22:07:53.74 completed target early_period_wages_stargazer [148ms, 378 B]
+2026-10-09 22:07:55.47 completed target nss_ind_reg_boot_wts [2.6s, 1.89 MB]
+2026-10-09 22:08:03.75 completed target utci_daily [29ms, 60.18 MB]
+2026-10-09 22:08:03.75 dispatched target utci_new
+2026-10-09 22:08:37.39 completed target utci_new [28.4s, 1.97 MB]
+2026-10-09 22:08:37.39 dispatched target utci_pivot_tables
+2026-10-09 22:08:38.92 completed target utci_pivot_tables [642ms, 285.29 kB]
+2026-10-09 22:08:38.92 dispatched target late_window_utci_proj
+2026-10-09 22:08:38.93 dispatched target early_window_utci_obs
+2026-10-09 22:08:38.94 dispatched target late_window_utci_obs
+2026-10-09 22:08:38.94 dispatched target early_window_utci_proj
+2026-10-09 22:08:39.40 completed target early_window_utci_proj [8ms, 6.45 kB]
+2026-10-09 22:08:39.40 dispatched target utci_ewp
+2026-10-09 22:08:39.81 completed target early_window_utci_obs [10ms, 6.42 kB]
+2026-10-09 22:08:39.81 dispatched target utci_ewo
+2026-10-09 22:08:39.87 completed target late_window_utci_proj [8ms, 6.45 kB]
+2026-10-09 22:08:39.87 dispatched target utci_lwp
+2026-10-09 22:08:39.88 completed target utci_ewp [1ms, 33.37 kB]
+2026-10-09 22:08:39.89 dispatched target utci_ewp_ss
+2026-10-09 22:08:39.95 completed target late_window_utci_obs [9ms, 6.45 kB]
+2026-10-09 22:08:39.95 dispatched target utci_lwo
+2026-10-09 22:08:40.25 completed target utci_ewo [7ms, 33.35 kB]
+2026-10-09 22:08:40.25 dispatched target utci_ewo_ss
+2026-10-09 22:08:40.28 completed target utci_ewp_ss [0ms, 31.57 kB]
+2026-10-09 22:08:40.28 dispatched target utci_ewp_stargazer
+2026-10-09 22:08:40.39 completed target utci_lwo [2ms, 33.39 kB]
+2026-10-09 22:08:40.40 dispatched target utci_lwo_ss
+2026-10-09 22:08:40.57 completed target utci_lwp [1ms, 33.38 kB]
+2026-10-09 22:08:40.57 dispatched target utci_lwp_ss
+2026-10-09 22:08:40.65 completed target utci_ewo_ss [0ms, 31.57 kB]
+2026-10-09 22:08:40.65 dispatched target utci_ewo_stargazer
+2026-10-09 22:08:40.79 completed target utci_ewp_stargazer [75ms, 327 B]
+2026-10-09 22:08:40.84 completed target utci_lwo_ss [1ms, 31.58 kB]
+2026-10-09 22:08:40.85 dispatched target utci_lwo_stargazer
+2026-10-09 22:08:40.96 completed target utci_lwp_ss [0ms, 31.57 kB]
+2026-10-09 22:08:40.96 dispatched target utci_lwp_stargazer
+2026-10-09 22:08:41.15 completed target utci_ewo_stargazer [80ms, 326 B]
+2026-10-09 22:08:41.43 completed target utci_lwo_stargazer [114ms, 326 B]
+2026-10-09 22:08:41.49 completed target utci_lwp_stargazer [63ms, 327 B]
+2026-10-09 22:08:41.50 dispatched target second_stage_summary_tables_list
+2026-10-09 22:08:41.84 completed target level9_raw [40.8s, 19.94 MB]
+2026-10-09 22:08:41.85 dispatched target hces_merged_emp
+2026-10-09 22:08:41.97 completed target second_stage_summary_tables_list [0ms, 535 B]
+2026-10-09 22:08:41.97 dispatched target text_stargazer_second_stage_summary
+2026-10-09 22:08:42.75 completed target text_stargazer_second_stage_summary [422ms, 2.94 kB]
+2026-10-09 22:09:04.74 completed target hces_merged_emp [2.6s, 2.06 MB]
+2026-10-09 22:09:04.74 dispatched target hces_merged_emp_housing
+2026-10-09 22:09:04.75 dispatched target hcesme_w_ss
+2026-10-09 22:09:05.84 completed target hcesme_w_ss [0ms, 384.47 kB]
+2026-10-09 22:09:05.84 dispatched target late_period_wages_stargazer
+2026-10-09 22:09:05.91 completed target hces_merged_emp_housing [62ms, 2.21 MB]
+2026-10-09 22:09:05.91 dispatched target hces_boot_wts
+2026-10-09 22:09:05.91 dispatched target rent_late_base_models_list
+2026-10-09 22:09:05.92 dispatched target wage_late_base_models_list
+2026-10-09 22:09:05.93 dispatched target hcesme_r_ss
+2026-10-09 22:09:06.48 completed target hcesme_r_ss [13ms, 57.75 kB]
+2026-10-09 22:09:06.48 dispatched target late_period_rents_stargazer
+2026-10-09 22:09:06.59 completed target late_period_wages_stargazer [325ms, 336 B]
+2026-10-09 22:09:07.07 completed target late_period_rents_stargazer [201ms, 395 B]
+2026-10-09 22:09:07.07 dispatched target first_stage_summary_tables_list
+2026-10-09 22:09:07.22 completed target rent_late_base_models_list [17ms, 2.76 MB]
+2026-10-09 22:09:07.45 completed target wage_late_base_models_list [24ms, 6.14 MB]
+2026-10-09 22:09:07.58 completed target first_stage_summary_tables_list [0ms, 1.06 kB]
+2026-10-09 22:09:07.58 dispatched target text_stargazer_first_stage_summary
+2026-10-09 22:09:08.37 completed target text_stargazer_first_stage_summary [405ms, 3.70 kB]
+2026-10-09 22:09:25.22 completed target hces_boot_wts [17.7s, 5.71 MB]
+2026-10-09 22:09:25.24 declared pattern combined_stages
+2026-10-09 22:09:25.24 dispatched branch combined_stages_ad0fc88c272b357f
+2026-10-09 22:09:25.25 dispatched branch combined_stages_1d7e0e37a5540cdb
+2026-10-09 22:09:25.25 dispatched branch combined_stages_d100932ca41dc15f
+2026-10-09 22:09:25.26 dispatched branch combined_stages_7630e53a1c755e50
+2026-10-09 22:09:25.27 dispatched branch combined_stages_348cc7e65ae3d7ba
+2026-10-09 22:09:25.27 dispatched branch combined_stages_19cda7f8c5fd66dd
+2026-10-09 22:09:25.28 dispatched branch combined_stages_c846e823bb5b1b90
+2026-10-09 22:09:25.29 dispatched branch combined_stages_2a8825748a1a2691
+2026-10-09 22:09:25.33 declared pattern second_stage_elements
+2026-10-09 22:09:25.34 declared pattern data_elements
+2026-10-09 22:09:25.35 declared pattern first_stage_elements
+2026-10-09 22:09:40.47 completed branch combined_stages_c846e823bb5b1b90 [12.6s, 63.07 kB]
+2026-10-09 22:09:40.47 dispatched branch first_stage_elements_2ac301e7477a117a
+2026-10-09 22:09:40.74 completed branch combined_stages_19cda7f8c5fd66dd [13.2s, 63.09 kB]
+2026-10-09 22:09:40.74 dispatched branch first_stage_elements_75117e1212c8c59b
+2026-10-09 22:09:40.87 completed branch first_stage_elements_2ac301e7477a117a [0ms, 22.24 kB]
+2026-10-09 22:09:40.87 dispatched branch combined_stages_af6e0470912dd43a
+2026-10-09 22:09:41.16 completed branch first_stage_elements_75117e1212c8c59b [0ms, 22.26 kB]
+2026-10-09 22:09:41.16 dispatched branch combined_stages_49d7a6ed203bf4a4
+2026-10-09 22:09:43.86 completed branch combined_stages_1d7e0e37a5540cdb [16.9s, 63.06 kB]
+2026-10-09 22:09:43.86 dispatched branch first_stage_elements_7c6f916c2039d899
+2026-10-09 22:09:44.32 completed branch first_stage_elements_7c6f916c2039d899 [1ms, 22.26 kB]
+2026-10-09 22:09:44.32 dispatched branch combined_stages_5b8f5e8b675cf496
+2026-10-09 22:09:45.12 completed branch combined_stages_2a8825748a1a2691 [17.9s, 63.05 kB]
+2026-10-09 22:09:45.12 dispatched branch first_stage_elements_7e9e0ffaa5fddedf
+2026-10-09 22:09:45.53 completed branch first_stage_elements_7e9e0ffaa5fddedf [1ms, 22.25 kB]
+2026-10-09 22:09:45.54 dispatched branch combined_stages_c94d038b4dc2ccf0
+2026-10-09 22:09:47.32 completed branch combined_stages_ad0fc88c272b357f [18.3s, 63.08 kB]
+2026-10-09 22:09:47.33 dispatched branch first_stage_elements_e9eb9a0339f7c919
+2026-10-09 22:09:47.59 completed branch combined_stages_348cc7e65ae3d7ba [20.3s, 63.09 kB]
+2026-10-09 22:09:47.59 dispatched branch first_stage_elements_f81ba1cd0f0e3389
+2026-10-09 22:09:47.92 completed branch first_stage_elements_e9eb9a0339f7c919 [2ms, 22.27 kB]
+2026-10-09 22:09:47.92 dispatched branch combined_stages_80f1522cc264013b
+2026-10-09 22:09:48.03 completed branch first_stage_elements_f81ba1cd0f0e3389 [1ms, 22.27 kB]
+2026-10-09 22:09:48.04 dispatched branch combined_stages_8da0a0f5c97dd88e
+2026-10-09 22:09:48.78 completed branch combined_stages_d100932ca41dc15f [20.7s, 63.06 kB]
+2026-10-09 22:09:48.78 dispatched branch first_stage_elements_662796b1895274ce
+2026-10-09 22:09:48.96 completed branch combined_stages_7630e53a1c755e50 [21s, 63.07 kB]
+2026-10-09 22:09:48.97 dispatched branch first_stage_elements_02fd6c3452cc3eb3
+2026-10-09 22:09:49.22 completed branch first_stage_elements_662796b1895274ce [0ms, 22.25 kB]
+2026-10-09 22:09:49.22 dispatched branch combined_stages_3a9a349f7a5a41fc
+2026-10-09 22:09:49.39 completed branch first_stage_elements_02fd6c3452cc3eb3 [1ms, 22.26 kB]
+2026-10-09 22:09:49.39 dispatched branch combined_stages_65941cef1a947187
+2026-10-09 22:09:55.39 completed branch combined_stages_af6e0470912dd43a [13.1s, 63.09 kB]
+2026-10-09 22:09:55.39 dispatched branch first_stage_elements_c35bdad4d69dfdb3
+2026-10-09 22:09:55.80 completed branch first_stage_elements_c35bdad4d69dfdb3 [1ms, 22.28 kB]
+2026-10-09 22:09:55.81 dispatched branch combined_stages_032a9e70abad48f0
+2026-10-09 22:09:58.42 completed branch combined_stages_c94d038b4dc2ccf0 [11.2s, 63.06 kB]
+2026-10-09 22:09:58.42 dispatched branch first_stage_elements_4d5ab7e95c194e8e
+2026-10-09 22:09:58.84 completed branch first_stage_elements_4d5ab7e95c194e8e [0ms, 22.24 kB]
+2026-10-09 22:09:58.84 dispatched branch combined_stages_abfa5221e48e67c7
+2026-10-09 22:10:00.55 completed branch combined_stages_49d7a6ed203bf4a4 [17.9s, 63.10 kB]
+2026-10-09 22:10:00.55 dispatched branch first_stage_elements_914383fe7393f845
+2026-10-09 22:10:00.99 completed branch first_stage_elements_914383fe7393f845 [1ms, 22.25 kB]
+2026-10-09 22:10:00.99 dispatched branch combined_stages_d1fc622fc7120eca
+2026-10-09 22:10:03.15 completed branch combined_stages_5b8f5e8b675cf496 [17.4s, 63.03 kB]
+2026-10-09 22:10:03.15 dispatched branch first_stage_elements_bb7e1aaf445dc24a
+2026-10-09 22:10:03.60 completed branch first_stage_elements_bb7e1aaf445dc24a [1ms, 22.24 kB]
+2026-10-09 22:10:03.60 dispatched branch combined_stages_a24aa4e70e624b18
+2026-10-09 22:10:05.27 completed branch combined_stages_3a9a349f7a5a41fc [14.3s, 63.02 kB]
+2026-10-09 22:10:05.27 dispatched branch first_stage_elements_957990ef1be62a9e
+2026-10-09 22:10:05.67 completed branch first_stage_elements_957990ef1be62a9e [1ms, 22.22 kB]
+2026-10-09 22:10:05.67 dispatched branch combined_stages_5344d10470f15a63
+2026-10-09 22:10:08.42 completed branch combined_stages_8da0a0f5c97dd88e [18.7s, 63.08 kB]
+2026-10-09 22:10:08.42 dispatched branch first_stage_elements_afacf1b79c5521a8
+2026-10-09 22:10:08.87 completed branch first_stage_elements_afacf1b79c5521a8 [1ms, 22.27 kB]
+2026-10-09 22:10:08.87 dispatched branch combined_stages_33af517787f2716a
+2026-10-09 22:10:09.09 completed branch combined_stages_80f1522cc264013b [19.5s, 63.10 kB]
+2026-10-09 22:10:09.09 dispatched branch first_stage_elements_c9900cdb6b9cfda3
+2026-10-09 22:10:09.65 completed branch first_stage_elements_c9900cdb6b9cfda3 [1ms, 22.25 kB]
+2026-10-09 22:10:09.65 dispatched branch combined_stages_0f12fb7273642ff3
+2026-10-09 22:10:10.49 completed branch combined_stages_032a9e70abad48f0 [13.3s, 63.06 kB]
+2026-10-09 22:10:10.50 dispatched branch first_stage_elements_1a850a9f667cb26b
+2026-10-09 22:10:10.88 completed branch first_stage_elements_1a850a9f667cb26b [1ms, 22.25 kB]
+2026-10-09 22:10:10.88 dispatched branch combined_stages_794bb632e8e681a2
+2026-10-09 22:10:11.02 completed branch combined_stages_65941cef1a947187 [20.2s, 63.08 kB]
+2026-10-09 22:10:11.02 dispatched branch first_stage_elements_94966dc12cfcc57b
+2026-10-09 22:10:11.47 completed branch first_stage_elements_94966dc12cfcc57b [1ms, 22.25 kB]
+2026-10-09 22:10:11.48 dispatched branch combined_stages_50ecd3ba23e30299
+2026-10-09 22:10:17.41 completed branch combined_stages_abfa5221e48e67c7 [17.1s, 63.09 kB]
+2026-10-09 22:10:17.41 dispatched branch first_stage_elements_b629b192e396f9b6
+2026-10-09 22:10:17.76 completed branch combined_stages_a24aa4e70e624b18 [12.4s, 63.05 kB]
+2026-10-09 22:10:17.76 dispatched branch first_stage_elements_2dabe2b0cdb485a3
+2026-10-09 22:10:17.89 completed branch first_stage_elements_b629b192e396f9b6 [1ms, 22.26 kB]
+2026-10-09 22:10:17.89 dispatched branch combined_stages_dff0bd7ae018a2e3
+2026-10-09 22:10:18.21 completed branch first_stage_elements_2dabe2b0cdb485a3 [1ms, 22.21 kB]
+2026-10-09 22:10:18.22 dispatched branch combined_stages_607742fe4e2a17ab
+2026-10-09 22:10:18.88 completed branch combined_stages_5344d10470f15a63 [11.7s, 63.05 kB]
+2026-10-09 22:10:18.88 dispatched branch first_stage_elements_4d0570cf77d01f56
+2026-10-09 22:10:19.34 completed branch first_stage_elements_4d0570cf77d01f56 [1ms, 22.23 kB]
+2026-10-09 22:10:19.34 dispatched branch combined_stages_71b380d6199b5245
+2026-10-09 22:10:20.07 completed branch combined_stages_d1fc622fc7120eca [17.3s, 63.05 kB]
+2026-10-09 22:10:20.08 dispatched branch first_stage_elements_39cab1a3aab2c3b6
+2026-10-09 22:10:20.49 completed branch first_stage_elements_39cab1a3aab2c3b6 [1ms, 22.24 kB]
+2026-10-09 22:10:20.49 dispatched branch combined_stages_2c9914a8179b14a2
+2026-10-09 22:10:28.67 completed branch combined_stages_33af517787f2716a [18s, 63.04 kB]
+2026-10-09 22:10:28.67 dispatched branch first_stage_elements_7494faad5f3f4e51
+2026-10-09 22:10:29.16 completed branch first_stage_elements_7494faad5f3f4e51 [1ms, 22.23 kB]
+2026-10-09 22:10:29.16 dispatched branch combined_stages_9de547b0e6065c08
+2026-10-09 22:10:31.97 completed branch combined_stages_50ecd3ba23e30299 [18.7s, 63.05 kB]
+2026-10-09 22:10:31.98 dispatched branch first_stage_elements_cc8db29c050b956d
+2026-10-09 22:10:32.24 completed branch combined_stages_794bb632e8e681a2 [19.7s, 63.07 kB]
+2026-10-09 22:10:32.25 dispatched branch first_stage_elements_5c676b78e0221a65
+2026-10-09 22:10:32.38 completed branch first_stage_elements_cc8db29c050b956d [1ms, 22.21 kB]
+2026-10-09 22:10:32.38 dispatched branch combined_stages_d9842f5d4746fd76
+2026-10-09 22:10:32.68 completed branch first_stage_elements_5c676b78e0221a65 [1ms, 22.26 kB]
+2026-10-09 22:10:32.69 dispatched branch combined_stages_9759843dd866b421
+2026-10-09 22:10:32.91 completed branch combined_stages_0f12fb7273642ff3 [21.5s, 63.07 kB]
+2026-10-09 22:10:32.91 dispatched branch first_stage_elements_21fd3c902bbecac1
+2026-10-09 22:10:32.96 completed branch combined_stages_71b380d6199b5245 [12.1s, 63.10 kB]
+2026-10-09 22:10:32.96 dispatched branch first_stage_elements_94e54de638952bfd
+2026-10-09 22:10:33.39 completed branch first_stage_elements_21fd3c902bbecac1 [1ms, 22.25 kB]
+2026-10-09 22:10:33.39 dispatched branch combined_stages_f23a44cff5e47e50
+2026-10-09 22:10:33.42 completed branch first_stage_elements_94e54de638952bfd [1ms, 22.27 kB]
+2026-10-09 22:10:33.42 dispatched branch combined_stages_10d6dd643b423681
+2026-10-09 22:10:35.59 completed branch combined_stages_2c9914a8179b14a2 [13.6s, 63.07 kB]
+2026-10-09 22:10:35.60 dispatched branch first_stage_elements_6e6594f5080a8ae0
+2026-10-09 22:10:36.03 completed branch first_stage_elements_6e6594f5080a8ae0 [1ms, 22.25 kB]
+2026-10-09 22:10:36.04 dispatched branch combined_stages_79b48b5b3b90ccbb
+2026-10-09 22:10:36.43 completed branch combined_stages_dff0bd7ae018a2e3 [17s, 63.06 kB]
+2026-10-09 22:10:36.44 dispatched branch first_stage_elements_5d62c5ce11bcb313
+2026-10-09 22:10:36.84 completed branch first_stage_elements_5d62c5ce11bcb313 [1ms, 22.21 kB]
+2026-10-09 22:10:36.84 dispatched branch combined_stages_0e13dfded16fac80
+2026-10-09 22:10:38.61 completed branch combined_stages_607742fe4e2a17ab [18.7s, 63.05 kB]
+2026-10-09 22:10:38.61 dispatched branch first_stage_elements_63a997228452e73c
+2026-10-09 22:10:39.09 completed branch first_stage_elements_63a997228452e73c [0ms, 22.22 kB]
+2026-10-09 22:10:39.10 dispatched branch combined_stages_db50984ec9760b60
+2026-10-09 22:10:47.93 completed branch combined_stages_9759843dd866b421 [13.7s, 63.03 kB]
+2026-10-09 22:10:47.93 dispatched branch first_stage_elements_97e549b41bb3bad8
+2026-10-09 22:10:48.33 completed branch first_stage_elements_97e549b41bb3bad8 [0ms, 22.26 kB]
+2026-10-09 22:10:48.33 dispatched branch combined_stages_a8fdc6868d2d25a6
+2026-10-09 22:10:48.97 completed branch combined_stages_79b48b5b3b90ccbb [11.5s, 63.04 kB]
+2026-10-09 22:10:48.98 dispatched branch first_stage_elements_6cd6b2c0ddc60a8a
+2026-10-09 22:10:49.42 completed branch first_stage_elements_6cd6b2c0ddc60a8a [0ms, 22.25 kB]
+2026-10-09 22:10:49.43 dispatched branch combined_stages_77a05191c2dcd649
+2026-10-09 22:10:50.00 completed branch combined_stages_9de547b0e6065c08 [19s, 63.08 kB]
+2026-10-09 22:10:50.00 dispatched branch first_stage_elements_e67a35acc83a6d12
+2026-10-09 22:10:50.42 completed branch first_stage_elements_e67a35acc83a6d12 [1ms, 22.28 kB]
+2026-10-09 22:10:50.42 dispatched branch combined_stages_d556cfb40f7d90f2
+2026-10-09 22:10:52.85 completed branch combined_stages_10d6dd643b423681 [17.7s, 63.09 kB]
+2026-10-09 22:10:52.86 dispatched branch first_stage_elements_04a65604dd02a03b
+2026-10-09 22:10:53.40 completed branch first_stage_elements_04a65604dd02a03b [1ms, 22.27 kB]
+2026-10-09 22:10:53.40 dispatched branch combined_stages_e652d336c4a7a216
+2026-10-09 22:10:53.86 completed branch combined_stages_d9842f5d4746fd76 [19.9s, 63.08 kB]
+2026-10-09 22:10:53.86 dispatched branch first_stage_elements_a830f5161f740853
+2026-10-09 22:10:54.34 completed branch first_stage_elements_a830f5161f740853 [1ms, 22.23 kB]
+2026-10-09 22:10:54.34 dispatched branch combined_stages_4f53bcc76f83da56
+2026-10-09 22:10:57.17 completed branch combined_stages_0e13dfded16fac80 [18.8s, 63.02 kB]
+2026-10-09 22:10:57.17 dispatched branch first_stage_elements_d55b17a9f0ac341c
+2026-10-09 22:10:57.60 completed branch first_stage_elements_d55b17a9f0ac341c [1ms, 22.24 kB]
+2026-10-09 22:10:57.61 dispatched branch combined_stages_e55f47bdac3fd7a8
+2026-10-09 22:10:57.99 completed branch combined_stages_db50984ec9760b60 [17.1s, 63.06 kB]
+2026-10-09 22:10:57.99 dispatched branch first_stage_elements_064a46a022cb7682
+2026-10-09 22:10:58.46 completed branch first_stage_elements_064a46a022cb7682 [1ms, 22.23 kB]
+2026-10-09 22:10:58.47 dispatched branch combined_stages_47892870d9b4221c
+2026-10-09 22:10:58.50 completed branch combined_stages_f23a44cff5e47e50 [22.9s, 63.06 kB]
+2026-10-09 22:10:58.50 dispatched branch first_stage_elements_c4e6f384819459c0
+2026-10-09 22:10:59.02 completed branch first_stage_elements_c4e6f384819459c0 [1ms, 22.27 kB]
+2026-10-09 22:10:59.02 dispatched branch combined_stages_0b39b2298e45c79c
+2026-10-09 22:11:02.04 completed branch combined_stages_a8fdc6868d2d25a6 [12.2s, 63.09 kB]
+2026-10-09 22:11:02.04 dispatched branch first_stage_elements_4209f4ccff2df540
+2026-10-09 22:11:02.52 completed branch first_stage_elements_4209f4ccff2df540 [1ms, 22.28 kB]
+2026-10-09 22:11:02.52 dispatched branch combined_stages_e505dc12937a5376
+2026-10-09 22:11:06.92 completed branch combined_stages_d556cfb40f7d90f2 [15s, 63.05 kB]
+2026-10-09 22:11:06.93 dispatched branch first_stage_elements_5eb785799a29f0b9
+2026-10-09 22:11:07.08 completed branch combined_stages_77a05191c2dcd649 [15.9s, 63.08 kB]
+2026-10-09 22:11:07.08 dispatched branch first_stage_elements_df2e5cb28fc27feb
+2026-10-09 22:11:07.39 completed branch first_stage_elements_5eb785799a29f0b9 [1ms, 22.23 kB]
+2026-10-09 22:11:07.40 dispatched branch combined_stages_55ecc02c2f968bbf
+2026-10-09 22:11:07.51 completed branch first_stage_elements_df2e5cb28fc27feb [1ms, 22.22 kB]
+2026-10-09 22:11:07.51 dispatched branch combined_stages_34bb95c4c41e5dc6
+2026-10-09 22:11:09.93 completed branch combined_stages_e652d336c4a7a216 [14.7s, 63.09 kB]
+2026-10-09 22:11:09.93 dispatched branch first_stage_elements_c915a375fb04fd68
+2026-10-09 22:11:10.37 completed branch first_stage_elements_c915a375fb04fd68 [0ms, 22.27 kB]
+2026-10-09 22:11:10.37 dispatched branch combined_stages_97589dab422e85e0
+2026-10-09 22:11:15.81 completed branch combined_stages_4f53bcc76f83da56 [19.6s, 63.08 kB]
+2026-10-09 22:11:15.82 dispatched branch first_stage_elements_5caecf9b21e2753c
+2026-10-09 22:11:16.27 completed branch first_stage_elements_5caecf9b21e2753c [1ms, 22.25 kB]
+2026-10-09 22:11:16.27 dispatched branch combined_stages_c74618e695fdeaad
+2026-10-09 22:11:18.32 completed branch combined_stages_47892870d9b4221c [18.1s, 63.03 kB]
+2026-10-09 22:11:18.32 dispatched branch first_stage_elements_e4be4c2999ebd19c
+2026-10-09 22:11:18.50 completed branch combined_stages_e55f47bdac3fd7a8 [19.3s, 63.03 kB]
+2026-10-09 22:11:18.50 dispatched branch first_stage_elements_50a7270252dc0b05
+2026-10-09 22:11:18.81 completed branch first_stage_elements_e4be4c2999ebd19c [1ms, 22.22 kB]
+2026-10-09 22:11:18.82 dispatched branch combined_stages_fc27d7f6cc20ce59
+2026-10-09 22:11:18.98 completed branch first_stage_elements_50a7270252dc0b05 [0ms, 22.25 kB]
+2026-10-09 22:11:18.98 dispatched branch combined_stages_5be3245ce1ca0850
+2026-10-09 22:11:20.41 completed branch combined_stages_55ecc02c2f968bbf [11.5s, 63.10 kB]
+2026-10-09 22:11:20.41 dispatched branch first_stage_elements_7d7e396f58a0e08b
+2026-10-09 22:11:20.82 completed branch first_stage_elements_7d7e396f58a0e08b [1ms, 22.26 kB]
+2026-10-09 22:11:20.82 dispatched branch combined_stages_189ac2aa4ea9dab5
+2026-10-09 22:11:21.62 completed branch combined_stages_0b39b2298e45c79c [20.7s, 63.09 kB]
+2026-10-09 22:11:21.63 dispatched branch first_stage_elements_d5f919b3c652e341
+2026-10-09 22:11:22.20 completed branch first_stage_elements_d5f919b3c652e341 [1ms, 22.28 kB]
+2026-10-09 22:11:22.20 dispatched branch combined_stages_b3f7d510ce875874
+2026-10-09 22:11:23.42 completed branch combined_stages_e505dc12937a5376 [19.1s, 63.12 kB]
+2026-10-09 22:11:23.42 dispatched branch first_stage_elements_00b540a871a424be
+2026-10-09 22:11:23.86 completed branch first_stage_elements_00b540a871a424be [1ms, 22.27 kB]
+2026-10-09 22:11:23.87 dispatched branch combined_stages_1938af9918d026ec
+2026-10-09 22:11:28.09 completed branch combined_stages_34bb95c4c41e5dc6 [18.8s, 63.06 kB]
+2026-10-09 22:11:28.09 dispatched branch first_stage_elements_fa6e4f0b6808ba25
+2026-10-09 22:11:28.56 completed branch first_stage_elements_fa6e4f0b6808ba25 [0ms, 22.24 kB]
+2026-10-09 22:11:28.57 dispatched branch combined_stages_dd66e94e6dd336bd
+2026-10-09 22:11:30.59 completed branch combined_stages_97589dab422e85e0 [18.7s, 63.04 kB]
+2026-10-09 22:11:30.59 dispatched branch first_stage_elements_92d7585b3d980d5c
+2026-10-09 22:11:31.05 completed branch first_stage_elements_92d7585b3d980d5c [1ms, 22.22 kB]
+2026-10-09 22:11:31.05 dispatched branch combined_stages_0f3ac37f92b547bb
+2026-10-09 22:11:32.17 completed branch combined_stages_c74618e695fdeaad [14.1s, 63.09 kB]
+2026-10-09 22:11:32.18 dispatched branch first_stage_elements_af912c4047210ca4
+2026-10-09 22:11:32.58 completed branch first_stage_elements_af912c4047210ca4 [1ms, 22.25 kB]
+2026-10-09 22:11:32.58 dispatched branch combined_stages_199f097510707616
+2026-10-09 22:11:36.17 completed branch combined_stages_5be3245ce1ca0850 [15.4s, 63.09 kB]
+2026-10-09 22:11:36.18 dispatched branch first_stage_elements_67695ef7f7f2f8e5
+2026-10-09 22:11:36.62 completed branch first_stage_elements_67695ef7f7f2f8e5 [1ms, 22.25 kB]
+2026-10-09 22:11:36.62 dispatched branch combined_stages_df4b5441b34d1137
+2026-10-09 22:11:38.61 completed branch combined_stages_fc27d7f6cc20ce59 [18.2s, 63.03 kB]
+2026-10-09 22:11:38.61 dispatched branch first_stage_elements_a0535a9555763b05
+2026-10-09 22:11:38.71 completed branch combined_stages_1938af9918d026ec [13s, 63.11 kB]
+2026-10-09 22:11:38.71 dispatched branch first_stage_elements_5c1a4eaaf5a7a0b2
+2026-10-09 22:11:39.07 completed branch first_stage_elements_a0535a9555763b05 [1ms, 22.21 kB]
+2026-10-09 22:11:39.07 dispatched branch combined_stages_4bb7aa78b6d898d7
+2026-10-09 22:11:39.13 completed branch first_stage_elements_5c1a4eaaf5a7a0b2 [1ms, 22.27 kB]
+2026-10-09 22:11:39.13 dispatched branch combined_stages_994fb7a0d7639532
+2026-10-09 22:11:42.07 completed branch combined_stages_189ac2aa4ea9dab5 [19.5s, 63.07 kB]
+2026-10-09 22:11:42.08 dispatched branch first_stage_elements_0b6d8cce7d41520d
+2026-10-09 22:11:42.51 completed branch first_stage_elements_0b6d8cce7d41520d [1ms, 22.25 kB]
+2026-10-09 22:11:42.52 dispatched branch combined_stages_a88cbf2bd252ad2a
+2026-10-09 22:11:44.35 completed branch combined_stages_b3f7d510ce875874 [20.5s, 63.08 kB]
+2026-10-09 22:11:44.36 dispatched branch first_stage_elements_c665ed132c4f1020
+2026-10-09 22:11:44.82 completed branch first_stage_elements_c665ed132c4f1020 [1ms, 22.27 kB]
+2026-10-09 22:11:44.82 dispatched branch combined_stages_a615fa441bc6cc2b
+2026-10-09 22:11:47.38 completed branch combined_stages_dd66e94e6dd336bd [17.1s, 63.12 kB]
+2026-10-09 22:11:47.38 dispatched branch first_stage_elements_df3f896060b9ef48
+2026-10-09 22:11:47.81 completed branch first_stage_elements_df3f896060b9ef48 [1ms, 22.29 kB]
+2026-10-09 22:11:47.81 dispatched branch combined_stages_c023377407391af7
+2026-10-09 22:11:47.93 completed branch combined_stages_0f3ac37f92b547bb [15s, 63.05 kB]
+2026-10-09 22:11:47.93 dispatched branch first_stage_elements_2960eda1993e348b
+2026-10-09 22:11:48.35 completed branch first_stage_elements_2960eda1993e348b [1ms, 22.24 kB]
+2026-10-09 22:11:48.35 dispatched branch combined_stages_485824a1e9b0c6c6
+2026-10-09 22:11:49.76 completed branch combined_stages_199f097510707616 [15.6s, 63.08 kB]
+2026-10-09 22:11:49.77 dispatched branch first_stage_elements_6366ab196d6fec50
+2026-10-09 22:11:50.29 completed branch first_stage_elements_6366ab196d6fec50 [1ms, 22.26 kB]
+2026-10-09 22:11:50.29 dispatched branch combined_stages_2278a6825961ef4e
+2026-10-09 22:11:54.05 completed branch combined_stages_df4b5441b34d1137 [15.6s, 63.08 kB]
+2026-10-09 22:11:54.05 dispatched branch first_stage_elements_b07d4c027baeac01
+2026-10-09 22:11:54.63 completed branch first_stage_elements_b07d4c027baeac01 [1ms, 22.25 kB]
+2026-10-09 22:11:54.63 dispatched branch combined_stages_cb9ae00eb2ed27ad
+2026-10-09 22:11:58.12 completed branch combined_stages_4bb7aa78b6d898d7 [17.3s, 63.07 kB]
+2026-10-09 22:11:58.12 dispatched branch first_stage_elements_a3701e15a476f35a
+2026-10-09 22:11:58.58 completed branch first_stage_elements_a3701e15a476f35a [0ms, 22.24 kB]
+2026-10-09 22:11:58.58 dispatched branch combined_stages_50ed74b04d104daf
+2026-10-09 22:11:59.06 completed branch combined_stages_994fb7a0d7639532 [18.5s, 63.03 kB]
+2026-10-09 22:11:59.06 dispatched branch first_stage_elements_3fe769b7c0286866
+2026-10-09 22:11:59.54 completed branch first_stage_elements_3fe769b7c0286866 [1ms, 22.21 kB]
+2026-10-09 22:11:59.54 dispatched branch combined_stages_b147fa750a6838c5
+2026-10-09 22:12:00.86 completed branch combined_stages_a88cbf2bd252ad2a [16.6s, 63.05 kB]
+2026-10-09 22:12:00.86 dispatched branch first_stage_elements_c467ee972c6e5b91
+2026-10-09 22:12:01.33 completed branch first_stage_elements_c467ee972c6e5b91 [1ms, 22.20 kB]
+2026-10-09 22:12:01.34 dispatched branch combined_stages_d263c1aa0d6668be
+2026-10-09 22:12:03.47 completed branch combined_stages_c023377407391af7 [13.8s, 63.06 kB]
+2026-10-09 22:12:03.47 dispatched branch first_stage_elements_b2886dfc7b332a3a
+2026-10-09 22:12:03.91 completed branch first_stage_elements_b2886dfc7b332a3a [1ms, 22.27 kB]
+2026-10-09 22:12:03.91 dispatched branch combined_stages_b2adb759c6172680
+2026-10-09 22:12:08.61 completed branch combined_stages_a615fa441bc6cc2b [22.2s, 63.07 kB]
+2026-10-09 22:12:08.61 dispatched branch first_stage_elements_d709c247d9a7b960
+2026-10-09 22:12:09.17 completed branch first_stage_elements_d709c247d9a7b960 [1ms, 22.24 kB]
+2026-10-09 22:12:09.17 dispatched branch combined_stages_0ecebc83d02cd3ed
+2026-10-09 22:12:09.70 completed branch combined_stages_cb9ae00eb2ed27ad [13.3s, 63.06 kB]
+2026-10-09 22:12:09.70 dispatched branch first_stage_elements_6495dba380ba0553
+2026-10-09 22:12:09.76 completed branch combined_stages_485824a1e9b0c6c6 [19.7s, 63.08 kB]
+2026-10-09 22:12:09.76 dispatched branch first_stage_elements_9c3479518f93c7ad
+2026-10-09 22:12:10.15 completed branch first_stage_elements_6495dba380ba0553 [1ms, 22.26 kB]
+2026-10-09 22:12:10.15 dispatched branch combined_stages_01c32a90a189b642
+2026-10-09 22:12:10.23 completed branch first_stage_elements_9c3479518f93c7ad [1ms, 22.24 kB]
+2026-10-09 22:12:10.23 dispatched branch combined_stages_9ae25a1f5fa8022c
+2026-10-09 22:12:10.64 completed branch combined_stages_2278a6825961ef4e [18.4s, 63.08 kB]
+2026-10-09 22:12:10.65 dispatched branch first_stage_elements_655cf85557de95a4
+2026-10-09 22:12:11.08 completed branch first_stage_elements_655cf85557de95a4 [1ms, 22.28 kB]
+2026-10-09 22:12:11.08 dispatched branch combined_stages_79ad1e4efd008656
+2026-10-09 22:12:15.83 completed branch combined_stages_50ed74b04d104daf [15.5s, 63.10 kB]
+2026-10-09 22:12:15.83 dispatched branch first_stage_elements_3578f4a3d1c79880
+2026-10-09 22:12:16.32 completed branch first_stage_elements_3578f4a3d1c79880 [1ms, 22.29 kB]
+2026-10-09 22:12:16.32 dispatched branch combined_stages_2420e6adb501149c
+2026-10-09 22:12:17.97 completed branch combined_stages_d263c1aa0d6668be [14.9s, 63.09 kB]
+2026-10-09 22:12:17.97 dispatched branch first_stage_elements_7fd6a16a0eef0a1e
+2026-10-09 22:12:18.08 completed branch combined_stages_b147fa750a6838c5 [16.7s, 63.09 kB]
+2026-10-09 22:12:18.08 dispatched branch first_stage_elements_26a0b835caf33377
+2026-10-09 22:12:18.41 completed branch first_stage_elements_7fd6a16a0eef0a1e [1ms, 22.27 kB]
+2026-10-09 22:12:18.41 dispatched branch combined_stages_be097bd8ad17565d
+2026-10-09 22:12:18.53 completed branch first_stage_elements_26a0b835caf33377 [1ms, 22.25 kB]
+2026-10-09 22:12:18.53 dispatched branch combined_stages_be6bc1f289394442
+2026-10-09 22:12:22.43 completed branch combined_stages_b2adb759c6172680 [16.7s, 63.09 kB]
+2026-10-09 22:12:22.44 dispatched branch first_stage_elements_f429a2a78b68441a
+2026-10-09 22:12:22.92 completed branch first_stage_elements_f429a2a78b68441a [1ms, 22.25 kB]
+2026-10-09 22:12:22.92 dispatched branch combined_stages_af403193d43f340a
+2026-10-09 22:12:23.97 completed branch combined_stages_01c32a90a189b642 [12.3s, 63.09 kB]
+2026-10-09 22:12:23.97 dispatched branch first_stage_elements_c73191998b6b4b37
+2026-10-09 22:12:24.37 completed branch first_stage_elements_c73191998b6b4b37 [1ms, 22.28 kB]
+2026-10-09 22:12:24.37 dispatched branch combined_stages_d989563f2441998c
+2026-10-09 22:12:32.04 completed branch combined_stages_0ecebc83d02cd3ed [21s, 63.00 kB]
+2026-10-09 22:12:32.04 dispatched branch first_stage_elements_4a072372d6f7308e
+2026-10-09 22:12:32.26 completed branch combined_stages_9ae25a1f5fa8022c [20.4s, 63.09 kB]
+2026-10-09 22:12:32.26 dispatched branch first_stage_elements_152dc8cbaeb3a131
+2026-10-09 22:12:32.59 completed branch first_stage_elements_4a072372d6f7308e [0ms, 22.22 kB]
+2026-10-09 22:12:32.59 dispatched branch combined_stages_700a238d420b7997
+2026-10-09 22:12:32.76 completed branch first_stage_elements_152dc8cbaeb3a131 [1ms, 22.27 kB]
+2026-10-09 22:12:32.76 dispatched branch combined_stages_7bd0edd608a7b71b
+2026-10-09 22:12:32.84 completed branch combined_stages_79ad1e4efd008656 [20.1s, 63.06 kB]
+2026-10-09 22:12:32.84 dispatched branch first_stage_elements_7f4b9c98456a4a35
+2026-10-09 22:12:33.30 completed branch first_stage_elements_7f4b9c98456a4a35 [1ms, 22.22 kB]
+2026-10-09 22:12:33.30 dispatched branch combined_stages_ed83b02c3f0d6e65
+2026-10-09 22:12:36.57 completed branch combined_stages_2420e6adb501149c [18.9s, 63.06 kB]
+2026-10-09 22:12:36.58 dispatched branch first_stage_elements_befd61aa3c2a8a33
+2026-10-09 22:12:37.08 completed branch first_stage_elements_befd61aa3c2a8a33 [1ms, 22.25 kB]
+2026-10-09 22:12:37.08 dispatched branch combined_stages_1466bd8710ee92d4
+2026-10-09 22:12:37.48 completed branch combined_stages_af403193d43f340a [13s, 63.08 kB]
+2026-10-09 22:12:37.48 dispatched branch first_stage_elements_05ff312e417ad92f
+2026-10-09 22:12:37.94 completed branch first_stage_elements_05ff312e417ad92f [1ms, 22.27 kB]
+2026-10-09 22:12:37.94 dispatched branch combined_stages_1efd1ddbdb96447a
+2026-10-09 22:12:38.79 completed branch combined_stages_be6bc1f289394442 [18.5s, 63.03 kB]
+2026-10-09 22:12:38.79 dispatched branch first_stage_elements_defd79d6b531f696
+2026-10-09 22:12:39.25 completed branch first_stage_elements_defd79d6b531f696 [1ms, 22.24 kB]
+2026-10-09 22:12:39.25 dispatched branch combined_stages_244270ee0b0a028d
+2026-10-09 22:12:39.60 completed branch combined_stages_be097bd8ad17565d [19.3s, 63.12 kB]
+2026-10-09 22:12:39.60 dispatched branch first_stage_elements_64542d8ab5a6dd66
+2026-10-09 22:12:40.07 completed branch first_stage_elements_64542d8ab5a6dd66 [1ms, 22.28 kB]
+2026-10-09 22:12:40.08 dispatched branch combined_stages_2dc0364a8375a606
+2026-10-09 22:12:45.99 completed branch combined_stages_d989563f2441998c [20.1s, 63.02 kB]
+2026-10-09 22:12:45.99 dispatched branch first_stage_elements_9833f210ab4b95b3
+2026-10-09 22:12:46.53 completed branch first_stage_elements_9833f210ab4b95b3 [1ms, 22.23 kB]
+2026-10-09 22:12:46.53 dispatched branch combined_stages_16e7d2b5da5c7913
+2026-10-09 22:12:47.58 completed branch combined_stages_ed83b02c3f0d6e65 [12.7s, 63.05 kB]
+2026-10-09 22:12:47.58 dispatched branch first_stage_elements_dc6052ebcad1baa7
+2026-10-09 22:12:48.05 completed branch first_stage_elements_dc6052ebcad1baa7 [0ms, 22.25 kB]
+2026-10-09 22:12:48.05 dispatched branch combined_stages_19440818ffd840c4
+2026-10-09 22:12:51.50 completed branch combined_stages_1466bd8710ee92d4 [12.5s, 63.09 kB]
+2026-10-09 22:12:51.50 dispatched branch first_stage_elements_8e876bd4f85a3ff1
+2026-10-09 22:12:51.97 completed branch first_stage_elements_8e876bd4f85a3ff1 [0ms, 22.26 kB]
+2026-10-09 22:12:51.98 dispatched branch combined_stages_bee17b50a79c3658
+2026-10-09 22:12:53.56 completed branch combined_stages_7bd0edd608a7b71b [18.9s, 63.07 kB]
+2026-10-09 22:12:53.56 dispatched branch first_stage_elements_2548caecc50a872e
+2026-10-09 22:12:54.06 completed branch first_stage_elements_2548caecc50a872e [1ms, 22.27 kB]
+2026-10-09 22:12:54.07 dispatched branch combined_stages_6f35020354d66f09
+2026-10-09 22:12:56.92 completed branch combined_stages_2dc0364a8375a606 [15s, 63.05 kB]
+2026-10-09 22:12:56.92 dispatched branch first_stage_elements_86c5bdbfb58d02e9
+2026-10-09 22:12:57.37 completed branch first_stage_elements_86c5bdbfb58d02e9 [0ms, 22.26 kB]
+2026-10-09 22:12:57.38 dispatched branch combined_stages_9dcadeabc626cf9a
+2026-10-09 22:12:58.75 completed branch combined_stages_700a238d420b7997 [24.4s, 63.09 kB]
+2026-10-09 22:12:58.75 dispatched branch first_stage_elements_d4919958d7fca696
+2026-10-09 22:12:58.89 completed branch combined_stages_1efd1ddbdb96447a [19.3s, 63.08 kB]
+2026-10-09 22:12:58.89 dispatched branch first_stage_elements_f768e4aa52245f03
+2026-10-09 22:12:59.29 completed branch first_stage_elements_d4919958d7fca696 [2ms, 22.28 kB]
+2026-10-09 22:12:59.29 dispatched branch combined_stages_80ede1652448b698
+2026-10-09 22:12:59.35 completed branch first_stage_elements_f768e4aa52245f03 [1ms, 22.26 kB]
+2026-10-09 22:12:59.35 dispatched branch combined_stages_a56694ac3ff677b5
+2026-10-09 22:13:01.09 completed branch combined_stages_244270ee0b0a028d [20s, 63.02 kB]
+2026-10-09 22:13:01.09 dispatched branch first_stage_elements_410751489699897f
+2026-10-09 22:13:01.51 completed branch first_stage_elements_410751489699897f [1ms, 22.22 kB]
+2026-10-09 22:13:01.52 dispatched branch combined_stages_1636eb16ea2c68bd
+2026-10-09 22:13:05.42 completed branch combined_stages_16e7d2b5da5c7913 [16.9s, 63.01 kB]
+2026-10-09 22:13:05.43 dispatched branch first_stage_elements_ea9d56df750bf387
+2026-10-09 22:13:05.93 completed branch first_stage_elements_ea9d56df750bf387 [1ms, 22.22 kB]
+2026-10-09 22:13:05.93 dispatched branch combined_stages_8b027fa19e0a3f98
+2026-10-09 22:13:10.46 completed branch combined_stages_19440818ffd840c4 [20.6s, 63.06 kB]
+2026-10-09 22:13:10.46 dispatched branch first_stage_elements_c1f9f798732db94b
+2026-10-09 22:13:10.51 completed branch combined_stages_bee17b50a79c3658 [16.9s, 63.09 kB]
+2026-10-09 22:13:10.51 dispatched branch first_stage_elements_f1470595b5907092
+2026-10-09 22:13:11.00 completed branch first_stage_elements_f1470595b5907092 [1ms, 22.24 kB]
+2026-10-09 22:13:11.00 dispatched branch combined_stages_6d23f04a58fd3751
+2026-10-09 22:13:11.01 completed branch first_stage_elements_c1f9f798732db94b [1ms, 22.25 kB]
+2026-10-09 22:13:11.02 dispatched branch combined_stages_8e609eafbde95aa4
+2026-10-09 22:13:11.37 completed branch combined_stages_6f35020354d66f09 [15.4s, 63.07 kB]
+2026-10-09 22:13:11.37 dispatched branch first_stage_elements_9a20e4cf9fb650b3
+2026-10-09 22:13:11.85 completed branch first_stage_elements_9a20e4cf9fb650b3 [0ms, 22.23 kB]
+2026-10-09 22:13:11.85 dispatched branch combined_stages_9927d09df7da4fd0
+2026-10-09 22:13:17.62 completed branch combined_stages_1636eb16ea2c68bd [14.6s, 63.08 kB]
+2026-10-09 22:13:17.62 dispatched branch first_stage_elements_de6c403980182b6a
+2026-10-09 22:13:18.04 completed branch first_stage_elements_de6c403980182b6a [0ms, 22.26 kB]
+2026-10-09 22:13:18.04 dispatched branch combined_stages_de516268e4378e48
+2026-10-09 22:13:18.79 completed branch combined_stages_9dcadeabc626cf9a [19.8s, 63.08 kB]
+2026-10-09 22:13:18.79 dispatched branch first_stage_elements_26d7fae48ca0a815
+2026-10-09 22:13:19.30 completed branch first_stage_elements_26d7fae48ca0a815 [1ms, 22.25 kB]
+2026-10-09 22:13:19.31 dispatched branch data_elements_2ac301e7477a117a
+2026-10-09 22:13:19.76 completed branch data_elements_2ac301e7477a117a [1ms, 23.23 kB]
+2026-10-09 22:13:19.76 dispatched branch second_stage_elements_2ac301e7477a117a
+2026-10-09 22:13:20.18 completed branch second_stage_elements_2ac301e7477a117a [1ms, 17.28 kB]
+2026-10-09 22:13:20.19 dispatched branch data_elements_75117e1212c8c59b
+2026-10-09 22:13:20.61 completed branch data_elements_75117e1212c8c59b [1ms, 23.23 kB]
+2026-10-09 22:13:20.61 dispatched branch second_stage_elements_75117e1212c8c59b
+2026-10-09 22:13:21.01 completed branch second_stage_elements_75117e1212c8c59b [0ms, 17.26 kB]
+2026-10-09 22:13:21.01 dispatched branch data_elements_7c6f916c2039d899
+2026-10-09 22:13:21.44 completed branch data_elements_7c6f916c2039d899 [0ms, 23.23 kB]
+2026-10-09 22:13:21.44 dispatched branch second_stage_elements_7c6f916c2039d899
+2026-10-09 22:13:21.91 completed branch second_stage_elements_7c6f916c2039d899 [0ms, 17.26 kB]
+2026-10-09 22:13:21.91 dispatched branch data_elements_7e9e0ffaa5fddedf
+2026-10-09 22:13:22.36 completed branch data_elements_7e9e0ffaa5fddedf [1ms, 23.21 kB]
+2026-10-09 22:13:22.36 dispatched branch second_stage_elements_7e9e0ffaa5fddedf
+2026-10-09 22:13:22.37 completed branch combined_stages_a56694ac3ff677b5 [21s, 63.06 kB]
+2026-10-09 22:13:22.38 dispatched branch first_stage_elements_15724071eea58b09
+2026-10-09 22:13:22.78 completed branch second_stage_elements_7e9e0ffaa5fddedf [0ms, 17.26 kB]
+2026-10-09 22:13:22.78 dispatched branch data_elements_e9eb9a0339f7c919
+2026-10-09 22:13:22.79 completed branch first_stage_elements_15724071eea58b09 [1ms, 22.27 kB]
+2026-10-09 22:13:22.80 dispatched branch second_stage_elements_e9eb9a0339f7c919
+2026-10-09 22:13:23.20 completed branch second_stage_elements_e9eb9a0339f7c919 [1ms, 17.27 kB]
+2026-10-09 22:13:23.20 dispatched branch data_elements_f81ba1cd0f0e3389
+2026-10-09 22:13:23.56 completed branch data_elements_f81ba1cd0f0e3389 [1ms, 23.20 kB]
+2026-10-09 22:13:23.56 dispatched branch second_stage_elements_f81ba1cd0f0e3389
+2026-10-09 22:13:23.94 completed branch combined_stages_8b027fa19e0a3f98 [16.5s, 63.05 kB]
+2026-10-09 22:13:23.95 dispatched branch first_stage_elements_df13c36f6f2d1f30
+2026-10-09 22:13:23.98 completed branch second_stage_elements_f81ba1cd0f0e3389 [0ms, 17.27 kB]
+2026-10-09 22:13:23.98 dispatched branch data_elements_662796b1895274ce
+2026-10-09 22:13:24.05 completed branch data_elements_e9eb9a0339f7c919 [0ms, 23.22 kB]
+2026-10-09 22:13:24.05 dispatched branch second_stage_elements_662796b1895274ce
+2026-10-09 22:13:24.39 completed branch data_elements_662796b1895274ce [0ms, 23.21 kB]
+2026-10-09 22:13:24.39 dispatched branch data_elements_02fd6c3452cc3eb3
+2026-10-09 22:13:24.42 completed branch first_stage_elements_df13c36f6f2d1f30 [1ms, 22.25 kB]
+2026-10-09 22:13:24.43 dispatched branch second_stage_elements_02fd6c3452cc3eb3
+2026-10-09 22:13:24.48 completed branch second_stage_elements_662796b1895274ce [1ms, 17.26 kB]
+2026-10-09 22:13:24.48 dispatched branch data_elements_c35bdad4d69dfdb3
+2026-10-09 22:13:24.80 completed branch data_elements_02fd6c3452cc3eb3 [0ms, 23.20 kB]
+2026-10-09 22:13:24.80 dispatched branch second_stage_elements_c35bdad4d69dfdb3
+2026-10-09 22:13:24.87 completed branch combined_stages_80ede1652448b698 [23.6s, 63.07 kB]
+2026-10-09 22:13:24.87 dispatched branch first_stage_elements_becd4cc4b18b7a2f
+2026-10-09 22:13:24.90 completed branch second_stage_elements_02fd6c3452cc3eb3 [0ms, 17.27 kB]
+2026-10-09 22:13:24.91 dispatched branch data_elements_4d5ab7e95c194e8e
+2026-10-09 22:13:24.94 completed branch data_elements_c35bdad4d69dfdb3 [1ms, 23.21 kB]
+2026-10-09 22:13:24.95 dispatched branch second_stage_elements_4d5ab7e95c194e8e
+2026-10-09 22:13:25.20 completed branch second_stage_elements_c35bdad4d69dfdb3 [1ms, 17.27 kB]
+2026-10-09 22:13:25.20 dispatched branch data_elements_914383fe7393f845
+2026-10-09 22:13:25.30 completed branch data_elements_4d5ab7e95c194e8e [0ms, 23.23 kB]
+2026-10-09 22:13:25.31 dispatched branch second_stage_elements_914383fe7393f845
+2026-10-09 22:13:25.39 completed branch second_stage_elements_4d5ab7e95c194e8e [0ms, 17.27 kB]
+2026-10-09 22:13:25.40 dispatched branch data_elements_bb7e1aaf445dc24a
+2026-10-09 22:13:25.46 completed branch first_stage_elements_becd4cc4b18b7a2f [1ms, 22.24 kB]
+2026-10-09 22:13:25.46 dispatched branch second_stage_elements_bb7e1aaf445dc24a
+2026-10-09 22:13:25.61 completed branch data_elements_914383fe7393f845 [0ms, 23.24 kB]
+2026-10-09 22:13:25.61 dispatched branch data_elements_957990ef1be62a9e
+2026-10-09 22:13:25.77 completed branch second_stage_elements_914383fe7393f845 [1ms, 17.27 kB]
+2026-10-09 22:13:25.77 dispatched branch second_stage_elements_957990ef1be62a9e
+2026-10-09 22:13:25.81 completed branch data_elements_bb7e1aaf445dc24a [1ms, 23.22 kB]
+2026-10-09 22:13:25.81 dispatched branch data_elements_afacf1b79c5521a8
+2026-10-09 22:13:26.05 completed branch second_stage_elements_bb7e1aaf445dc24a [0ms, 17.25 kB]
+2026-10-09 22:13:26.05 dispatched branch second_stage_elements_afacf1b79c5521a8
+2026-10-09 22:13:26.09 completed branch data_elements_957990ef1be62a9e [0ms, 23.20 kB]
+2026-10-09 22:13:26.09 dispatched branch data_elements_c9900cdb6b9cfda3
+2026-10-09 22:13:26.24 completed branch second_stage_elements_957990ef1be62a9e [1ms, 17.27 kB]
+2026-10-09 22:13:26.24 dispatched branch second_stage_elements_c9900cdb6b9cfda3
+2026-10-09 22:13:26.27 completed branch data_elements_afacf1b79c5521a8 [1ms, 23.21 kB]
+2026-10-09 22:13:26.27 dispatched branch data_elements_1a850a9f667cb26b
+2026-10-09 22:13:26.50 completed branch data_elements_c9900cdb6b9cfda3 [0ms, 23.23 kB]
+2026-10-09 22:13:26.50 dispatched branch second_stage_elements_1a850a9f667cb26b
+2026-10-09 22:13:26.53 completed branch second_stage_elements_afacf1b79c5521a8 [1ms, 17.28 kB]
+2026-10-09 22:13:26.53 dispatched branch data_elements_94966dc12cfcc57b
+2026-10-09 22:13:26.67 completed branch second_stage_elements_c9900cdb6b9cfda3 [0ms, 17.27 kB]
+2026-10-09 22:13:26.67 dispatched branch second_stage_elements_94966dc12cfcc57b
+2026-10-09 22:13:26.71 completed branch data_elements_1a850a9f667cb26b [1ms, 23.21 kB]
+2026-10-09 22:13:26.72 dispatched branch data_elements_b629b192e396f9b6
+2026-10-09 22:13:26.73 completed branch combined_stages_9927d09df7da4fd0 [13.4s, 63.09 kB]
+2026-10-09 22:13:26.73 dispatched branch first_stage_elements_8847e3e1f28cd88c
+2026-10-09 22:13:26.90 completed branch second_stage_elements_1a850a9f667cb26b [0ms, 17.28 kB]
+2026-10-09 22:13:26.90 dispatched branch second_stage_elements_b629b192e396f9b6
+2026-10-09 22:13:27.01 completed branch data_elements_94966dc12cfcc57b [1ms, 23.23 kB]
+2026-10-09 22:13:27.01 dispatched branch data_elements_2dabe2b0cdb485a3
+2026-10-09 22:13:27.08 completed branch second_stage_elements_94966dc12cfcc57b [0ms, 17.25 kB]
+2026-10-09 22:13:27.08 dispatched branch second_stage_elements_2dabe2b0cdb485a3
+2026-10-09 22:13:27.16 completed branch data_elements_b629b192e396f9b6 [0ms, 23.23 kB]
+2026-10-09 22:13:27.16 dispatched branch data_elements_4d0570cf77d01f56
+2026-10-09 22:13:27.24 completed branch first_stage_elements_8847e3e1f28cd88c [0ms, 22.26 kB]
+2026-10-09 22:13:27.25 dispatched branch second_stage_elements_4d0570cf77d01f56
+2026-10-09 22:13:27.31 completed branch second_stage_elements_b629b192e396f9b6 [0ms, 17.26 kB]
+2026-10-09 22:13:27.31 dispatched branch data_elements_39cab1a3aab2c3b6
+2026-10-09 22:13:27.46 completed branch data_elements_2dabe2b0cdb485a3 [0ms, 23.22 kB]
+2026-10-09 22:13:27.46 dispatched branch second_stage_elements_39cab1a3aab2c3b6
+2026-10-09 22:13:27.52 completed branch second_stage_elements_2dabe2b0cdb485a3 [1ms, 17.27 kB]
+2026-10-09 22:13:27.53 dispatched branch data_elements_7494faad5f3f4e51
+2026-10-09 22:13:27.60 completed branch data_elements_4d0570cf77d01f56 [0ms, 23.21 kB]
+2026-10-09 22:13:27.60 dispatched branch second_stage_elements_7494faad5f3f4e51
+2026-10-09 22:13:27.63 completed branch second_stage_elements_4d0570cf77d01f56 [1ms, 17.27 kB]
+2026-10-09 22:13:27.63 dispatched branch data_elements_cc8db29c050b956d
+2026-10-09 22:13:27.69 completed branch data_elements_39cab1a3aab2c3b6 [1ms, 23.23 kB]
+2026-10-09 22:13:27.69 dispatched branch second_stage_elements_cc8db29c050b956d
+2026-10-09 22:13:27.91 completed branch second_stage_elements_39cab1a3aab2c3b6 [1ms, 17.26 kB]
+2026-10-09 22:13:27.91 dispatched branch data_elements_5c676b78e0221a65
+2026-10-09 22:13:27.96 completed branch data_elements_7494faad5f3f4e51 [1ms, 23.20 kB]
+2026-10-09 22:13:27.96 dispatched branch second_stage_elements_5c676b78e0221a65
+2026-10-09 22:13:28.05 completed branch second_stage_elements_7494faad5f3f4e51 [0ms, 17.27 kB]
+2026-10-09 22:13:28.05 dispatched branch data_elements_21fd3c902bbecac1
+2026-10-09 22:13:28.11 completed branch data_elements_cc8db29c050b956d [0ms, 23.25 kB]
+2026-10-09 22:13:28.12 dispatched branch second_stage_elements_21fd3c902bbecac1
+2026-10-09 22:13:28.16 completed branch second_stage_elements_cc8db29c050b956d [0ms, 17.25 kB]
+2026-10-09 22:13:28.17 dispatched branch data_elements_94e54de638952bfd
+2026-10-09 22:13:28.35 completed branch second_stage_elements_5c676b78e0221a65 [0ms, 17.27 kB]
+2026-10-09 22:13:28.35 dispatched branch second_stage_elements_94e54de638952bfd
+2026-10-09 22:13:28.39 completed branch data_elements_5c676b78e0221a65 [1ms, 23.20 kB]
+2026-10-09 22:13:28.39 dispatched branch data_elements_6e6594f5080a8ae0
+2026-10-09 22:13:28.47 completed branch data_elements_21fd3c902bbecac1 [0ms, 23.22 kB]
+2026-10-09 22:13:28.47 dispatched branch second_stage_elements_6e6594f5080a8ae0
+2026-10-09 22:13:28.57 completed branch second_stage_elements_21fd3c902bbecac1 [0ms, 17.27 kB]
+2026-10-09 22:13:28.58 dispatched branch data_elements_5d62c5ce11bcb313
+2026-10-09 22:13:28.61 completed branch data_elements_94e54de638952bfd [1ms, 23.22 kB]
+2026-10-09 22:13:28.61 dispatched branch second_stage_elements_5d62c5ce11bcb313
+2026-10-09 22:13:28.77 completed branch second_stage_elements_94e54de638952bfd [0ms, 17.27 kB]
+2026-10-09 22:13:28.77 dispatched branch data_elements_63a997228452e73c
+2026-10-09 22:13:28.86 completed branch second_stage_elements_6e6594f5080a8ae0 [1ms, 17.28 kB]
+2026-10-09 22:13:28.86 dispatched branch second_stage_elements_63a997228452e73c
+2026-10-09 22:13:28.92 completed branch data_elements_6e6594f5080a8ae0 [1ms, 23.21 kB]
+2026-10-09 22:13:28.92 dispatched branch data_elements_97e549b41bb3bad8
+2026-10-09 22:13:28.99 completed branch data_elements_5d62c5ce11bcb313 [1ms, 23.22 kB]
+2026-10-09 22:13:28.99 dispatched branch second_stage_elements_97e549b41bb3bad8
+2026-10-09 22:13:29.04 completed branch second_stage_elements_5d62c5ce11bcb313 [0ms, 17.26 kB]
+2026-10-09 22:13:29.04 dispatched branch data_elements_6cd6b2c0ddc60a8a
+2026-10-09 22:13:29.16 completed branch data_elements_63a997228452e73c [0ms, 23.23 kB]
+2026-10-09 22:13:29.17 dispatched branch second_stage_elements_6cd6b2c0ddc60a8a
+2026-10-09 22:13:29.25 completed branch second_stage_elements_63a997228452e73c [0ms, 17.27 kB]
+2026-10-09 22:13:29.25 dispatched branch data_elements_e67a35acc83a6d12
+2026-10-09 22:13:29.45 completed branch data_elements_97e549b41bb3bad8 [0ms, 23.17 kB]
+2026-10-09 22:13:29.45 dispatched branch second_stage_elements_e67a35acc83a6d12
+2026-10-09 22:13:29.46 completed branch second_stage_elements_97e549b41bb3bad8 [1ms, 17.27 kB]
+2026-10-09 22:13:29.46 dispatched branch data_elements_04a65604dd02a03b
+2026-10-09 22:13:29.52 completed branch data_elements_6cd6b2c0ddc60a8a [0ms, 23.20 kB]
+2026-10-09 22:13:29.52 dispatched branch second_stage_elements_04a65604dd02a03b
+2026-10-09 22:13:29.59 completed branch second_stage_elements_6cd6b2c0ddc60a8a [0ms, 17.25 kB]
+2026-10-09 22:13:29.60 dispatched branch data_elements_a830f5161f740853
+2026-10-09 22:13:29.69 completed branch data_elements_e67a35acc83a6d12 [0ms, 23.20 kB]
+2026-10-09 22:13:29.69 dispatched branch second_stage_elements_a830f5161f740853
+2026-10-09 22:13:29.89 completed branch data_elements_04a65604dd02a03b [1ms, 23.23 kB]
+2026-10-09 22:13:29.91 dispatched branch data_elements_d55b17a9f0ac341c
+2026-10-09 22:13:29.94 completed branch second_stage_elements_e67a35acc83a6d12 [0ms, 17.26 kB]
+2026-10-09 22:13:29.94 dispatched branch second_stage_elements_d55b17a9f0ac341c
+2026-10-09 22:13:30.02 completed branch data_elements_a830f5161f740853 [1ms, 23.23 kB]
+2026-10-09 22:13:30.02 dispatched branch data_elements_064a46a022cb7682
+2026-10-09 22:13:30.03 completed branch second_stage_elements_04a65604dd02a03b [0ms, 17.25 kB]
+2026-10-09 22:13:30.03 dispatched branch second_stage_elements_064a46a022cb7682
+2026-10-09 22:13:30.08 completed branch second_stage_elements_a830f5161f740853 [1ms, 17.30 kB]
+2026-10-09 22:13:30.08 dispatched branch data_elements_c4e6f384819459c0
+2026-10-09 22:13:30.36 completed branch data_elements_d55b17a9f0ac341c [0ms, 23.18 kB]
+2026-10-09 22:13:30.36 dispatched branch second_stage_elements_c4e6f384819459c0
+2026-10-09 22:13:30.42 completed branch combined_stages_6d23f04a58fd3751 [17.4s, 63.04 kB]
+2026-10-09 22:13:30.42 dispatched branch first_stage_elements_2a5fcbc4b5c94a46
+2026-10-09 22:13:30.48 completed branch data_elements_064a46a022cb7682 [0ms, 23.23 kB]
+2026-10-09 22:13:30.48 dispatched branch data_elements_4209f4ccff2df540
+2026-10-09 22:13:30.50 completed branch data_elements_c4e6f384819459c0 [0ms, 23.20 kB]
+2026-10-09 22:13:30.50 dispatched branch second_stage_elements_4209f4ccff2df540
+2026-10-09 22:13:30.70 completed branch second_stage_elements_d55b17a9f0ac341c [0ms, 17.26 kB]
+2026-10-09 22:13:30.71 dispatched branch data_elements_5eb785799a29f0b9
+2026-10-09 22:13:30.73 completed branch second_stage_elements_064a46a022cb7682 [0ms, 17.27 kB]
+2026-10-09 22:13:30.73 dispatched branch second_stage_elements_5eb785799a29f0b9
+2026-10-09 22:13:30.79 completed branch second_stage_elements_c4e6f384819459c0 [0ms, 17.25 kB]
+2026-10-09 22:13:30.79 dispatched branch data_elements_df2e5cb28fc27feb
+2026-10-09 22:13:30.88 completed branch first_stage_elements_2a5fcbc4b5c94a46 [1ms, 22.24 kB]
+2026-10-09 22:13:30.88 dispatched branch second_stage_elements_df2e5cb28fc27feb
+2026-10-09 22:13:30.96 completed branch second_stage_elements_4209f4ccff2df540 [1ms, 17.26 kB]
+2026-10-09 22:13:30.97 dispatched branch data_elements_c915a375fb04fd68
+2026-10-09 22:13:31.11 completed branch second_stage_elements_5eb785799a29f0b9 [0ms, 17.27 kB]
+2026-10-09 22:13:31.11 dispatched branch second_stage_elements_c915a375fb04fd68
+2026-10-09 22:13:31.16 completed branch data_elements_5eb785799a29f0b9 [1ms, 23.22 kB]
+2026-10-09 22:13:31.16 dispatched branch data_elements_5caecf9b21e2753c
+2026-10-09 22:13:31.28 completed branch data_elements_df2e5cb28fc27feb [0ms, 23.26 kB]
+2026-10-09 22:13:31.29 dispatched branch second_stage_elements_5caecf9b21e2753c
+2026-10-09 22:13:31.37 completed branch second_stage_elements_df2e5cb28fc27feb [0ms, 17.26 kB]
+2026-10-09 22:13:31.37 dispatched branch data_elements_e4be4c2999ebd19c
+2026-10-09 22:13:31.45 completed branch data_elements_c915a375fb04fd68 [0ms, 23.22 kB]
+2026-10-09 22:13:31.46 dispatched branch second_stage_elements_e4be4c2999ebd19c
+2026-10-09 22:13:31.50 completed branch data_elements_4209f4ccff2df540 [1ms, 23.21 kB]
+2026-10-09 22:13:31.50 dispatched branch data_elements_50a7270252dc0b05
+2026-10-09 22:13:31.60 completed branch second_stage_elements_c915a375fb04fd68 [0ms, 17.26 kB]
+2026-10-09 22:13:31.60 dispatched branch second_stage_elements_50a7270252dc0b05
+2026-10-09 22:13:31.67 completed branch data_elements_5caecf9b21e2753c [0ms, 23.23 kB]
+2026-10-09 22:13:31.67 dispatched branch data_elements_7d7e396f58a0e08b
+2026-10-09 22:13:31.75 completed branch second_stage_elements_5caecf9b21e2753c [1ms, 17.26 kB]
+2026-10-09 22:13:31.76 dispatched branch second_stage_elements_7d7e396f58a0e08b
+2026-10-09 22:13:31.82 completed branch data_elements_e4be4c2999ebd19c [0ms, 23.20 kB]
+2026-10-09 22:13:31.82 dispatched branch data_elements_d5f919b3c652e341
+2026-10-09 22:13:31.87 completed branch second_stage_elements_e4be4c2999ebd19c [0ms, 17.26 kB]
+2026-10-09 22:13:31.88 dispatched branch second_stage_elements_d5f919b3c652e341
+2026-10-09 22:13:31.97 completed branch data_elements_50a7270252dc0b05 [1ms, 23.18 kB]
+2026-10-09 22:13:31.97 dispatched branch data_elements_00b540a871a424be
+2026-10-09 22:13:32.03 completed branch second_stage_elements_50a7270252dc0b05 [0ms, 17.26 kB]
+2026-10-09 22:13:32.03 dispatched branch second_stage_elements_00b540a871a424be
+2026-10-09 22:13:32.21 completed branch data_elements_7d7e396f58a0e08b [1ms, 23.23 kB]
+2026-10-09 22:13:32.22 dispatched branch data_elements_fa6e4f0b6808ba25
+2026-10-09 22:13:32.24 completed branch second_stage_elements_7d7e396f58a0e08b [1ms, 17.27 kB]
+2026-10-09 22:13:32.24 dispatched branch second_stage_elements_fa6e4f0b6808ba25
+2026-10-09 22:13:32.30 completed branch data_elements_d5f919b3c652e341 [0ms, 23.24 kB]
+2026-10-09 22:13:32.30 dispatched branch data_elements_92d7585b3d980d5c
+2026-10-09 22:13:32.46 completed branch second_stage_elements_d5f919b3c652e341 [0ms, 17.25 kB]
+2026-10-09 22:13:32.46 dispatched branch second_stage_elements_92d7585b3d980d5c
+2026-10-09 22:13:32.53 completed branch data_elements_00b540a871a424be [0ms, 23.24 kB]
+2026-10-09 22:13:32.53 dispatched branch data_elements_af912c4047210ca4
+2026-10-09 22:13:32.56 completed branch second_stage_elements_00b540a871a424be [0ms, 17.28 kB]
+2026-10-09 22:13:32.56 dispatched branch second_stage_elements_af912c4047210ca4
+2026-10-09 22:13:32.67 completed branch data_elements_fa6e4f0b6808ba25 [0ms, 23.22 kB]
+2026-10-09 22:13:32.67 dispatched branch data_elements_67695ef7f7f2f8e5
+2026-10-09 22:13:32.69 completed branch second_stage_elements_fa6e4f0b6808ba25 [0ms, 17.27 kB]
+2026-10-09 22:13:32.69 dispatched branch second_stage_elements_67695ef7f7f2f8e5
+2026-10-09 22:13:32.86 completed branch data_elements_92d7585b3d980d5c [0ms, 23.23 kB]
+2026-10-09 22:13:32.86 dispatched branch data_elements_a0535a9555763b05
+2026-10-09 22:13:32.92 completed branch second_stage_elements_92d7585b3d980d5c [0ms, 17.26 kB]
+2026-10-09 22:13:32.92 dispatched branch second_stage_elements_a0535a9555763b05
+2026-10-09 22:13:32.96 completed branch data_elements_af912c4047210ca4 [0ms, 23.25 kB]
+2026-10-09 22:13:32.96 dispatched branch data_elements_5c1a4eaaf5a7a0b2
+2026-10-09 22:13:33.02 completed branch second_stage_elements_af912c4047210ca4 [1ms, 17.28 kB]
+2026-10-09 22:13:33.02 dispatched branch second_stage_elements_5c1a4eaaf5a7a0b2
+2026-10-09 22:13:33.11 completed branch second_stage_elements_67695ef7f7f2f8e5 [1ms, 17.27 kB]
+2026-10-09 22:13:33.11 dispatched branch data_elements_0b6d8cce7d41520d
+2026-10-09 22:13:33.31 completed branch data_elements_a0535a9555763b05 [0ms, 23.21 kB]
+2026-10-09 22:13:33.31 dispatched branch second_stage_elements_0b6d8cce7d41520d
+2026-10-09 22:13:33.33 completed branch combined_stages_8e609eafbde95aa4 [20.5s, 62.87 kB]
+2026-10-09 22:13:33.33 dispatched branch first_stage_elements_b3a91845599844a2
+2026-10-09 22:13:33.39 completed branch second_stage_elements_a0535a9555763b05 [1ms, 17.28 kB]
+2026-10-09 22:13:33.40 dispatched branch data_elements_c665ed132c4f1020
+2026-10-09 22:13:33.44 completed branch data_elements_5c1a4eaaf5a7a0b2 [0ms, 23.24 kB]
+2026-10-09 22:13:33.44 dispatched branch second_stage_elements_c665ed132c4f1020
+2026-10-09 22:13:33.47 completed branch second_stage_elements_5c1a4eaaf5a7a0b2 [1ms, 17.27 kB]
+2026-10-09 22:13:33.48 dispatched branch data_elements_df3f896060b9ef48
+2026-10-09 22:13:33.55 completed branch data_elements_67695ef7f7f2f8e5 [0ms, 23.24 kB]
+2026-10-09 22:13:33.55 dispatched branch second_stage_elements_df3f896060b9ef48
+2026-10-09 22:13:33.59 completed branch data_elements_0b6d8cce7d41520d [0ms, 23.23 kB]
+2026-10-09 22:13:33.59 dispatched branch data_elements_2960eda1993e348b
+2026-10-09 22:13:33.75 completed branch second_stage_elements_0b6d8cce7d41520d [1ms, 17.27 kB]
+2026-10-09 22:13:33.75 dispatched branch second_stage_elements_2960eda1993e348b
+2026-10-09 22:13:33.87 completed branch first_stage_elements_b3a91845599844a2 [0ms, 22.25 kB]
+2026-10-09 22:13:33.87 dispatched branch data_elements_6366ab196d6fec50
+2026-10-09 22:13:33.92 completed branch second_stage_elements_c665ed132c4f1020 [0ms, 17.27 kB]
+2026-10-09 22:13:33.92 dispatched branch second_stage_elements_6366ab196d6fec50
+2026-10-09 22:13:33.97 completed branch data_elements_c665ed132c4f1020 [1ms, 23.21 kB]
+2026-10-09 22:13:33.97 dispatched branch data_elements_b07d4c027baeac01
+2026-10-09 22:13:34.02 completed branch data_elements_df3f896060b9ef48 [1ms, 23.27 kB]
+2026-10-09 22:13:34.02 dispatched branch second_stage_elements_b07d4c027baeac01
+2026-10-09 22:13:34.10 completed branch second_stage_elements_df3f896060b9ef48 [0ms, 17.26 kB]
+2026-10-09 22:13:34.10 dispatched branch data_elements_a3701e15a476f35a
+2026-10-09 22:13:34.13 completed branch data_elements_2960eda1993e348b [0ms, 23.20 kB]
+2026-10-09 22:13:34.13 dispatched branch second_stage_elements_a3701e15a476f35a
+2026-10-09 22:13:34.35 completed branch second_stage_elements_2960eda1993e348b [1ms, 17.25 kB]
+2026-10-09 22:13:34.35 dispatched branch data_elements_3fe769b7c0286866
+2026-10-09 22:13:34.44 completed branch data_elements_6366ab196d6fec50 [1ms, 23.21 kB]
+2026-10-09 22:13:34.44 dispatched branch second_stage_elements_3fe769b7c0286866
+2026-10-09 22:13:34.53 completed branch data_elements_b07d4c027baeac01 [0ms, 23.22 kB]
+2026-10-09 22:13:34.53 dispatched branch data_elements_c467ee972c6e5b91
+2026-10-09 22:13:34.58 completed branch second_stage_elements_b07d4c027baeac01 [1ms, 17.27 kB]
+2026-10-09 22:13:34.58 dispatched branch second_stage_elements_c467ee972c6e5b91
+2026-10-09 22:13:34.65 completed branch second_stage_elements_a3701e15a476f35a [1ms, 17.27 kB]
+2026-10-09 22:13:34.65 dispatched branch data_elements_b2886dfc7b332a3a
+2026-10-09 22:13:34.67 completed branch data_elements_a3701e15a476f35a [1ms, 23.23 kB]
+2026-10-09 22:13:34.68 dispatched branch second_stage_elements_b2886dfc7b332a3a
+2026-10-09 22:13:34.80 completed branch data_elements_3fe769b7c0286866 [1ms, 23.22 kB]
+2026-10-09 22:13:34.80 dispatched branch data_elements_d709c247d9a7b960
+2026-10-09 22:13:34.91 completed branch second_stage_elements_3fe769b7c0286866 [0ms, 17.25 kB]
+2026-10-09 22:13:34.91 dispatched branch second_stage_elements_d709c247d9a7b960
+2026-10-09 22:13:34.98 completed branch second_stage_elements_6366ab196d6fec50 [1ms, 17.27 kB]
+2026-10-09 22:13:34.99 dispatched branch data_elements_6495dba380ba0553
+2026-10-09 22:13:35.05 completed branch data_elements_c467ee972c6e5b91 [0ms, 23.23 kB]
+2026-10-09 22:13:35.05 dispatched branch second_stage_elements_6495dba380ba0553
+2026-10-09 22:13:35.08 completed branch second_stage_elements_c467ee972c6e5b91 [0ms, 17.29 kB]
+2026-10-09 22:13:35.09 dispatched branch data_elements_9c3479518f93c7ad
+2026-10-09 22:13:35.18 completed branch data_elements_b2886dfc7b332a3a [0ms, 23.21 kB]
+2026-10-09 22:13:35.18 dispatched branch second_stage_elements_9c3479518f93c7ad
+2026-10-09 22:13:35.30 completed branch data_elements_d709c247d9a7b960 [0ms, 23.21 kB]
+2026-10-09 22:13:35.31 dispatched branch data_elements_655cf85557de95a4
+2026-10-09 22:13:35.36 completed branch second_stage_elements_d709c247d9a7b960 [1ms, 17.28 kB]
+2026-10-09 22:13:35.37 dispatched branch second_stage_elements_655cf85557de95a4
+2026-10-09 22:13:35.52 completed branch data_elements_6495dba380ba0553 [0ms, 23.22 kB]
+2026-10-09 22:13:35.53 dispatched branch data_elements_3578f4a3d1c79880
+2026-10-09 22:13:35.57 completed branch data_elements_9c3479518f93c7ad [1ms, 23.23 kB]
+2026-10-09 22:13:35.57 dispatched branch second_stage_elements_3578f4a3d1c79880
+2026-10-09 22:13:35.58 completed branch second_stage_elements_6495dba380ba0553 [0ms, 17.26 kB]
+2026-10-09 22:13:35.59 dispatched branch data_elements_7fd6a16a0eef0a1e
+2026-10-09 22:13:35.69 completed branch second_stage_elements_9c3479518f93c7ad [0ms, 17.26 kB]
+2026-10-09 22:13:35.69 dispatched branch second_stage_elements_7fd6a16a0eef0a1e
+2026-10-09 22:13:35.88 completed branch second_stage_elements_655cf85557de95a4 [0ms, 17.26 kB]
+2026-10-09 22:13:35.88 dispatched branch data_elements_26a0b835caf33377
+2026-10-09 22:13:35.89 completed branch second_stage_elements_b2886dfc7b332a3a [1ms, 17.26 kB]
+2026-10-09 22:13:35.89 dispatched branch second_stage_elements_26a0b835caf33377
+2026-10-09 22:13:35.97 completed branch data_elements_655cf85557de95a4 [1ms, 23.20 kB]
+2026-10-09 22:13:35.98 dispatched branch data_elements_f429a2a78b68441a
+2026-10-09 22:13:36.05 completed branch data_elements_3578f4a3d1c79880 [1ms, 23.28 kB]
+2026-10-09 22:13:36.05 dispatched branch second_stage_elements_f429a2a78b68441a
+2026-10-09 22:13:36.12 completed branch data_elements_7fd6a16a0eef0a1e [0ms, 23.23 kB]
+2026-10-09 22:13:36.12 dispatched branch data_elements_c73191998b6b4b37
+2026-10-09 22:13:36.19 completed branch second_stage_elements_7fd6a16a0eef0a1e [0ms, 17.27 kB]
+2026-10-09 22:13:36.19 dispatched branch second_stage_elements_c73191998b6b4b37
+2026-10-09 22:13:36.21 completed branch second_stage_elements_3578f4a3d1c79880 [1ms, 17.27 kB]
+2026-10-09 22:13:36.21 dispatched branch data_elements_4a072372d6f7308e
+2026-10-09 22:13:36.46 completed branch second_stage_elements_26a0b835caf33377 [0ms, 17.27 kB]
+2026-10-09 22:13:36.46 dispatched branch second_stage_elements_4a072372d6f7308e
+2026-10-09 22:13:36.54 completed branch data_elements_f429a2a78b68441a [0ms, 23.23 kB]
+2026-10-09 22:13:36.54 dispatched branch data_elements_152dc8cbaeb3a131
+2026-10-09 22:13:36.59 completed branch second_stage_elements_f429a2a78b68441a [1ms, 17.27 kB]
+2026-10-09 22:13:36.59 dispatched branch second_stage_elements_152dc8cbaeb3a131
+2026-10-09 22:13:36.70 completed branch data_elements_c73191998b6b4b37 [1ms, 23.22 kB]
+2026-10-09 22:13:36.70 dispatched branch data_elements_7f4b9c98456a4a35
+2026-10-09 22:13:36.75 completed branch data_elements_4a072372d6f7308e [0ms, 23.18 kB]
+2026-10-09 22:13:36.76 dispatched branch second_stage_elements_7f4b9c98456a4a35
+2026-10-09 22:13:36.81 completed branch second_stage_elements_c73191998b6b4b37 [0ms, 17.27 kB]
+2026-10-09 22:13:36.81 dispatched branch data_elements_befd61aa3c2a8a33
+2026-10-09 22:13:36.87 completed branch data_elements_26a0b835caf33377 [0ms, 23.21 kB]
+2026-10-09 22:13:36.87 dispatched branch second_stage_elements_befd61aa3c2a8a33
+2026-10-09 22:13:36.97 completed branch second_stage_elements_4a072372d6f7308e [1ms, 17.27 kB]
+2026-10-09 22:13:36.98 dispatched branch data_elements_05ff312e417ad92f
+2026-10-09 22:13:37.12 completed branch data_elements_152dc8cbaeb3a131 [0ms, 23.23 kB]
+2026-10-09 22:13:37.12 dispatched branch second_stage_elements_05ff312e417ad92f
+2026-10-09 22:13:37.19 completed branch second_stage_elements_152dc8cbaeb3a131 [0ms, 17.28 kB]
+2026-10-09 22:13:37.20 dispatched branch data_elements_defd79d6b531f696
+2026-10-09 22:13:37.24 completed branch data_elements_7f4b9c98456a4a35 [1ms, 23.20 kB]
+2026-10-09 22:13:37.24 dispatched branch second_stage_elements_defd79d6b531f696
+2026-10-09 22:13:37.30 completed branch data_elements_befd61aa3c2a8a33 [0ms, 23.20 kB]
+2026-10-09 22:13:37.30 dispatched branch data_elements_64542d8ab5a6dd66
+2026-10-09 22:13:37.37 completed branch second_stage_elements_befd61aa3c2a8a33 [0ms, 17.29 kB]
+2026-10-09 22:13:37.37 dispatched branch second_stage_elements_64542d8ab5a6dd66
+2026-10-09 22:13:37.42 completed branch data_elements_05ff312e417ad92f [0ms, 23.20 kB]
+2026-10-09 22:13:37.42 dispatched branch data_elements_9833f210ab4b95b3
+2026-10-09 22:13:37.56 completed branch second_stage_elements_05ff312e417ad92f [1ms, 17.29 kB]
+2026-10-09 22:13:37.56 dispatched branch second_stage_elements_9833f210ab4b95b3
+2026-10-09 22:13:37.77 completed branch second_stage_elements_defd79d6b531f696 [1ms, 17.27 kB]
+2026-10-09 22:13:37.78 dispatched branch data_elements_dc6052ebcad1baa7
+2026-10-09 22:13:37.79 completed branch data_elements_64542d8ab5a6dd66 [0ms, 23.24 kB]
+2026-10-09 22:13:37.79 dispatched branch second_stage_elements_dc6052ebcad1baa7
+2026-10-09 22:13:37.95 completed branch combined_stages_de516268e4378e48 [17.9s, 63.08 kB]
+2026-10-09 22:13:37.95 dispatched branch first_stage_elements_9f23b916e0575b90
+2026-10-09 22:13:37.96 completed pattern combined_stages [28m 36.8s, 6.31 MB]
+2026-10-09 22:13:38.00 completed branch second_stage_elements_64542d8ab5a6dd66 [0ms, 17.30 kB]
+2026-10-09 22:13:38.00 dispatched branch data_elements_8e876bd4f85a3ff1
+2026-10-09 22:13:38.06 completed branch data_elements_9833f210ab4b95b3 [0ms, 23.18 kB]
+2026-10-09 22:13:38.06 dispatched branch second_stage_elements_8e876bd4f85a3ff1
+2026-10-09 22:13:38.10 completed branch data_elements_defd79d6b531f696 [0ms, 23.22 kB]
+2026-10-09 22:13:38.10 dispatched branch data_elements_2548caecc50a872e
+2026-10-09 22:13:38.15 completed branch second_stage_elements_7f4b9c98456a4a35 [0ms, 17.27 kB]
+2026-10-09 22:13:38.15 dispatched branch second_stage_elements_2548caecc50a872e
+2026-10-09 22:13:38.17 completed branch second_stage_elements_9833f210ab4b95b3 [0ms, 17.27 kB]
+2026-10-09 22:13:38.18 dispatched branch data_elements_86c5bdbfb58d02e9
+2026-10-09 22:13:38.24 completed branch second_stage_elements_dc6052ebcad1baa7 [0ms, 17.27 kB]
+2026-10-09 22:13:38.24 dispatched branch second_stage_elements_86c5bdbfb58d02e9
+2026-10-09 22:13:38.37 completed branch first_stage_elements_9f23b916e0575b90 [1ms, 22.24 kB]
+2026-10-09 22:13:38.38 completed pattern first_stage_elements [84ms, 2.22 MB]
+2026-10-09 22:13:38.38 dispatched target master_wage_pc_early_coefs
+2026-10-09 22:13:38.51 completed branch data_elements_8e876bd4f85a3ff1 [1ms, 23.24 kB]
+2026-10-09 22:13:38.51 dispatched branch data_elements_d4919958d7fca696
+2026-10-09 22:13:38.54 completed branch second_stage_elements_8e876bd4f85a3ff1 [0ms, 17.26 kB]
+2026-10-09 22:13:38.54 dispatched branch second_stage_elements_d4919958d7fca696
+2026-10-09 22:13:38.58 completed branch data_elements_2548caecc50a872e [1ms, 23.23 kB]
+2026-10-09 22:13:38.59 dispatched branch data_elements_f768e4aa52245f03
+2026-10-09 22:13:38.67 completed branch second_stage_elements_2548caecc50a872e [0ms, 17.26 kB]
+2026-10-09 22:13:38.67 dispatched branch second_stage_elements_f768e4aa52245f03
+2026-10-09 22:13:38.68 completed branch data_elements_86c5bdbfb58d02e9 [1ms, 23.20 kB]
+2026-10-09 22:13:38.69 dispatched branch data_elements_410751489699897f
+2026-10-09 22:13:38.70 completed branch second_stage_elements_86c5bdbfb58d02e9 [0ms, 17.27 kB]
+2026-10-09 22:13:38.71 dispatched branch second_stage_elements_410751489699897f
+2026-10-09 22:13:38.84 completed branch data_elements_dc6052ebcad1baa7 [1ms, 23.20 kB]
+2026-10-09 22:13:38.84 dispatched branch data_elements_ea9d56df750bf387
+2026-10-09 22:13:39.05 completed branch data_elements_f768e4aa52245f03 [1ms, 23.24 kB]
+2026-10-09 22:13:39.06 dispatched branch second_stage_elements_ea9d56df750bf387
+2026-10-09 22:13:39.10 completed branch second_stage_elements_d4919958d7fca696 [1ms, 17.28 kB]
+2026-10-09 22:13:39.10 dispatched branch data_elements_c1f9f798732db94b
+2026-10-09 22:13:39.15 completed branch data_elements_d4919958d7fca696 [1ms, 23.21 kB]
+2026-10-09 22:13:39.15 dispatched branch second_stage_elements_c1f9f798732db94b
+2026-10-09 22:13:39.21 completed branch data_elements_410751489699897f [1ms, 23.20 kB]
+2026-10-09 22:13:39.21 dispatched branch data_elements_f1470595b5907092
+2026-10-09 22:13:39.27 completed branch second_stage_elements_f768e4aa52245f03 [1ms, 17.27 kB]
+2026-10-09 22:13:39.28 dispatched branch second_stage_elements_f1470595b5907092
+2026-10-09 22:13:39.34 completed branch data_elements_ea9d56df750bf387 [1ms, 23.21 kB]
+2026-10-09 22:13:39.34 dispatched branch data_elements_9a20e4cf9fb650b3
+2026-10-09 22:13:39.43 completed branch second_stage_elements_ea9d56df750bf387 [1ms, 17.26 kB]
+2026-10-09 22:13:39.44 dispatched branch second_stage_elements_9a20e4cf9fb650b3
+2026-10-09 22:13:39.54 completed branch data_elements_c1f9f798732db94b [0ms, 23.21 kB]
+2026-10-09 22:13:39.54 dispatched branch data_elements_de6c403980182b6a
+2026-10-09 22:13:39.65 completed branch data_elements_f1470595b5907092 [1ms, 23.23 kB]
+2026-10-09 22:13:39.65 dispatched branch second_stage_elements_de6c403980182b6a
+2026-10-09 22:13:39.70 completed branch second_stage_elements_f1470595b5907092 [0ms, 17.28 kB]
+2026-10-09 22:13:39.70 dispatched branch data_elements_26d7fae48ca0a815
+2026-10-09 22:13:39.77 completed branch second_stage_elements_c1f9f798732db94b [0ms, 17.26 kB]
+2026-10-09 22:13:39.77 dispatched branch second_stage_elements_26d7fae48ca0a815
+2026-10-09 22:13:39.82 completed branch second_stage_elements_410751489699897f [1ms, 17.26 kB]
+2026-10-09 22:13:39.83 dispatched branch data_elements_15724071eea58b09
+2026-10-09 22:13:39.92 completed branch data_elements_9a20e4cf9fb650b3 [1ms, 23.27 kB]
+2026-10-09 22:13:39.92 dispatched branch second_stage_elements_15724071eea58b09
+2026-10-09 22:13:39.99 completed branch second_stage_elements_9a20e4cf9fb650b3 [0ms, 17.27 kB]
+2026-10-09 22:13:39.99 dispatched branch data_elements_df13c36f6f2d1f30
+2026-10-09 22:13:40.05 completed branch data_elements_de6c403980182b6a [1ms, 23.22 kB]
+2026-10-09 22:13:40.05 dispatched branch second_stage_elements_df13c36f6f2d1f30
+2026-10-09 22:13:40.14 completed branch second_stage_elements_de6c403980182b6a [1ms, 17.28 kB]
+2026-10-09 22:13:40.14 dispatched branch data_elements_becd4cc4b18b7a2f
+2026-10-09 22:13:40.18 completed branch data_elements_26d7fae48ca0a815 [0ms, 23.23 kB]
+2026-10-09 22:13:40.18 dispatched branch second_stage_elements_becd4cc4b18b7a2f
+2026-10-09 22:13:40.30 completed branch second_stage_elements_26d7fae48ca0a815 [0ms, 17.29 kB]
+2026-10-09 22:13:40.30 dispatched branch data_elements_8847e3e1f28cd88c
+2026-10-09 22:13:40.34 completed branch data_elements_15724071eea58b09 [1ms, 23.20 kB]
+2026-10-09 22:13:40.34 dispatched branch second_stage_elements_8847e3e1f28cd88c
+2026-10-09 22:13:40.39 completed branch second_stage_elements_15724071eea58b09 [0ms, 17.26 kB]
+2026-10-09 22:13:40.39 dispatched branch data_elements_2a5fcbc4b5c94a46
+2026-10-09 22:13:40.48 completed branch data_elements_df13c36f6f2d1f30 [1ms, 23.22 kB]
+2026-10-09 22:13:40.48 dispatched branch second_stage_elements_2a5fcbc4b5c94a46
+2026-10-09 22:13:40.51 completed branch second_stage_elements_df13c36f6f2d1f30 [0ms, 17.25 kB]
+2026-10-09 22:13:40.52 dispatched branch data_elements_b3a91845599844a2
+2026-10-09 22:13:40.61 completed branch data_elements_becd4cc4b18b7a2f [0ms, 23.24 kB]
+2026-10-09 22:13:40.62 dispatched branch second_stage_elements_b3a91845599844a2
+2026-10-09 22:13:40.79 completed branch second_stage_elements_8847e3e1f28cd88c [0ms, 17.26 kB]
+2026-10-09 22:13:40.79 dispatched branch data_elements_9f23b916e0575b90
+2026-10-09 22:13:40.87 completed branch data_elements_8847e3e1f28cd88c [0ms, 23.25 kB]
+2026-10-09 22:13:40.87 dispatched branch second_stage_elements_9f23b916e0575b90
+2026-10-09 22:13:40.92 completed branch data_elements_2a5fcbc4b5c94a46 [1ms, 23.20 kB]
+2026-10-09 22:13:40.92 dispatched target master_rent_early_coefs
+2026-10-09 22:13:40.96 completed branch second_stage_elements_2a5fcbc4b5c94a46 [1ms, 17.26 kB]
+2026-10-09 22:13:40.97 dispatched target master_rent_pc_early_coefs
+2026-10-09 22:13:41.10 completed branch data_elements_b3a91845599844a2 [0ms, 23.02 kB]
+2026-10-09 22:13:41.11 dispatched target master_rent_late_coefs
+2026-10-09 22:13:41.15 completed branch second_stage_elements_b3a91845599844a2 [0ms, 17.27 kB]
+2026-10-09 22:13:41.15 dispatched target master_wage_late_coefs
+2026-10-09 22:13:41.25 completed branch data_elements_9f23b916e0575b90 [0ms, 23.25 kB]
+2026-10-09 22:13:41.26 completed pattern data_elements [46ms, 2.32 MB]
+2026-10-09 22:13:41.26 dispatched target bootstrap_data_obs
+2026-10-09 22:13:41.36 completed branch second_stage_elements_9f23b916e0575b90 [1ms, 17.26 kB]
+2026-10-09 22:13:41.37 dispatched target master_rent_pc_late_coefs
+2026-10-09 22:13:41.64 completed branch second_stage_elements_becd4cc4b18b7a2f [0ms, 17.26 kB]
+2026-10-09 22:13:41.65 completed pattern second_stage_elements [40ms, 1.73 MB]
+2026-10-09 22:13:41.65 dispatched target master_boot_results_obs
+2026-10-09 22:13:45.08 completed target master_wage_pc_early_coefs [172ms, 96.24 kB]
+2026-10-09 22:13:45.08 dispatched target master_wage_pc_late_coefs
+2026-10-09 22:13:46.69 completed target master_rent_late_coefs [173ms, 195.25 kB]
+2026-10-09 22:13:46.69 dispatched target master_wage_early_coefs
+2026-10-09 22:13:47.12 completed target master_wage_late_coefs [183ms, 415.75 kB]
+2026-10-09 22:13:47.12 dispatched target bootstrap_data_proj
+2026-10-09 22:13:47.17 completed target bootstrap_data_obs [1ms, 21.10 kB]
+2026-10-09 22:13:47.17 dispatched target second_stage_early_obs_base_models_list
+2026-10-09 22:13:47.43 completed target master_rent_early_coefs [173ms, 207.23 kB]
+2026-10-09 22:13:47.44 dispatched target master_boot_results_proj
+2026-10-09 22:13:47.48 completed target master_boot_results_obs [1ms, 805.07 kB]
+2026-10-09 22:13:47.48 dispatched target boot_means_ci_bounds_obs
+2026-10-09 22:13:47.56 completed target second_stage_early_obs_base_models_list [2ms, 35.10 kB]
+2026-10-09 22:13:47.56 dispatched target second_stage_late_obs_base_models_list
+2026-10-09 22:13:47.64 completed target master_rent_pc_late_coefs [187ms, 195.60 kB]
+2026-10-09 22:13:47.64 dispatched target rent_late_coefs_list
+2026-10-09 22:13:47.86 completed target boot_means_ci_bounds_obs [14ms, 931 B]
+2026-10-09 22:13:47.86 dispatched target boot_estimates_obs
+2026-10-09 22:13:48.00 completed target master_rent_pc_early_coefs [178ms, 207.75 kB]
+2026-10-09 22:13:48.00 dispatched target rent_early_coefs_list
+2026-10-09 22:13:48.01 completed target second_stage_late_obs_base_models_list [3ms, 35.14 kB]
+2026-10-09 22:13:48.01 dispatched target second_stage_early_obs_coefs_list
+2026-10-09 22:13:48.09 completed target rent_late_coefs_list [1ms, 12.13 kB]
+2026-10-09 22:13:48.09 dispatched target rent_late_stargazer
+2026-10-09 22:13:48.25 completed target boot_estimates_obs [1ms, 447 B]
+2026-10-09 22:13:48.26 dispatched target coef_comparison_obs
+2026-10-09 22:13:48.36 completed target second_stage_early_obs_coefs_list [1ms, 191.57 kB]
+2026-10-09 22:13:48.37 dispatched target early_obs_stargazer
+2026-10-09 22:13:48.44 completed target rent_early_coefs_list [0ms, 16.28 kB]
+2026-10-09 22:13:48.44 dispatched target rent_early_stargazer
+2026-10-09 22:13:48.66 completed target coef_comparison_obs [9ms, 614 B]
+2026-10-09 22:13:48.67 dispatched target coef_comparison_stargazer_obs
+2026-10-09 22:13:48.96 completed target early_obs_stargazer [181ms, 495 B]
+2026-10-09 22:13:48.96 dispatched target second_stage_late_obs_coefs_list
+2026-10-09 22:13:49.15 completed target coef_comparison_stargazer_obs [78ms, 268 B]
+2026-10-09 22:13:49.15 dispatched target ci_list_obs
+2026-10-09 22:13:49.44 completed target second_stage_late_obs_coefs_list [1ms, 191.51 kB]
+2026-10-09 22:13:49.44 dispatched target late_obs_stargazer
+2026-10-09 22:13:49.58 completed target ci_list_obs [0ms, 709 B]
+2026-10-09 22:13:49.58 dispatched target plot_data_obs
+2026-10-09 22:13:49.73 completed target rent_late_stargazer [958ms, 526 B]
+2026-10-09 22:13:49.93 completed target master_wage_pc_late_coefs [257ms, 417.69 kB]
+2026-10-09 22:13:49.94 dispatched target wage_late_coefs_list
+2026-10-09 22:13:50.12 completed target rent_early_stargazer [1.1s, 545 B]
+2026-10-09 22:13:50.16 completed target late_obs_stargazer [192ms, 502 B]
+2026-10-09 22:13:50.32 completed target plot_data_obs [34ms, 532 B]
+2026-10-09 22:13:50.32 dispatched target boot_plot_obs
+2026-10-09 22:13:50.52 completed target wage_late_coefs_list [0ms, 10.20 kB]
+2026-10-09 22:13:50.52 dispatched target wage_late_stargazer
+2026-10-09 22:13:51.59 completed target master_wage_early_coefs [191ms, 94.90 kB]
+2026-10-09 22:13:51.59 dispatched target wage_early_coefs_list
+2026-10-09 22:13:52.09 completed target wage_early_coefs_list [1ms, 10.22 kB]
+2026-10-09 22:13:52.09 dispatched target wage_early_stargazer
+2026-10-09 22:13:52.23 completed target bootstrap_data_proj [1ms, 21.11 kB]
+2026-10-09 22:13:52.23 dispatched target second_stage_late_proj_base_models_list
+2026-10-09 22:13:52.24 dispatched target second_stage_early_proj_base_models_list
+2026-10-09 22:13:52.53 completed target master_boot_results_proj [2ms, 805.31 kB]
+2026-10-09 22:13:52.54 dispatched target second_stage_early_proj_coefs_list
+2026-10-09 22:13:52.54 dispatched target coef_comparison_proj
+2026-10-09 22:13:52.55 dispatched target boot_means_ci_bounds_proj
+2026-10-09 22:13:52.70 completed target second_stage_late_proj_base_models_list [2ms, 35.15 kB]
+2026-10-09 22:13:52.71 dispatched target second_stage_late_proj_coefs_list
+2026-10-09 22:13:53.02 completed target boot_means_ci_bounds_proj [15ms, 929 B]
+2026-10-09 22:13:53.02 dispatched target boot_estimates_proj
+2026-10-09 22:13:53.10 completed target wage_late_stargazer [1.8s, 473 B]
+2026-10-09 22:13:53.11 dispatched target ci_list_proj
+2026-10-09 22:13:53.21 completed target second_stage_late_proj_coefs_list [1ms, 191.62 kB]
+2026-10-09 22:13:53.21 dispatched target late_proj_stargazer
+2026-10-09 22:13:53.29 completed target wage_early_stargazer [617ms, 483 B]
+2026-10-09 22:13:53.29 dispatched target stargazer_tables_list
+2026-10-09 22:13:53.44 completed target boot_estimates_proj [1ms, 447 B]
+2026-10-09 22:13:53.58 completed target second_stage_early_proj_base_models_list [2ms, 35.12 kB]
+2026-10-09 22:13:53.68 completed target ci_list_proj [1ms, 709 B]
+2026-10-09 22:13:53.69 dispatched target plot_data_proj
+2026-10-09 22:13:53.74 completed target second_stage_early_proj_coefs_list [1ms, 191.57 kB]
+2026-10-09 22:13:53.74 dispatched target early_proj_stargazer
+2026-10-09 22:13:53.90 completed target stargazer_tables_list [1ms, 1.37 kB]
+2026-10-09 22:13:53.90 dispatched target text_stargazer_outfile
+2026-10-09 22:13:53.94 completed target late_proj_stargazer [196ms, 505 B]
+2026-10-09 22:13:54.04 completed target coef_comparison_proj [10ms, 616 B]
+2026-10-09 22:13:54.04 dispatched target coef_comparison_stargazer_proj
+2026-10-09 22:13:54.23 completed target plot_data_proj [26ms, 531 B]
+2026-10-09 22:13:54.24 dispatched target combined_plot_data_list
+2026-10-09 22:13:54.24 dispatched target boot_plot_proj
+2026-10-09 22:13:54.53 completed target early_proj_stargazer [268ms, 499 B]
+2026-10-09 22:13:54.60 completed target coef_comparison_stargazer_proj [105ms, 264 B]
+2026-10-09 22:13:54.60 dispatched target stargazer_second_stage_tables_list
+2026-10-09 22:13:54.64 completed target boot_plot_obs [3.9s, 100.52 kB]
+2026-10-09 22:13:54.79 completed target combined_plot_data_list [10ms, 770 B]
+2026-10-09 22:13:54.79 dispatched target combined_plot_data_early
+2026-10-09 22:13:54.79 dispatched target combined_plot_data_late
+2026-10-09 22:13:54.80 dispatched target combined_plot_data_late_mig
+2026-10-09 22:13:54.85 completed target text_stargazer_outfile [522ms, 6.72 kB]
+2026-10-09 22:13:54.97 completed target boot_plot_proj [359ms, 99.63 kB]
+2026-10-09 22:13:55.23 completed target stargazer_second_stage_tables_list [1ms, 1.25 kB]
+2026-10-09 22:13:55.23 dispatched target text_stargazer_outfile_second_stage
+2026-10-09 22:13:55.24 completed target combined_plot_data_early [0ms, 424 B]
+2026-10-09 22:13:55.25 dispatched target obs_corr_plot_early
+2026-10-09 22:13:55.79 completed target combined_plot_data_late [1ms, 423 B]
+2026-10-09 22:13:55.80 dispatched target obs_corr_plot_late
+2026-10-09 22:13:55.93 completed target combined_plot_data_late_mig [0ms, 426 B]
+2026-10-09 22:13:55.93 dispatched target obs_corr_plot_late_mig
+2026-10-09 22:13:56.22 completed target obs_corr_plot_early [343ms, 393.56 kB]
+2026-10-09 22:13:56.25 completed target text_stargazer_outfile_second_stage [625ms, 9.63 kB]
+2026-10-09 22:13:56.72 completed target obs_corr_plot_late [343ms, 393.55 kB]
+2026-10-09 22:13:56.85 completed target obs_corr_plot_late_mig [339ms, 393.59 kB]
+✔ 2026-10-09 22:13:57.18 ended pipeline [6m 36.2s, 558 completed, 0 skipped]
+Warning message:
+8 targets produced warnings. Run targets::tar_meta(fields = warnings, complete_only = TRUE) for the messages. 
+errored targets: 0 
+character(0)

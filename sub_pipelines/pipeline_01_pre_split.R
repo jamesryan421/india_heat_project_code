@@ -20,6 +20,10 @@ get_pre_split_pipeline <- function(){
     tar_target(nss_ind_file,
                get_filename_str(here(nss_clean_path,"IND_2011_v2.dta")),
                format="file"),
+    # NEW (Oct 9): household heads from the NSS 68 Type 1 roster (hhid, head_age, head_male, head_edu in years)
+    tar_target(nss_heads_file,
+               get_filename_str(here(nss_clean_path,"nss68_head_characteristics.csv")),
+               format="file"),
     tar_target(hces_distcodes_file,
                get_filename_str(here(hces_2022_clean_path,"HCES2022_distcodes.dta")),
                format="file"),
@@ -79,6 +83,8 @@ get_pre_split_pipeline <- function(){
     ### Early period
     tar_target(nss_ind,
                read_dta_file(nss_ind_file)),
+    tar_target(nss_heads,
+               read_csv(nss_heads_file, col_types = cols(hhid = col_character(), .default = col_double()))),
     # Perform lookup by getting the first index where canon_code (in district_master) equals formatted nsscode
     # Then, select pc11_sd_id from district_master at this index
     # Null values in hces_distcodes$pc11_sd_id indicates that the lookup failed
@@ -130,16 +136,17 @@ get_pre_split_pipeline <- function(){
     ##
     ### Early period - filtered
     tar_target(nss_ind_reg,
-               filter_nss(get_nss_data(nss_ind, hces_distcodes),opt_threshold) %>%
+               filter_nss(get_nss_data(nss_ind, hces_distcodes, nss_heads, worker_sample),opt_threshold) %>%
                  get_nss_interaction(.)),
+    # NEW (Oct 9): at least rent_min_n tenants per district (the default of 0 kept one-household districts)
     tar_target(df_housing_merged,
-               filter_nss(get_housing_data_early(df_hcs3, df_hcs4, df_hcs6, hces_distcodes)) %>%
+               filter_nss(get_housing_data_early(df_hcs3, df_hcs4, df_hcs6, hces_distcodes), rent_min_n) %>%
                  get_hcs_interaction(.)),
     ### Late period
     tar_target(hces_merged_emp,
                get_hces_merged_emp(
                  hces_assets, hces_distcodes, hces_consumption, hces_ident, hces_roster,
-                 hces_types, level3_raw, level9_raw
+                 hces_types, level3_raw, level9_raw, worker_sample
                )),
     tar_target(hces_merged_emp_housing,
                get_housing_data_late(hces_merged_emp) %>%

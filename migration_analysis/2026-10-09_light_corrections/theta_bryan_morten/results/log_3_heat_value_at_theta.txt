@@ -1,0 +1,60 @@
+=== Implied heat value ===
+Spherical geometry (s2) switched off
+NSS 64 urban work migrants mapped to districts: 15892 (moved within 5 years: 6701)
+PLFS 2020-21 urban work migrants from another district, mapped: 7491 (from another state: 3850)
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+NOTE: The fixed-effects are not regular, they cannot be straightforwardly interpreted.
+
+Value of 30 extra days above 32 C with the wage coefficient fixed at theta (share of income; negative = cost):
+    theta sample   wage migrants  dest heat_coef heat_se value30 value30_lo value30_hi
+    <num> <char> <char>    <int> <int>     <num>   <num>   <num>      <num>      <num>
+ 1:   5.0  nss64  lwage     5353   542    0.0017  0.0015  0.0102    -0.0079     0.0283
+ 2:   5.0  nss64     bm     5387   535    0.0026  0.0028  0.0154    -0.0171     0.0479
+ 3:   5.0 plfs21  lwage     3571   360   -0.0002  0.0022 -0.0014    -0.0276     0.0248
+ 4:   5.0 plfs21     bm     6315   533    0.0047  0.0018  0.0280     0.0074     0.0486
+ 5:   5.0   pool  lwage     8924   557    0.0005  0.0013  0.0030    -0.0122     0.0183
+ 6:   5.0   pool     bm    11702   569    0.0040  0.0020  0.0237     0.0005     0.0470
+ 7:  11.7  nss64  lwage     5353   542    0.0108  0.0032  0.0276     0.0114     0.0437
+ 8:  11.7  nss64     bm     5387   535    0.0078  0.0062  0.0199    -0.0112     0.0510
+ 9:  11.7 plfs21  lwage     3571   360   -0.0009  0.0049 -0.0023    -0.0268     0.0222
+10:  11.7 plfs21     bm     6315   533    0.0187  0.0035  0.0479     0.0303     0.0655
+11:  11.7   pool  lwage     8924   557    0.0049  0.0030  0.0127    -0.0025     0.0279
+12:  11.7   pool     bm    11702   569    0.0160  0.0034  0.0410     0.0242     0.0579
+13:  12.9  nss64  lwage     5353   542    0.0124  0.0034  0.0289     0.0132     0.0446
+14:  12.9  nss64     bm     5387   535    0.0088  0.0067  0.0205    -0.0100     0.0509
+15:  12.9 plfs21  lwage     3571   360   -0.0011  0.0053 -0.0026    -0.0269     0.0218
+16:  12.9 plfs21     bm     6315   533    0.0215  0.0038  0.0500     0.0326     0.0673
+17:  12.9   pool  lwage     8924   557    0.0058  0.0032  0.0135    -0.0013     0.0282
+18:  12.9   pool     bm    11702   569    0.0187  0.0036  0.0434     0.0272     0.0596
+19:  17.2  nss64  lwage     5353   542    0.0181  0.0041  0.0315     0.0174     0.0456
+20:  17.2  nss64     bm     5387   535    0.0130  0.0079  0.0227    -0.0045     0.0499
+21:  17.2 plfs21  lwage     3571   360   -0.0019  0.0068 -0.0033    -0.0266     0.0200
+22:  17.2 plfs21     bm     6315   533    0.0294  0.0055  0.0513     0.0327     0.0700
+23:  17.2   pool  lwage     8924   557    0.0087  0.0038  0.0152     0.0021     0.0283
+24:  17.2   pool     bm    11702   569    0.0184  0.0041  0.0321     0.0181     0.0461
+25:  32.4  nss64  lwage     5353   542    0.0369  0.0058  0.0342     0.0237     0.0446
+26:  32.4  nss64     bm     5387   535    0.0062  0.0022  0.0057     0.0016     0.0098
+27:  32.4 plfs21  lwage     3571   360   -0.0003  0.0098 -0.0003    -0.0180     0.0174
+28:  32.4 plfs21     bm     6315   533   -0.0280  0.0094 -0.0259    -0.0430    -0.0088
+29:  32.4   pool  lwage     8924   557    0.0185  0.0052  0.0171     0.0078     0.0265
+30:  32.4   pool     bm    11702   569    0.0085  0.0000  0.0079     0.0078     0.0080
+    theta sample   wage migrants  dest heat_coef heat_se value30 value30_lo value30_hi
+
+Wage gradient in heat across urban destinations, within state, with controls (per 30 days):
+    theta sample   wage n_dest wage_grad30   se30
+    <num> <char> <char>  <int>       <num>  <num>
+ 1:    NA  nss64  lwage    540     -0.0100 0.0101
+ 2:   5.0  nss64     bm    533      0.0048 0.0146
+ 3:    NA plfs21  lwage    360     -0.0162 0.0135
+ 4:   5.0 plfs21     bm    531     -0.0237 0.0132
+ 5:  11.7  nss64     bm    533      0.0060 0.0136
+ 6:  11.7 plfs21     bm    531     -0.0248 0.0129
+ 7:  12.9  nss64     bm    533      0.0061 0.0136
+ 8:  12.9 plfs21     bm    531     -0.0248 0.0129
+ 9:  17.2  nss64     bm    533      0.0063 0.0135
+10:  17.2 plfs21     bm    531     -0.0250 0.0129
+11:  32.4  nss64     bm    533      0.0066 0.0134
+12:  32.4 plfs21     bm    531     -0.0253 0.0129
